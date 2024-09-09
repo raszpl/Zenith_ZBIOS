@@ -25,7 +25,7 @@ COLD:
 seg000:DD6F
 out     9F4h, 8??
 seg000:0000                 mov     al, 36h
-Test basic "Fatal Memory Controller" operation.
+Test basic Memory Controller operation.
 
 seg000:002E                 mov     al, 37h
 init regs_7273 ?
