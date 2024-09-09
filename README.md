@@ -1,4 +1,4 @@
-# Zenith Data Systems (ZDS) ZBIOS 'MFM-300 Monitor' Reverse enginnering project.
+# Zenith Data Systems (ZDS) ZBIOS 'MFM-300 Monitor' reverse engineering.
 MFM Monitor was a build-in SoftIce like Debugger/Monitor Bios extension user could enter with a press of a button (CTRL-ALT-ENTER) _at any time_.
 > CTRL-ALT-ENTER displays the contents of the CPU's registers and flags, and then enters the Monitor program. Press G and ENTER to return to the operating system or your software program.
 
