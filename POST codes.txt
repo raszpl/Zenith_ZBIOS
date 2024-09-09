@@ -1,0 +1,198 @@
+ZBIOS 'MFM-300 Monitor, Version 3.2C' POST Codes:
+
+COMMON:
+
+seg000:DD62                 mov     al, 0
+Check reboot type cold|warm
+
+------------------
+WARM:
+
+Check reboot type cold|warm Again?!?!? 
+
+seg000:1063                 mov     al, 0Dh
+seg000:1067                 jmp     short Cold_Boot
+
+or 
+Read CMOS Memory 8Fh (and zero it out) to decide whats next.
+<9 = PIC_reg_ini
+=>12h act like its a Cold Boot and jump to POST 0Eh
+0-11h jump using jump_table[index]
+
+------------------
+COLD:
+
+seg000:DD6F
+out     9F4h, 8??
+seg000:0000                 mov     al, 36h
+Test basic "Fatal Memory Controller" operation.
+
+seg000:002E                 mov     al, 37h
+init regs_7273 ?
+init some early ram from init_ram_table
+8254 PIT Timer_init
+
+seg000:006C                 mov     al, 38h
+init BIOS housekeeping data: cmos_sum, LPT, Serial.
+
+seg000:013B                 mov     al, 39h
+ram_test/detection? write to CMOS
+
+seg000:01D2                 mov     al, 3Ah
+ram_size_table, supports 8 configuration combinations?
+
+seg000:0285                 mov     al, 3Bh
+save something Ram size related to Bios data area?
+
+seg000:02A3                 mov     al, 3Ch
+Memory Controller sanity check
+
+seg000:02C7                 mov     al, 3Dh
+DMA_PIC_reg_ini
+
+seg000:DD98                 mov     al, 1
+VGA Bios Option ROM present at C000h check?
+clear VGA screen
+
+seg000:DDAD                 mov     al, 2
+init_CGA_MDA
+
+seg000:DDEA                 mov     al, 3
+clear MDA screen
+clear CGA/VGA screen
+
+seg000:DE0E                 mov     al, 5
+init Stack to seg: F000h sp: 202h
+
+seg000:DE29                 mov     al, 7
+ram_test parity E000h "Fatal Slushware RAM Error"
+
+seg000:DE43                 mov     al, 8
+ram_test parity F000h "Fatal Slushware RAM Error"
+
+seg000:DE5D                 mov     al, 9
+Bios Shadow - copy 32KB at F000h, copy reset vectors
+Load GDT_table
+go to Protected Mode
+copy 32KB, where?
+back to Real Mode
+Check VGA Bios Option ROM presence
+VGA Bios Shadow - copy 32KB from C000h to 0E000h
+
+seg000:DEEB                 mov     al, 0Bh
+test_PS2_ctrl aka "System Control Processor"
+send some magic commands to "System Control Processor"
+
+seg000:10E6                 mov     al, 0Eh
+seg000:10F4                 loop    DMA_init_loop
+DMA init
+
+seg000:10F6                 mov     al, 0Fh
+seg000:10FA                 mov     si, offset DMA_PIC_reg_ini
+More DMA init, some PIC
+
+seg000:1103                 mov     al, 10h
+seg000:1107                 mov     si, offset PIC_reg_ini
+More PIC init
+
+seg000:1110                 mov     al, 11h
+FPU_error_0 Interrupt Vector Table (IVT)
+
+seg000:1149                 mov     al, 12h
+init_CGA_table, init_MDA_table
+
+seg000:1191                 mov     al, 13h
+video_bios_detected
+zero out 32KB at B000h 
+
+seg000:11D9                 mov     al, 15h
+CPU_test
+
+seg000:1228                 mov     al, 16h
+ROM checksum
+
+seg000:1259                 mov     al, 17h
+"System Control Processor" aka Keyboard Controller test
+
+seg000:128F                 mov     al, 18h
+PPI, optionally some ram initialization and sgdt_hlt?
+
+seg000:12BD                 mov     al, 19h
+out     9F4h, 8???
+
+seg000:12E1                 mov     al, 1Ah
+seg000:1305                 call    test_PS2_ctrl
+"System Control Processor" aka Keyboard Controller test
+
+seg000:1312                 mov     al, 1Bh
+some ram initialization and sgdt_hlt?
+
+seg000:131B                 mov     al, 1Ch
+seg000:1324                 call    ram_size?
+
+seg000:1328                 mov     al, 1Dh
+seg000:1337                 jmp     ram_test
+
+seg000:1363                 mov     al, 1Fh
+seg000:1371                 call    GDT_init
+Init GDT, also Cache test?
+
+seg000:1374                 mov     al, 20h ; ' '
+Initialize bottom 8KB of ram to 0
+
+seg000:13E4                 mov     al, 21h
+conditionally start testing Keyboard controller aka "System Control Processor"
+seg000:13F2                 call    test_PS2_ctrl
+
+seg000:13F7                 mov     al, 22h
+end of Keyboard test
+
+seg000:1406					mov     al, 23h
+seg000:140A                 call    test_cmos
+
+seg000:140D                 mov     al, 24h
+seg000:1411                 call    near ptr hw_init
+
+seg000:1432                 mov     al, 27h
+seg000:1439                 mov     al, 28h
+seg000:1436                 call    Keyboard_init
+seg000:144A                 call    password_check
+
+seg000:1450                 mov     al, 29h
+seg000:1458                 call    timer_int_test
+
+seg000:145D                 mov     al, 2Ah
+is fdd enabled in cmos?
+
+seg000:1483                 mov     al, 2Bh
+seg000:1487                 call    FDD_init_detect?
+
+seg000:1499                 mov     al, 2Ch
+seg000:149D                 call    ide_detect_init?
+
+seg000:14A3                 mov     al, 2Dh
+seg000:14A7                 call    FPU_init_?
+
+seg000:14AA                 mov     al, 2Eh
+seg000:14AE                 call    init_lpt_ser
+
+2Fh doesnt exist
+
+seg000:14B1                 mov     al, 30h
+seg000:14BD                 call    Exec_Option_roms
+
+seg000:14C0                 mov     al, 31h
+seg000:14CA                 call    RTC_date_?
+
+seg000:14CD                 mov     al, 32h
+?
+
+seg000:14DC                 mov     al, 33h
+seg000:14E7                 call    Exec_Option_roms
+
+seg000:14EA                 mov     al, 34h
+?
+
+seg000:1526                 mov     al, 35h
+listen to keyboard, ask for BIOS password/enter BIOS?
+Disk boot
