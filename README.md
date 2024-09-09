@@ -1,7 +1,48 @@
 # Zenith Data Systems (ZDS) ZBIOS 'MFM-300 Monitor' Reverse enginnering project.
+MFM Monitor was a build-in SoftIce like Debugger/Monitor Bios extension user could enter with a press of a button (CTRL-ALT-ENTER) _at any time_.
+> CTRL-ALT-ENTER displays the contents of the CPU's registers and flags, and then enters the Monitor program. Press G and ENTER to return to the operating system or your software program.
 
-MFM-300 Monitor [POST code list](https://github.com/raszpl/Zenith_ZBIOS/blob/main/POST%20codes.txt) and [decompile assembly listing ](https://github.com/raszpl/Zenith_ZBIOS/blob/main/zenith-386sx-bios-v3-2c.lst).
+MFM Monitor menu:
 
+			ENTER YOUR CHOICE:
+
+		- MFM-300 Command Summary -
+	CMD:	Explanation		Syntax
+	----	-----------		------
+	?:	Help			?
+	B:	Boot from disk		B [{F|W}][{0|1|2|3}][:<partition>]
+	C:	Color bar		C
+	D:	Display memory		D [<range>]
+	E:	Examine memory		E <addr>
+	F:	Fill memory		F <range>,{<byte>|"<string>"}...
+	G:	Execute (Go)		G [=<addr>][,<breakpoint>]...
+	H:	Hex math		H <number1>,<number2>
+	I:	Input from port		I <port>
+	M:	Move memory block	M <range>,<dest>
+	O:	Output to port		O <port>,<value>
+	R:	Examine Registers	R [<register>]
+	S:	Search memory		S <range>,{<byte>|"<string>"}...
+	T:	Trace program		T [<count>]
+	U:	Unassemble program	U [<range>]
+	V:	Set Video/Scroll	V [M<mode>][S<scroll>]
+		Where <range> is:	<addr>{,<addr>|L<length>}
+	TEST:	Extended diagnostics	TEST
+	SETUP:	Define hardware Setup	SETUP
+
+TEST menu:
+
+ 			CHOOSE ONE OF THE FOLLOWING:
+
+			1. DISK READ TEST
+			2. KEYBOARD TEST
+			3. BASE MEMORY TEST
+			4. EXTENDED MEMORY TEST
+			5. POWER-UP TEST
+			6. EXIT
+   
+Z-386 MFM-300 Monitor, Version 3.2C [POST code list](https://github.com/raszpl/Zenith_ZBIOS/blob/main/POST%20codes.txt), crude decompiled [listing](https://github.com/raszpl/Zenith_ZBIOS/blob/main/zenith-386sx-bios-v3-2c.lst) and [IDA 6.1 dump](https://github.com/raszpl/Zenith_ZBIOS/raw/main/Zenith%20Z-386%20MFM-300%20Monitor,%20Version%203.2C.i64). I forgot to relocate binary to F000 before starting dissasembly and now I dont know how to change it post facto :(, means few jumps to raw F000 pointers show up as red. If you know how to fix it please drop me a hint :)
+
+MFM Monitor shipped in models from three generations of Zenith computers.
 
 386:
 - [Zenith Data Systems (ZDS) 3797V1](https://theretroweb.com/motherboards/s/zenith-data-systems-3797v1)
