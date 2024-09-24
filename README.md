@@ -1,8 +1,9 @@
 # Zenith Data Systems (ZDS) ZBIOS 'MFM-300 Monitor' reverse engineering.
-MFM Monitor was a build-in SoftIce like Debugger/Monitor Bios extension user could enter with a press of a button (CTRL-ALT-ENTER) _at any time_.
+Multi-Function Monitor (MFM) was a build-in SoftIce/Periscope like Debugger/Monitor Bios extension user could enter with a press of a button (CTRL-ALT-ENTER) _at any time_.
 > CTRL-ALT-ENTER displays the contents of the CPU's registers and flags, and then enters the Monitor program. Press G and ENTER to return to the operating system or your software program.
 
-Description in [Zenith Z-386SX-20 Owners Manual](https://github.com/raszpl/Zenith_ZBIOS/blob/main/documentation/Zenith%20Z-386SX-20%20Owners%20Manual%20595-5036.pdf) and REMark _'The Official Zenith/Heath Computer User Magazine'_ [volume10-issue10-1989](https://github.com/raszpl/Zenith_ZBIOS/blob/main/documentation/remark-volume10-issue10-1989.pdf) page 11 and [volume10-issue12-1989](https://github.com/raszpl/Zenith_ZBIOS/blob/main/documentation/remark-volume10-issue12-1989.pdf) page 25.
+Description in [Zenith Z-386SX/20 Owners Manual](https://github.com/raszpl/Zenith_ZBIOS/blob/main/documentation/Zenith%20Z-386SX-20%20Owners%20Manual%20595-5036.pdf) page 106, [Zenith Z386SX Owners Manual](https://archive.org/details/zenith-z-386-sx-owners-manual) page 88. REMark _'The Official Zenith/Heath Computer User Magazine'_ [volume10-issue10-1989](https://github.com/raszpl/Zenith_ZBIOS/blob/main/documentation/remark-volume10-issue10-1989.pdf) page 11 and [volume10-issue12-1989](https://github.com/raszpl/Zenith_ZBIOS/blob/main/documentation/remark-volume10-issue12-1989.pdf) page 25.
+
 
 MFM Monitor menu:
 
