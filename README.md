@@ -43,7 +43,7 @@ TEST menu:
 			5. POWER-UP TEST
 			6. EXIT
    
-Z-386 MFM-300 Monitor, Version 3.2C [POST code list](https://github.com/raszpl/Zenith_ZBIOS/blob/main/POST%20codes.txt), crude decompiled [listing](https://github.com/raszpl/Zenith_ZBIOS/blob/main/zenith-386sx-bios-v3-2c.lst) and [IDA 6.1 dump](https://github.com/raszpl/Zenith_ZBIOS/raw/main/Zenith%20Z-386%20MFM-300%20Monitor,%20Version%203.2C.i64). I forgot to relocate binary to F000 before starting dissasembly and now I dont know how to change it post facto :(, means few jumps to raw F000 pointers show up as red. If you know how to fix it please drop me a hint :)
+Z-386 MFM-300 Monitor, Version 3.2C [POST code list](https://github.com/raszpl/Zenith_ZBIOS/blob/main/POST%20codes.txt), crude decompiled [listing](https://github.com/raszpl/Zenith_ZBIOS/blob/main/Zenith%20Z-386%20MFM-300%20Monitor%2C%20Version%203.2C.lst) and [IDA 6.1 dump](https://github.com/raszpl/Zenith_ZBIOS/raw/main/Zenith%20Z-386%20MFM-300%20Monitor,%20Version%203.2C.i64). I forgot to relocate binary to F000 before starting dissasembly and now I dont know how to change it post facto :(, means few jumps to raw F000 pointers show up as red. If you know how to fix it please drop me a hint :)
 
 MFM Monitor shipped in models from three generations of Zenith computers.
 
