@@ -30,9 +30,9 @@ ZBIOS 3.2C setup screen:
 ╚════Use Space/Backspace to select values, Arrows to move, Esc when finished═══╝
 ```
 Quirks:
-- Cant enter custom MFM/RLL/IDE HDD parameters, only drives on BIOS predefined list are supported.
-- Special provision for Zenith MFM controller, bios calls it TEMPEST, by checking for presence of 'DZ' signature at 0C81Bh - 0C800h being standard window for MFM bios. I havent identified which card this was meant for yet.
-- ESDI drive Type (hardcoded as 100) supports some form of capacity auto detection by executing IDE Command E2_STANDBY with Heads:15 / Sectors:63 and returning Cylinder number. ESDI option uses those hardcoded Heads:15 / Sectors:63 parameters and only changes number of Cylinders. This could only work with Controller performing CHS translation in hardware on the fly, and afaik normal ones didnt?
+- Cant enter custom MFM/RLL/IDE HDD parameters, only drives on BIOS predefined list of 62 types are supported.
+- Special provision for Zenith MFM controller, bios calls it TEMPEST, by checking for presence of 'DZ' signature at 0C800:1Bh standard window for MFM bios. I havent identified which card this was meant for yet.
+- ESDI drive Type (hardcoded as 1 and 100) supports some form of capacity auto detection by executing IDE Command E2_STANDBY with Heads:15 / Sectors:63 and returning Cylinder number. ESDI option uses those hardcoded Heads:15 / Sectors:63 parameters and only changes number of Cylinders. This could only work with Controller performing CHS translation in hardware on the fly, and afaik normal ones didnt?
 - Hidden partial support for 50 column mode gated behind detection flag for some unknown at this time Graphic Card and non standard Int 10h AX=6502 (int10h_65_al_2_init_50_line_mode) call.
 - Password managed by Keyboard Controller, called System Control Processor/SCP by Zenith, and stored in 1Kbit serial EEPROM 93C46.
 - Manual: "Do not use the SHIFT or CAPS LOCK keys when entering a password. The computer differentiates between upper- and lowercase characters, making it difficult to remember the correct password." :-)
