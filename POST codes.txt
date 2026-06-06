@@ -1,5 +1,29 @@
 ZBIOS 'MFM-300 Monitor, Version 3.2C' POST Codes:
 
+ POST_code_01_Zenith_VGA_check_clear_ram
+ POST_code_02_Zenith_CGA_MDA_init
+ POST_code_03_Zenith_MDA_CGA_clear_ram
+ POST_code_05_Zenith_Stack_setup
+ POST_code_07_Zenith_Ram_0E000_test
+ POST_code_08_Zenith_Ram_0F000_test
+ POST_code_09_Zenith_GDT_setup_shadow_VGA
+ POST_code_0B_Zenith_KBC_setup
+ POST_code_0C_Zenith_ColdWarm_Boot_check
+ POST_code_0D_Zenith_Cold_Boot_Stack_setup
+ POST_code_0E_Zenith_DMA_Page_init
+ POST_code_0F_Zenith_DMA_PIT_init
+ POST_code_10_Zenith_PIC_init
+ POST_code_11_Zenith_Video_Bios_init
+ POST_code_12_Zenith_CGA_MDA_init
+ POST_code_13_Zenith_clear_screen_RTC_Ints
+ POST_code_15_Zenith_CPU_test
+ POST_code_16_Zenith_ROM_checksum_check
+ POST_code_17_Zenith_SCP_failure_Reset
+ POST_code_27_Zenith_Keyboard_init
+ POST_code_39_Zenith_ram_size_detect
+ POST_code_3C_Zenith_Ram_presence_check
+ POST_code_3D_Zenith_DMA_PIC_init
+
 COMMON:
 
 seg000:DD62                 mov     al, 0
