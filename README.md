@@ -35,7 +35,7 @@ Quirks:
 - ESDI drive Type (hardcoded as 100) supports some form of capacity auto detection by executing IDE Command E2_STANDBY with Heads:15 / Sectors:63 and returning Cylinder number. ESDI option uses those hardcoded Heads:15 / Sectors:63 parameters and only changes number of Cylinders. This could only work with Controller performing CHS translation in hardware on the fly, and afaik normal ones didnt?
 - Hidden partial support for 50 column mode gated behind detection flag for some unknown at this time Graphic Card and non standard Int 10h AX=6502 (int10h_65_al_2_init_50_line_mode) call.
 - Password managed by Keyboard Controller, called System Control Processor/SCP by Zenith, and stored in 1Kbit serial EEPROM 93C46.
-- "Do not use the SHIFT or CAPS LOCK keys when entering a password. The computer differentiates between upper- and lowercase characters, making it difficult to remember the correct password." :-)
+- Manual: "Do not use the SHIFT or CAPS LOCK keys when entering a password. The computer differentiates between upper- and lowercase characters, making it difficult to remember the correct password." :-)
 - Despite Setup fitting on single page ZBIOS has full support for multi page layouts.
 
 # ZBIOS 'MFM-300 Monitor'
