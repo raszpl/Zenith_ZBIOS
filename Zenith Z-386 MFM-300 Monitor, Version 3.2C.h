@@ -98,7 +98,14 @@ enum IO_Ports : unsigned __int16
   IO_Port_330h_Zenith_mystery_transfer_length_low = 0x330,
   IO_Port_331h_Zenith_mystery_transfer_length_high = 0x331,
   IO_Port_333h_Zenith_mystery_Command = 0x333,
+  IO_Port_334h_Zenith_unknown = 0x334,
+  IO_Port_335h_Zenith_unknown = 0x335,
+  IO_Port_336h_Zenith_unknown = 0x336,
   IO_Port_337h_Zenith_mystery_Status = 0x337,
+  IO_Port_338h_Zenith_unknown = 0x338,
+  IO_Port_339h_Zenith_unknown = 0x339,
+  IO_Port_33Bh_Zenith_unknown = 0x33B,
+  IO_Port_33Ch_Zenith_unknown = 0x33C,
   IO_Port_3B4h_CRTC_Index_Mono = 0x3B4,
   IO_Port_3B5h_CRTC_Data_Mono = 0x3B5,
   IO_Port_3B8h_CRTC_Mode_Control_Mono = 0x3B8,
@@ -140,9 +147,10 @@ enum IO_Ports : unsigned __int16
   IO_Port_37Ah_LPT1_Control = 0x37A,
   IO_Port_278h_LPT2_Base = 0x278,
   IO_Port_3BCh_LPT3_Base = 0x3BC,
-  IO_Port_EDh_unknown = 0xED,
-  IO_Port_F0h_unknown = 0xF0,
-  IO_Port_213h_unknown = 0x213,
+  IO_Port_EDh_Zenith_unknown = 0xED,
+  IO_Port_F0h_Zenith_unknown = 0xF0,
+  IO_Port_F1h_Zenith_unknown = 0xF1,
+  IO_Port_213h_Zenith_unknown = 0x213,
 };
 
 /* 15 */
@@ -324,7 +332,7 @@ struct disk_error
 struct struct_F0801
 {
   unsigned __int8 mask __bin __lzero;
-  __int16 count;
+  __int16 length;
   int pointer;
   int pointer2;
 };
@@ -537,12 +545,13 @@ enum __bitmask __bin __lzero BDA_8Fh_floppy_information : unsigned __int8
 };
 
 /* 58 */
-enum __bitmask __bin __lzero BDA_drive_media_state_RATE : unsigned __int8
+enum __bitmask __bin __lzero BDA_90h_drive0_media_state_RATE : unsigned __int8
 {
   FLOPPY_RATE_MASK = 0xC0,              ///< MASK
   FLOPPY_RATE_500KBPS = 0b00000000,
   FLOPPY_RATE_300KBPS = 0b01000000,
   FLOPPY_RATE_250KBPS = 0b10000000,
+  FLOPPY_RATE_known_media = 0b00010000,
 };
 
 /* 42 */
@@ -550,7 +559,7 @@ struct DPTe
 {
   DPT DPT;
   unsigned __int8 Maximum_Track __udec;
-  BDA_drive_media_state_RATE rate;
+  BDA_90h_drive0_media_state_RATE rate;
 };
 
 /* 52 */
@@ -724,7 +733,7 @@ enum BDA_indexes : unsigned __int8
 };
 
 /* 59 */
-enum __bitmask __bin __lzero BDA_drive_media_state_flags : unsigned __int8
+enum __bitmask __bin __lzero BDA_90h_drive0_media_state_flags : unsigned __int8
 {
   drive_media_state_DOUBLE_STEP = 0b00100000,
   drive_media_state_ESTABLISHED = 0b00010000,
@@ -842,8 +851,7 @@ enum __bitmask __bin __lzero BDA_90h_drive0_media_state : unsigned __int8
   FLOPPY_STATE_double_stepping = 0b00100000,
   FLOPPY_STATE_known_media = 0b00010000,
   FLOPPY_STATE_BIT3_RESERVED = 0b00001000,
-  FLOPPY_STATE_MASK = 0x07,             ///< MASK
-  FLOPPY_STATE_TRY_360K_IN_360K = 0b00000000,
+  FLOPPY_STATE_MASK = 0x07,             ///< MASK 0 = TRY_360K_IN_360K
   FLOPPY_STATE_TRY_360K_IN_1_2MB = 0b00000001,
   FLOPPY_STATE_TRY_1_2MB_IN_1_2MB = 0b00000010,
   FLOPPY_STATE_EST_360K_IN_360K = 0b00000011,
@@ -965,7 +973,7 @@ enum __bitmask __bin __lzero IO_Port_3F4h_FDD_Main_Status : unsigned __int8
   IO_Port_3F4h_FDC_MSR_DRV3_BUSY = 0b00001000,
   IO_Port_3F4h_FDC_MSR_BUSY = 0b00010000,
   IO_Port_3F4h_FDC_MSR_NON_DMA_MODE = 0b00100000,
-  IO_Port_3F4h_FDC_MSR_DIO_CNTRLR_TO_CPU = 0b01000000,
+  IO_Port_3F4h_FDC_MSR_DIO_CNTRLR_TO_CPU = 0b01000000, ///< bit6 0 = MSR_DIO_CPU_TO_CNTRLR
   IO_Port_3F4h_FDC_MSR_RQM_READY = 0b10000000,
 };
 
@@ -1993,7 +2001,7 @@ enum __bitmask __bin __lzero IO_Port_3F2h_FDC_Digital_Output : unsigned __int8
   IO_Port_3F2h_FDC_DOR_DS_MASK = 0x03,  ///<  MASK
   IO_Port_3F2h_FDC_DOR_DS0 = 0b00000001,
   IO_Port_3F2h_FDC_DOR_DS1 = 0b00000010,
-  IO_Port_3F2h_FDC_DOR_Enable = 0b00000100, ///< 0=Reset Controller, 1=Enable Controller
+  IO_Port_3F2h_FDC_DOR_Enable = 0b00000100, ///< bit2 0=Reset Controller, 1=Enable Controller
   IO_Port_3F2h_FDC_DOR_DMA_INT = 0b00001000,
   IO_Port_3F2h_FDC_DOR_MOT_MASK = 0xF0, ///<  MASK
   IO_Port_3F2h_FDC_DOR_MOT0 = 0b00010000,
@@ -2390,6 +2398,7 @@ enum Keyboard_scancodes : unsigned __int16
   scancode_CR_ENTER = 0xD,
   scancode_Ctrl_S = 0x13,
   scancode_ESC = 0x1B,
+  scancode_ESC_ = 0x11B,
   scancode_SPACE = 0x20,
   scancode_0 = 0x30,
   scancode_1 = 0x31,
@@ -2502,9 +2511,16 @@ enum __bitmask __bin __lzero Zenith_cs404h_int13h_function_flags : __int8
 /* 197 */
 enum Zenith_Slushware_RAM : __int16
 {
+  Zenith_cs3Ah_Framebuffer_offset = 0x3A,
   Zenith_cs47h_BDA_10h_equip_list_CMOS_0Eh_Diag_Status = 0x47, ///< high byte BDA, low byte CMOS
+  Zenith_cs49h_BDA_segment = 0x49,
   Zenith_cs59h_some_BOOT_flags = 0x59,
   Zenith_csC6h_BDA_segment = 0xC6,
+  Zenith_csCEh_Flags = 0xCE,
+  Zenith_csCAh_BDA_80h_Keyboard_buffer_starting_address_UNUSED = 0xCA,
+  Zenith_csCCh_BDA_82h_Keyboard_buffer_ending_address_UNUSED = 0xCC,
+  Zenith_cs4C6h_BDA_80h_Keyboard_buffer_starting_address_UNUSED = 0x4C6,
+  Zenith_cs4C8h_BDA_82h_Keyboard_buffer_ending_address_UNUSED = 0x4C8,
   Zenith_cs404h_int13h_function_flags = 0x404,
   Zenith_cs405h_int13h_function_request = 0x405, ///< comes from int 13 AH = function request number or 1B 1C in some extended int13 handler
   Zenith_cs406h_Joystick_store = 0x406,
@@ -2514,6 +2530,10 @@ enum Zenith_Slushware_RAM : __int16
   Zenith_cs416h_restore_state_DS = 0x416,
   Zenith_cs418h_restore_state_SI = 0x418,
   Zenith_cs41Ah_debugger_GDT = 0x41A,
+  Zenith_cs4C5h_floppy_flags_maybe = 0x4C5,
+  Zenith_cs4CAh_MFM_Tempest_bios_present = 0x4CA,
+  Zenith_cs4CBh_floppy_init_writes_1_UNUSED = 0x4CB,
+  Zenith_cs4CCh_ZBIOS_last_key_stroke_UNUSED = 0x4CC,
   Zenith_cs4CEh_IVT_Disk_Parameter_Table1 = 0x4CE,
   Zenith_cs4DEh_IVT_Disk_Parameter_Table2 = 0x4DE,
   Zenith_cs4EEh_HDD_flags = 0x4EE,
@@ -2527,6 +2547,7 @@ enum Zenith_Slushware_RAM : __int16
   Zenith_cs54Ah_DMA6_callback_handler_off = 0x54A,
   Zenith_cs54Ch_DMA6_callback_handler_seg = 0x54C,
   Zenith_cs54Eh_DMA6_Count_pending = 0x54E,
+  Zenith_cs550h_A20_Disable = 0x550,
 };
 
 /* 198 */
@@ -2584,6 +2605,37 @@ enum __bitmask __bin __lzero Zenith_cs4EEh_HDD_flags : __int8
 enum boolean_variable : unsigned __int16
 {
   True_bool = 0xFFFF,
+  True_bool_ = 0x1,
   False_bool = 0x0,
+};
+
+/* 203 */
+enum __bitmask __bin __lzero Zenith_csCEh_Flags : __int8
+{
+  Zenith_csCEh_b7_keyboard_irq_unused = 0b10000000,
+  Zenith_csCEh_b3_cache_something = 0b00001000,
+  Zenith_csCEh_b2_cache_enabled = 0b00000100,
+  Zenith_csCEh_b1 = 0b00000010,
+  Zenith_csCEh_b0_Backdoor = 0b00000001,
+};
+
+/* 204 */
+enum __bitmask __bin __lzero Zenith_cs4C5h_floppy_flags_maybe : __int8
+{
+  Zenith_cs4C5h_b7 = 0b10000000,
+  Zenith_cs4C5h_b6 = 0b01000000,
+  Zenith_cs4C5h_b5 = 0b00100000,
+  Zenith_cs4C5h_b4 = 0b00010000,
+  Zenith_cs4C5h_b3 = 0b00001000,
+  Zenith_cs4C5h_b2 = 0b00000100,
+  Zenith_cs4C5h_b1 = 0b00000010,
+  Zenith_cs4C5h_b0 = 0b00000001,
+};
+
+/* 205 */
+enum Zenith_cs4CAh_MFM_Tempest_bios_present : unsigned __int8
+{
+  MFM_Tempest_bios_absent = 0x0,
+  MFM_Tempest_bios_present = 0xFF,
 };
 
