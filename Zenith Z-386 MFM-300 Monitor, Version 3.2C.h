@@ -594,7 +594,7 @@ enum IO_Port_3F5h_FDD_Command : unsigned __int8
 };
 
 /* 55 */
-enum IVT_Vectors : unsigned __int8
+enum IVT_Vectors : unsigned __int16
 {
   IVT_SINGLE_STEP = 0x1,
   IVT_NMI = 0x2,
@@ -608,6 +608,8 @@ enum IVT_Vectors : unsigned __int8
   IVT_EQUIPMENT_CHECK = 0x11,
   IVT_MEMORY_SIZE = 0x12,
   IVT_DISK_IO = 0x13,
+  IVT_DISK_IO_off = 0x4C,
+  IVT_DISK_IO_seg = 0x4E,
   IVT_SERIAL_IO = 0x14,
   IVT_SYSTEM_SERVICES = 0x15,
   IVT_KEYBOARD_SERVICES = 0x16,
@@ -621,8 +623,13 @@ enum IVT_Vectors : unsigned __int8
   IVT_Diskette_Parameter_Table = 0x1E,
   IVT_VIDEO_CHARS_TABLE = 0x1F,
   IVT_HDD = 0x40,
+  IVT_HDD_off = 0x100,
+  IVT_HDD_seg = 0x102,
   IVT_Disk_Parameter_Table1 = 0x41,
   IVT_Disk_Parameter_Table2 = 0x46,
+  IVT_IRQ14 = 0x76,
+  IVT_IRQ14_off = 0x1D8,
+  IVT_IRQ14_seg = 0x1DA,
 };
 
 /* 57 */
