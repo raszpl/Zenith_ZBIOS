@@ -429,12 +429,12 @@ seg000:02EC
 seg000:02EC ; ---------------------------------------------------------------------------
 seg000:02EE aFatalMemoryCon db 'Fatal Memory Controller Error +++',0 ; DATA XREF: cold_boot+28↑o cold_boot+2BC↑o
 seg000:0310 aFatalRamInstal db 'Fatal RAM Installation Error +++',0 ; DATA XREF: cold_boot+230↑o
-seg000:0331 FE3031_aggressive_timings FE3001_init <0Bh, <FE3031_5_16bit_IO_waitstates, FE3031_DATA_1h>, <FE3031_6_16bit_mem_command_delay, FE3031_DATA_0h>, <FE3031_7_16bit_mem_waitstates, \
+seg000:0331 FE3031_aggressive_timings FE3031_init <0Bh, <FE3031_5_16bit_IO_waitstates, FE3031_DATA_1h>, <FE3031_6_16bit_mem_command_delay, FE3031_DATA_0h>, <FE3031_7_16bit_mem_waitstates, \
 seg000:0331                                         ; DATA XREF: cold_boot+38↑o
 seg000:0331                              FE3031_DATA_1h>, <FE3031_8_16bit_mem_waitstates, FE3031_DATA_0h>, <FE3031_9_local_DRAM_read_waitstates, FE3031_DATA_0h>, <\
 seg000:0331                              FE3031_10_local_DRAM_write_waitstates, FE3031_DATA_0h>, <FE3031_12_onboard_IO_delay, FE3031_DATA_1h>, <FE3031_0_BALE_delay, FE3031_DATA_0h>, <\
 seg000:0331                              FE3031_1_BALE_width, FE3031_DATA_1h>, <FE3031_3_8bit_mem_16bit_IO_cmd_delay, FE3031_DATA_1h>, <FE3031_4_8bit_waitstates, FE3031_DATA_4h>>; 0
-seg000:0349 FE3031_turbo_timings FE3001_init <0Bh, <FE3031_5_16bit_IO_waitstates, FE3031_DATA_4h>, <FE3031_6_16bit_mem_command_delay, FE3031_DATA_3h>, <FE3031_7_16bit_mem_waitstates, \
+seg000:0349 FE3031_turbo_timings FE3031_init <0Bh, <FE3031_5_16bit_IO_waitstates, FE3031_DATA_4h>, <FE3031_6_16bit_mem_command_delay, FE3031_DATA_3h>, <FE3031_7_16bit_mem_waitstates, \
 seg000:0349                                         ; DATA XREF: cold_boot+5B↑o
 seg000:0349                              FE3031_DATA_4h>, <FE3031_8_16bit_mem_waitstates, FE3031_DATA_2h>, <FE3031_9_local_DRAM_read_waitstates, FE3031_DATA_0h>, <\
 seg000:0349                              FE3031_10_local_DRAM_write_waitstates, FE3031_DATA_0h>, <FE3031_12_onboard_IO_delay, FE3031_DATA_1h>, <FE3031_4_8bit_waitstates, FE3031_DATA_Ah>, <\
@@ -994,7 +994,7 @@ seg000:1050
 seg000:1050 ColdWarm_Boot   proc far                ; CODE XREF: keyb_maybe_Reset_hotkey+48↓J cmd_trace_or_tests+4E↓j ...
 seg000:1050                 cli
 seg000:1051                 cld
-seg000:1052                 mov     ax, 40h
+seg000:1052                 mov     ax, BDA_Offset
 seg000:1055                 mov     ds, ax
 seg000:1057                 assume ds:nothing
 seg000:1057                 in      al, IO_Port_61h_Parity
@@ -1112,7 +1112,7 @@ seg000:1112                 out     IO_Port_80h_POST_Code, al
 seg000:1114                 mov     ax, 0
 seg000:1117                 mov     es, ax
 seg000:1119                 assume es:nothing
-seg000:1119                 mov     bx, 40h         ; ES:BS = 40 = Interrupt Vector Table (IVT) entry 0x10 IVT_VIDEO
+seg000:1119                 mov     bx, IVT_VIDEO_off
 seg000:111C                 mov     word ptr es:[bx], offset int_10h_video
 seg000:1121                 mov     word ptr es:[bx+2], cs
 seg000:1125                 mov     al, 40h
@@ -1136,7 +1136,7 @@ seg000:114D                 mov     dx, IO_Port_3D8h_CRTC_Mode_Control
 seg000:1150                 mov     al, IO_Port_3D8h_Mode_TEXT_80x25 or IO_Port_3D8h_Mode_VIDEO_ENABLE or IO_Port_3D8h_Mode_BLINK_ENABLE ; bit0 0 = 40x25
 seg000:1152                 out     dx, al
 seg000:1153                 mov     dx, IO_Port_3D9h_CGA_Color_Control
-seg000:1156                 mov     al, IO_Port_3D9h_ALT_INTENSITY_CLR or IO_Port_3D9h_PALETTE_SELECT ; bit5 0 = Green/Red/Brown, 1 = Cyan/Magenta/White
+seg000:1156                 mov     al, IO_Port_3D9h_Graphic_Intensity_or_Text_BGcolor or IO_Port_3D9h_PALETTE_SELECT ; bit5 0 = Green/Red/Brown, 1 = Cyan/Magenta/White
 seg000:1158                 out     dx, al
 seg000:1159                 mov     si, offset CGA_80x25
 seg000:115C                 mov     cx, 16
@@ -1267,7 +1267,7 @@ seg000:1214                 jmp     short CPU_ok
 seg000:1216 ; ---------------------------------------------------------------------------
 seg000:1216
 seg000:1216 CPU_failure:                            ; CODE XREF: ColdWarm_Boot+18E↑j ColdWarm_Boot+191↑j ...
-seg000:1216                 mov     ax, 40h
+seg000:1216                 mov     ax, BDA_Offset
 seg000:1219                 mov     ds, ax
 seg000:121B                 assume ds:nothing
 seg000:121B                 mov     ax, cs
@@ -1280,7 +1280,7 @@ seg000:1228
 seg000:1228 CPU_ok:                                 ; CODE XREF: ColdWarm_Boot+1C4↑j
 seg000:1228                 mov     al, POSTCODE_16_Zenith_ROM_checksum_check
 seg000:122A                 out     IO_Port_80h_POST_Code, al
-seg000:122C                 mov     ax, 40h
+seg000:122C                 mov     ax, BDA_Offset
 seg000:122F                 mov     ds, ax
 seg000:1231                 mov     ax, cs
 seg000:1233                 mov     ss, ax
@@ -1445,7 +1445,7 @@ seg000:1363
 seg000:1363 loc_F1363:                              ; CODE XREF: ColdWarm_Boot+2FA↑j ColdWarm_Boot+30D↑j
 seg000:1363                 mov     al, 1Fh
 seg000:1365                 out     IO_Port_80h_POST_Code, al
-seg000:1367                 mov     ax, 40h
+seg000:1367                 mov     ax, BDA_Offset
 seg000:136A                 mov     ds, ax
 seg000:136C                 mov     byte ptr ds:BDA_BFh_custom_semaphore, 1
 seg000:1371                 call    GDT_init
@@ -1454,7 +1454,7 @@ seg000:1374 loc_F1374:                              ; CODE XREF: ColdWarm_Boot+5
 seg000:1374                                         ; DATA XREF: ...
 seg000:1374                 mov     al, 20h
 seg000:1376                 out     IO_Port_80h_POST_Code, al
-seg000:1378                 mov     ax, 40h
+seg000:1378                 mov     ax, BDA_Offset
 seg000:137B                 mov     ds, ax
 seg000:137D                 mov     byte ptr ds:BDA_BFh_custom_semaphore, 1
 seg000:1382                 mov     cs:delay_value, 1536
@@ -1466,7 +1466,7 @@ seg000:1397                 in      al, IO_Port_8Ch_Zenith_Diagnostic_LED
 seg000:1399                 xor     al, 4
 seg000:139B                 out     IO_Port_8Ch_Zenith_Diagnostic_LED, al
 seg000:139D                 out     0F2h, al
-seg000:139F                 mov     ax, 40h
+seg000:139F                 mov     ax, BDA_Offset
 seg000:13A2                 mov     ds, ax
 seg000:13A4                 mov     dx, ds:BDA_72h_soft_reset_flag
 seg000:13A8                 mov     bx, ds:BDA_10h_equipment_list
@@ -1485,13 +1485,13 @@ seg000:13CD                 mov     es, ax
 seg000:13CF                 assume es:nothing
 seg000:13CF                 mov     cs:0C6h, ax
 seg000:13D3                 mov     cs:1, ax
-seg000:13D7                 mov     word ptr cs:49h, 40h ; Zenith_cs49h_BDA_segment
+seg000:13D7                 mov     word ptr cs:49h, BDA_Offset ; Zenith_cs49h_BDA_segment
 seg000:13DE                 mov     byte ptr cs:0D1h, 0
 seg000:13E4                 mov     al, 21h
 seg000:13E6                 out     IO_Port_80h_POST_Code, al
 seg000:13E8                 cmp     word ptr ds:BDA_72h_soft_reset_flag, soft_reset_WARM_BOOT
 seg000:13EE                 jnz     short loc_F1403
-seg000:13F0                 mov     al, 5Dh
+seg000:13F0                 mov     al, KBC_CFG_KEYBOARD_INT_ENABLE or KBC_CFG_SYSTEM_FLAG or KBC_CFG_INHIBIT_OVERRIDE or KBC_CFG_KEYBOARD_DISABLE or KBC_CFG_TRANSLATE_Set2_to_Set1 ; Bit2 1=System Passed POST, 0=Cold Reset
 seg000:13F2                 call    KBC_test_CMD60_write_config
 seg000:13F5                 out     IO_Port_82h_DMA_Page_Ch3, al ; DMA page register 74LS612:
 seg000:13F5                                         ; Channel 3 (hard disk DMA) (address bits 16-23)
@@ -3224,7 +3224,7 @@ seg000:205E                 stc
 seg000:205F                 jnz     short end
 seg000:2061
 seg000:2061 reboot:                                 ; CODE XREF: keyb_maybe_Reset_hotkey+61↓j
-seg000:2061                 mov     ax, 40h
+seg000:2061                 mov     ax, BDA_Offset
 seg000:2064                 mov     ds, ax
 seg000:2066                 assume ds:nothing
 seg000:2066                 mov     word ptr ds:BDA_72h_soft_reset_flag, soft_reset_WARM_BOOT
@@ -4389,7 +4389,7 @@ seg000:25EC                 ja      short loc_F25FB
 seg000:25EE
 seg000:25EE loc_F25EE:                              ; CODE XREF: ram_size?+3B↑j
 seg000:25EE                 add     bx, 1000h
-seg000:25F2                 add     cx, 40h ; '@'
+seg000:25F2                 add     cx, 40h
 seg000:25F5                 cmp     cx, 280h
 seg000:25F9                 jb      short loc_F25A8
 seg000:25FB
@@ -6762,7 +6762,7 @@ seg000:3332                 mov     ch, al
 seg000:3334                 cli
 seg000:3335                 mov     al, IVT_DISK_IO
 seg000:3337                 call    IVT_lookup_al_dssi
-seg000:333A                 mov     al, IVT_HDD
+seg000:333A                 mov     al, IVT_VIDEO_off
 seg000:333C                 call    IVT_set_al_dssi
 seg000:333F                 push    cs
 seg000:3340                 pop     ds
@@ -7795,7 +7795,7 @@ seg000:397A                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:397F                 call    FDD_get_media_type
 seg000:3982                 or      byte ptr ds:BDA_3Fh_floppy_motor_status, BDA_3Fh_motor_stat_WRITE ; MASK bit7 0 READ
 seg000:3987                 mov     ah, [si]
-seg000:3989                 test    ah, FLOPPY_STATE_known_media
+seg000:3989                 test    ah, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:398C                 jnz     short loc_F39BF
 seg000:398E                 push    ax
 seg000:398F                 call    cmos_read_10h_Drive_Type
@@ -7811,8 +7811,8 @@ seg000:399A                 or      al, al
 seg000:399C                 jz      short write_media_state
 seg000:399E                 cmp     al, CMOS_10h_FDD1_type_720KB_3_5
 seg000:39A0                 jnz     short loc_F39AC
-seg000:39A2                 and     ah, FLOPPY_STATE_RESERVED
-seg000:39A5                 cmp     ah, FLOPPY_STATE_RESERVED ; why state reserved here?
+seg000:39A2                 and     ah, BDA_90h_drive_STATE_RESERVED
+seg000:39A5                 cmp     ah, BDA_90h_drive_STATE_RESERVED ; why state reserved here?
 seg000:39A8                 jz      short loc_F39AC
 seg000:39AA                 mov     al, CMOS_10h_FDD1_type_360KB_5_25
 seg000:39AC
@@ -7822,7 +7822,7 @@ seg000:39AE                 xchg    ax, bx
 seg000:39AF                 mov     bl, cs:(drive_state_types-1)[bx] ; BX = CMOS_10h_Floppy_Drive_Type 1 based indexed
 seg000:39B4                 xchg    ax, bx
 seg000:39B5                 mov     ah, [si]
-seg000:39B7                 and     ah, not (FLOPPY_STATE_double_stepping or FLOPPY_STATE_RATE_MASK) ; MASK 0 = 500KBPS
+seg000:39B7                 and     ah, not (BDA_90h_drive_STATE_double_stepping or BDA_90h_drive_STATE_RATE_MASK) ; MASK 0 = 500KBPS
 seg000:39BA                 or      al, ah
 seg000:39BC
 seg000:39BC write_media_state:                      ; CODE XREF: int_13h_5h_FDD_format_track+22↑j
@@ -7917,7 +7917,7 @@ seg000:3A4E fallback_to_media_detection:            ; CODE XREF: int_13h_8_FDD_G
 seg000:3A4E                 call    FDD_get_media_type
 seg000:3A51                 mov     al, [si]
 seg000:3A53                 call    FDD_update_media_type
-seg000:3A56                 test    al, BDA_90h_drive_media_state_ESTABLISHED
+seg000:3A56                 test    al, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:3A58                 jz      short drive_not_found
 seg000:3A5A                 mov     ah, al
 seg000:3A5C                 and     al, FLOPPY_RATE_MASK ; MASK
@@ -7925,17 +7925,17 @@ seg000:3A5E                 cmp     al, FLOPPY_RATE_250KBPS
 seg000:3A60                 jz      short loc_F3A6A
 seg000:3A62                 cmp     al, FLOPPY_RATE_300KBPS
 seg000:3A64                 jnz     short loc_F3A71
-seg000:3A66                 mov     al, FLOPPY_STATE_TRY_1_2MB_IN_1_2MB
+seg000:3A66                 mov     al, BDA_90h_drive_STATE_TRY_1_2MB_IN_1_2MB
 seg000:3A68                 jmp     short lookup_geometry_params
 seg000:3A6A ; ---------------------------------------------------------------------------
 seg000:3A6A
 seg000:3A6A loc_F3A6A:                              ; CODE XREF: int_13h_8_FDD_Get_drive_parameters+5E↑j
 seg000:3A6A                 mov     al, 1
-seg000:3A6C                 test    ah, FLOPPY_STATE_TRY_360K_IN_1_2MB ; why this test?
+seg000:3A6C                 test    ah, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB ; why this test?
 seg000:3A6F                 jz      short lookup_geometry_params
 seg000:3A71
 seg000:3A71 loc_F3A71:                              ; CODE XREF: int_13h_8_FDD_Get_drive_parameters+62↑j
-seg000:3A71                 mov     al, FLOPPY_STATE_EST_360K_IN_1_2MB
+seg000:3A71                 mov     al, BDA_90h_drive_STATE_EST_360K_IN_1_2MB
 seg000:3A73
 seg000:3A73 lookup_geometry_params:                 ; CODE XREF: int_13h_8_FDD_Get_drive_parameters+4A↑j int_13h_8_FDD_Get_drive_parameters+66↑j ...
 seg000:3A73                 sub     ah, ah
@@ -7977,10 +7977,10 @@ seg000:3AA2                 call    FDD_get_media_type
 seg000:3AA5                 mov     ah, [si]
 seg000:3AA7                 or      ah, ah
 seg000:3AA9                 jz      short loc_F3AB4
-seg000:3AAB                 test    ah, FLOPPY_STATE_TRY_360K_IN_1_2MB
-seg000:3AAE                 mov     ah, FLOPPY_STATE_TRY_1_2MB_IN_1_2MB
+seg000:3AAB                 test    ah, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
+seg000:3AAE                 mov     ah, BDA_90h_drive_STATE_TRY_1_2MB_IN_1_2MB
 seg000:3AB0                 jnz     short loc_F3AB4
-seg000:3AB2                 mov     ah, FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:3AB2                 mov     ah, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:3AB4
 seg000:3AB4 loc_F3AB4:                              ; CODE XREF: int_13h_15h_FDD_Read_disk_type+C↑j int_13h_15h_FDD_Read_disk_type+13↑j
 seg000:3AB4                 call    FDD_update_media_type
@@ -8001,7 +8001,7 @@ seg000:3AC6                 mov     ah, FDC_status_no_errors or FDC_status_NOT_R
 seg000:3AC8                 cmp     byte ptr [si], 0
 seg000:3ACB                 jz      short loc_F3ADB
 seg000:3ACD                 mov     ah, FDC_status_disk_change_line_active
-seg000:3ACF                 test    byte ptr [si], FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:3ACF                 test    byte ptr [si], BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:3AD2                 jz      short loc_F3ADB
 seg000:3AD4                 call    FDD_change_line_to_Carry
 seg000:3AD7                 jb      short loc_F3ADB
@@ -8020,10 +8020,10 @@ seg000:3AF2                 retn
 seg000:3AF2 int_13h_16h_FDD__Disk_change_line_status? endp
 seg000:3AF2
 seg000:3AF2 ; ---------------------------------------------------------------------------
-seg000:3AF3 DASD_type_table db FLOPPY_STATE_known_media or FLOPPY_STATE_RATE_250KBPS ; DATA XREF: int_13h_17h_FDD_Set_dasd_type_for_format+3F↓r
-seg000:3AF4                 db FLOPPY_STATE_known_media or FLOPPY_STATE_double_stepping or FLOPPY_STATE_RATE_300KBPS
-seg000:3AF5                 db FLOPPY_STATE_known_media
-seg000:3AF6                 db FLOPPY_STATE_known_media or FLOPPY_STATE_RATE_300KBPS
+seg000:3AF3 DASD_type_table db BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_RATE_250KBPS ; DATA XREF: int_13h_17h_FDD_Set_dasd_type_for_format+3F↓r
+seg000:3AF4                 db BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_double_stepping or BDA_90h_drive_STATE_RATE_300KBPS
+seg000:3AF5                 db BDA_90h_drive_STATE_media_ESTABLISHED
+seg000:3AF6                 db BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_RATE_300KBPS
 seg000:3AF7
 seg000:3AF7 ; =============== S U B R O U T I N E =======================================
 seg000:3AF7
@@ -8034,7 +8034,7 @@ seg000:3AF7                 push    cx
 seg000:3AF8                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:3AFD                 call    FDD_get_media_type
 seg000:3B00                 mov     ah, [si]
-seg000:3B02                 and     ah, not (FLOPPY_STATE_known_media or FLOPPY_STATE_double_stepping or FLOPPY_STATE_RATE_MASK) ; MASK 0 = 500KBPS
+seg000:3B02                 and     ah, not (BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_double_stepping or BDA_90h_drive_STATE_RATE_MASK) ; MASK 0 = 500KBPS
 seg000:3B05                 mov     [si], ah
 seg000:3B07                 mov     cx, ax
 seg000:3B09                 cmp     al, 1           ; AL = 0 no disk
@@ -8047,7 +8047,7 @@ seg000:3B09                                         ;         1.44Mb diskette in
 seg000:3B0B                 jz      short loc_F3B33
 seg000:3B0D                 call    FDD_change_check
 seg000:3B10                 jnb     short loc_F3B17
-seg000:3B12                 cmp     ah, FLOPPY_STATE_RATE_250KBPS
+seg000:3B12                 cmp     ah, BDA_90h_drive_STATE_RATE_250KBPS
 seg000:3B15                 jz      short loc_F3B40
 seg000:3B17
 seg000:3B17 loc_F3B17:                              ; CODE XREF: int_13h_17h_FDD_Set_dasd_type_for_format+19↑j
@@ -8058,15 +8058,15 @@ seg000:3B1D                 cmp     al, 0
 seg000:3B1F                 ja      short loc_F3B25
 seg000:3B21
 seg000:3B21 loc_F3B21:                              ; CODE XREF: int_13h_17h_FDD_Set_dasd_type_for_format+24↑j
-seg000:3B21                 mov     ah, FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:3B21                 mov     ah, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:3B23                 jmp     short loc_F3B40
 seg000:3B25 ; ---------------------------------------------------------------------------
 seg000:3B25
 seg000:3B25 loc_F3B25:                              ; CODE XREF: int_13h_17h_FDD_Set_dasd_type_for_format+28↑j
 seg000:3B25                 cmp     al, 4
 seg000:3B27                 jnz     short loc_F3B33
-seg000:3B29                 and     ah, FLOPPY_STATE_RESERVED
-seg000:3B2C                 cmp     ah, FLOPPY_STATE_RESERVED
+seg000:3B29                 and     ah, BDA_90h_drive_STATE_RESERVED
+seg000:3B2C                 cmp     ah, BDA_90h_drive_STATE_RESERVED
 seg000:3B2F                 jz      short loc_F3B33
 seg000:3B31                 mov     al, 1
 seg000:3B33
@@ -8131,12 +8131,12 @@ seg000:3B9E loc_F3B9E:                              ; CODE XREF: int_13h_18h_FDD
 seg000:3B9E                 mov     ah, cs:[di+DPTe.rate]
 seg000:3BA2                 cmp     ah, FLOPPY_RATE_300KBPS
 seg000:3BA5                 jnz     short loc_F3BAA
-seg000:3BA7                 or      ah, BDA_90h_drive_media_state_DOUBLE_STEP
+seg000:3BA7                 or      ah, BDA_90h_drive_STATE_double_stepping
 seg000:3BAA
 seg000:3BAA loc_F3BAA:                              ; CODE XREF: int_13h_18h_FDD_Set_media_type_for_format+52↑j
 seg000:3BAA                 mov     al, [si]
-seg000:3BAC                 and     al, not (FLOPPY_STATE_known_media or FLOPPY_STATE_double_stepping or FLOPPY_STATE_RATE_MASK) ; MASK 0 = 500KBPS
-seg000:3BAE                 or      al, BDA_90h_drive_media_state_ESTABLISHED
+seg000:3BAC                 and     al, not (BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_double_stepping or BDA_90h_drive_STATE_RATE_MASK) ; MASK 0 = 500KBPS
+seg000:3BAE                 or      al, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:3BB0                 or      al, ah
 seg000:3BB2                 mov     [si], al
 seg000:3BB4                 mov     ax, cs
@@ -8166,7 +8166,7 @@ seg000:3BCE FDD_?_10        proc near               ; CODE XREF: int_13h_234_FDD
 seg000:3BCE                 call    FDD_change_check
 seg000:3BD1                 jb      short end
 seg000:3BD3                 call    FDD_Load_Drive_Parameters
-seg000:3BD6                 test    byte ptr [si], BDA_90h_drive_media_state_ESTABLISHED
+seg000:3BD6                 test    byte ptr [si], BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:3BD9                 jnz     short ok
 seg000:3BDB                 call    FDD_ScanAndVerifyGeometry
 seg000:3BDE                 jb      short end
@@ -8233,14 +8233,14 @@ seg000:3C25                 or      al, al
 seg000:3C27                 jz      short apply_fdd_configuration
 seg000:3C29                 cmp     al, CMOS_10h_FDD1_type_1_2MB_5_25
 seg000:3C2B                 jb      short adjust_geometry_type
-seg000:3C2D                 test    bl, FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:3C2D                 test    bl, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:3C30                 jnz     short calculate_table_index
 seg000:3C32                 mov     al, CMOS_10h_FDD1_type_360KB_5_25
 seg000:3C34                 jmp     short calculate_table_index
 seg000:3C36 ; ---------------------------------------------------------------------------
 seg000:3C36
 seg000:3C36 adjust_geometry_type:                   ; CODE XREF: FDD_Load_Drive_Parameters+1A↑j
-seg000:3C36                 test    bl, FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:3C36                 test    bl, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:3C39                 jz      short calculate_table_index
 seg000:3C3B                 mov     al, CMOS_10h_FDD1_type_1_2MB_5_25
 seg000:3C3D
@@ -8330,7 +8330,7 @@ seg000:3CC3                 call    FDD_check_Command_result
 seg000:3CC6                 jb      short end
 seg000:3CC8                 mov     bh, 4
 seg000:3CCA                 mov     bl, 80
-seg000:3CCC                 test    byte ptr [si], FLOPPY_STATE_TRY_360K_IN_1_2MB ; BDA_90h_drive0_media_state check media flag (bit 0)
+seg000:3CCC                 test    byte ptr [si], BDA_90h_drive_STATE_TRY_360K_IN_1_2MB ; BDA_90h_drive0_media_state check media flag (bit 0)
 seg000:3CCF                 jz      short probe_loop
 seg000:3CD1                 mov     bl, 160
 seg000:3CD3
@@ -8368,7 +8368,7 @@ seg000:3D09                 mov     [si+4], al      ; BDA_94h_drive0_current_cyl
 seg000:3D0C                 shr     bh, 1
 seg000:3D0E                 cmp     bh, al
 seg000:3D10                 jz      short loc_F3D15
-seg000:3D12                 or      byte ptr [si], BDA_90h_drive_media_state_DOUBLE_STEP ; BDA_90h_drive0_media_state set FLOPPY_STATE_double_stepping
+seg000:3D12                 or      byte ptr [si], BDA_90h_drive_STATE_double_stepping
 seg000:3D15
 seg000:3D15 loc_F3D15:                              ; CODE XREF: FDD_ScanAndVerifyGeometry+73↑j
 seg000:3D15                 sub     ah, ah
@@ -8393,7 +8393,7 @@ seg000:3D22                 jz      short error
 seg000:3D24                 cmp     ah, int13h_6_status_disk_changed
 seg000:3D27                 jz      short error
 seg000:3D29                 mov     al, [si]        ; BDA_90h_drive0_media_state
-seg000:3D2B                 test    al, BDA_90h_drive_media_state_ESTABLISHED
+seg000:3D2B                 test    al, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:3D2D                 jnz     short error
 seg000:3D2F                 rol     al, 2
 seg000:3D32                 mov     ah, ds:BDA_8Bh_floppy_cfg_data
@@ -8428,19 +8428,19 @@ seg000:3D58
 seg000:3D58 FDD_something_drive_type? proc near     ; CODE XREF: int_13h_234_FDD_read_write_verify:loc_F395B↑p
 seg000:3D58                 push    ax
 seg000:3D59                 mov     al, [si]
-seg000:3D5B                 or      al, BDA_90h_drive_media_state_ESTABLISHED
-seg000:3D5D                 test    al, FLOPPY_STATE_EST_360K_IN_1_2MB
+seg000:3D5B                 or      al, BDA_90h_drive_STATE_media_ESTABLISHED
+seg000:3D5D                 test    al, BDA_90h_drive_STATE_EST_360K_IN_1_2MB
 seg000:3D5F                 jnz     short end
 seg000:3D61                 mov     ah, al
-seg000:3D63                 or      ah, FLOPPY_STATE_RESERVED or FLOPPY_STATE_known_media
-seg000:3D66                 and     al, FLOPPY_STATE_RATE_MASK ; MASK 0 = 500KBPS
-seg000:3D68                 cmp     al, FLOPPY_STATE_RATE_250KBPS
+seg000:3D63                 or      ah, BDA_90h_drive_STATE_RESERVED or BDA_90h_drive_STATE_media_ESTABLISHED
+seg000:3D66                 and     al, BDA_90h_drive_STATE_RATE_MASK ; MASK 0 = 500KBPS
+seg000:3D68                 cmp     al, BDA_90h_drive_STATE_RATE_250KBPS
 seg000:3D6A                 jnz     short loc_F3D78
 seg000:3D6C                 call    cmos_read_10h_Drive_Type
 seg000:3D6F                 jb      short loc_F3D78
-seg000:3D71                 cmp     al, FLOPPY_STATE_EST_360K_IN_1_2MB
+seg000:3D71                 cmp     al, BDA_90h_drive_STATE_EST_360K_IN_1_2MB
 seg000:3D73                 jz      short loc_F3D78
-seg000:3D75                 and     ah, not (FLOPPY_STATE_TRY_1_2MB_IN_1_2MB)
+seg000:3D75                 and     ah, not (BDA_90h_drive_STATE_TRY_1_2MB_IN_1_2MB)
 seg000:3D78
 seg000:3D78 loc_F3D78:                              ; CODE XREF: FDD_something_drive_type?+12↑j FDD_something_drive_type?+17↑j ...
 seg000:3D78                 mov     al, ah
@@ -8567,7 +8567,7 @@ seg000:3E23 recalibrate_ok:                         ; CODE XREF: FDD_recalibrate
 seg000:3E23                 mov     byte ptr [si+4], 0 ; BDA_94h_drive0_current_cylinder
 seg000:3E27
 seg000:3E27 skip_recalibrate:                       ; CODE XREF: FDD_recalibrate_drive+10↑j
-seg000:3E27                 test    byte ptr [si], FLOPPY_STATE_double_stepping
+seg000:3E27                 test    byte ptr [si], BDA_90h_drive_STATE_double_stepping
 seg000:3E2A                 jz      short check_cylinder
 seg000:3E2C                 shl     ch, 1
 seg000:3E2E
@@ -9029,7 +9029,7 @@ seg000:408B                 jnb     short end
 seg000:408D                 push    bx
 seg000:408E                 push    cx
 seg000:408F                 mov     bl, al
-seg000:4091                 and     byte ptr [si], not (BDA_90h_drive_media_state_ESTABLISHED)
+seg000:4091                 and     byte ptr [si], not (BDA_90h_drive_STATE_media_ESTABLISHED)
 seg000:4094                 call    int_13h_0_FDD_reset
 seg000:4097                 call    FDD_motor_ON
 seg000:409A                 mov     ch, 2
@@ -9214,15 +9214,15 @@ seg000:419A                 or      byte ptr ds:BDA_3Fh_floppy_motor_status, BDA
 seg000:419F
 seg000:419F read_media_state:                       ; CODE XREF: FDD_prepare_rate_and_density+C↑j
 seg000:419F                 mov     al, [si]
-seg000:41A1                 test    al, BDA_90h_drive_media_state_ESTABLISHED
+seg000:41A1                 test    al, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:41A3                 jnz     short end
 seg000:41A5                 and     byte ptr ds:BDA_8Bh_floppy_cfg_data, not 00001100b ; clear bits 2-3 start data rate
 seg000:41AA                 or      byte ptr ds:BDA_8Bh_floppy_cfg_data, START_RATE_250KBPS_ ; set start data rate
-seg000:41AF                 and     al, not (FLOPPY_STATE_double_stepping or FLOPPY_STATE_RATE_MASK) ; clear double step and rate
+seg000:41AF                 and     al, not (BDA_90h_drive_STATE_double_stepping or BDA_90h_drive_STATE_RATE_MASK) ; clear double step and rate
 seg000:41B1                 mov     ah, al
 seg000:41B3                 or      ah, FLOPPY_RATE_250KBPS
 seg000:41B6                 and     al, 00000110b   ; why 6? that covers both "Est 360/1.2" and "Est 1.2/1.2"
-seg000:41B8                 cmp     al, FLOPPY_STATE_EST_360K_IN_1_2MB
+seg000:41B8                 cmp     al, BDA_90h_drive_STATE_EST_360K_IN_1_2MB
 seg000:41BA                 jz      short set_media_state
 seg000:41BC                 xor     ah, FLOPPY_RATE_250KBPS
 seg000:41BF                 or      ah, FLOPPY_RATE_300KBPS
@@ -9253,7 +9253,7 @@ seg000:41D5                 shr     ah, 4           ; shift in drive_1
 seg000:41D8
 seg000:41D8 set_media_state:                        ; CODE XREF: FDD_get_media_type+D↑j
 seg000:41D8                 and     ah, BDA_8Fh_floppy_info_drive_0_supports_80_tracks_always_valid or BDA_8Fh_floppy_info_drive_0_multi_rate_valid_if_determined or BDA_8Fh_floppy_info_drive_0_determined
-seg000:41DB                 and     al, not (FLOPPY_STATE_OTHER_FORMATS)
+seg000:41DB                 and     al, not (BDA_90h_drive_STATE_OTHER_FORMATS)
 seg000:41DD                 or      al, ah          ; something not right above, mixing media_state and floppy_info?
 seg000:41DF                 mov     [si], al
 seg000:41E1                 jmp     short end
@@ -9267,7 +9267,7 @@ seg000:41EA                 jz      short end
 seg000:41EC                 mov     ah, 1
 seg000:41EE                 cmp     al, CMOS_10h_FDD1_type_360KB_5_25
 seg000:41F0                 jnz     short write_media_state
-seg000:41F2                 mov     ah, FLOPPY_STATE_EST_360K_IN_1_2MB or FLOPPY_STATE_known_media or FLOPPY_STATE_RATE_250KBPS
+seg000:41F2                 mov     ah, BDA_90h_drive_STATE_EST_360K_IN_1_2MB or BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_RATE_250KBPS
 seg000:41F4
 seg000:41F4 write_media_state:                      ; CODE XREF: FDD_get_media_type+2A↑j
 seg000:41F4                 mov     [si], ah
@@ -9308,7 +9308,7 @@ seg000:4222                 mov     ds:BDA_8Fh_floppy_information, al
 seg000:4225
 seg000:4225 dont_update:                            ; CODE XREF: FDD_update_media_type+15↑j
 seg000:4225                 mov     al, ch
-seg000:4227                 and     ax, FLOPPY_STATE_RATE_MASK ; MASK 0 = 500KBPS
+seg000:4227                 and     ax, BDA_90h_drive_STATE_RATE_MASK ; MASK 0 = 500KBPS
 seg000:422A                 rol     al, 3
 seg000:422D                 mov     bx, ax
 seg000:422F                 mov     ah, 7
@@ -9317,7 +9317,7 @@ seg000:4236 ; ------------------------------------------------------------------
 seg000:4236
 seg000:4236 floppy_type_360KB_or_default:           ; CODE XREF: FDD_update_media_type+31↑j
 seg000:4236                                         ; DATA XREF: seg000:41FC↑o
-seg000:4236                 test    ch, FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:4236                 test    ch, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:4239                 jnz     short floppy_type_no_change_or_unknown
 seg000:423B                 mov     ah, 0
 seg000:423D                 jmp     short loc_F4253
@@ -9325,7 +9325,7 @@ seg000:423F ; ------------------------------------------------------------------
 seg000:423F
 seg000:423F floppy_type_720KB_or_high_density:      ; CODE XREF: FDD_update_media_type+31↑j
 seg000:423F                                         ; DATA XREF: seg000:41FA↑o
-seg000:423F                 test    ch, FLOPPY_STATE_double_stepping
+seg000:423F                 test    ch, BDA_90h_drive_STATE_double_stepping
 seg000:4242                 jz      short floppy_type_no_change_or_unknown
 seg000:4244                 mov     ah, CMOS_10h_FDD1_type_360KB_5_25
 seg000:4246                 jmp     short loc_F4253
@@ -9340,12 +9340,12 @@ seg000:424F                 jnz     short floppy_type_no_change_or_unknown
 seg000:4251                 mov     ah, CMOS_10h_FDD1_type_1_2MB_5_25
 seg000:4253
 seg000:4253 loc_F4253:                              ; CODE XREF: FDD_update_media_type+3D↑j FDD_update_media_type+46↑j
-seg000:4253                 test    ch, FLOPPY_STATE_known_media
+seg000:4253                 test    ch, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:4256                 jz      short floppy_type_no_change_or_unknown
 seg000:4258                 add     ah, 3
 seg000:425B
 seg000:425B floppy_type_no_change_or_unknown:       ; CODE XREF: FDD_update_media_type+31↑j FDD_update_media_type+39↑j ...
-seg000:425B                 and     ch, not (FLOPPY_STATE_OTHER_FORMATS)
+seg000:425B                 and     ch, not (BDA_90h_drive_STATE_OTHER_FORMATS)
 seg000:425E                 or      ah, ch
 seg000:4260                 mov     [si], ah
 seg000:4262
@@ -9442,10 +9442,10 @@ seg000:4310                 jb      short end
 seg000:4312                 mov     ch, 30
 seg000:4314                 call    FDD_recalibrate_drive
 seg000:4317                 jb      short end
-seg000:4319                 mov     al, FLOPPY_STATE_TRY_360K_IN_1_2MB
+seg000:4319                 mov     al, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:431B                 cmp     cl, CMOS_10h_FDD1_type_360KB_5_25
 seg000:431E                 jnz     short loc_F4322
-seg000:4320                 mov     al, FLOPPY_STATE_EST_360K_IN_1_2MB or FLOPPY_STATE_known_media or FLOPPY_STATE_RATE_250KBPS
+seg000:4320                 mov     al, BDA_90h_drive_STATE_EST_360K_IN_1_2MB or BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_RATE_250KBPS
 seg000:4322
 seg000:4322 loc_F4322:                              ; CODE XREF: FDD_recalibrate_?+23↑j
 seg000:4322                 mov     [si], al
@@ -9474,11 +9474,11 @@ seg000:433D                 cmp     al, CMOS_10h_FDD1_type_1_44MB_3_5
 seg000:433F                 ja      short error
 seg000:4341                 test    al, al
 seg000:4343                 jz      short error
-seg000:4345                 test    byte ptr [bx], FLOPPY_STATE_known_media
+seg000:4345                 test    byte ptr [bx], BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:4348                 jz      short error
 seg000:434A                 dec     al
 seg000:434C                 shl     al, 2
-seg000:434F                 test    byte ptr [bx], FLOPPY_STATE_RATE_MASK ; MASK 0 = 500KBPS
+seg000:434F                 test    byte ptr [bx], BDA_90h_drive_STATE_RATE_MASK ; MASK 0 = 500KBPS
 seg000:4352                 jnz     short loc_F4356
 seg000:4354                 add     al, 2
 seg000:4356
@@ -9784,7 +9784,7 @@ seg000:4518                 push    cx
 seg000:4519                 push    dx
 seg000:451A                 mov     al, 1           ; scroll one line up
 seg000:451C                 mov     cx, 0           ; start row 0, column 0
-seg000:451F                 mov     dx, 184Fh       ; end   row 24, column 79
+seg000:451F                 mov     dx, Row_24 or Column_79
 seg000:4522                 call    int10h_6_Scroll_Window_up
 seg000:4525                 pop     dx
 seg000:4526                 pop     cx
@@ -11621,7 +11621,7 @@ seg000:4F6C                 push    es
 seg000:4F6D                 call    get_IVT_Video_Table_Offset
 seg000:4F70                 mov     ah, es:[si+Video_timing_table.cursorStart]
 seg000:4F74                 mov     al, es:[si+Video_timing_table.cursorEnd]
-seg000:4F78                 mov     ds:BDA_60h_cursor_mode, ax
+seg000:4F78                 mov     ds:BDA_60h_cursor_ending_scanline, ax
 seg000:4F7B                 call    init_CRTC
 seg000:4F7E                 pop     es
 seg000:4F7F                 call    Vsync_wait_Color
@@ -12030,7 +12030,7 @@ seg000:5296                 mov     bl, bh
 seg000:5298                 mov     bh, 0
 seg000:529A                 shl     bx, 1
 seg000:529C                 mov     dx, [bx+BDA_50h_cursor_pos_page0]
-seg000:52A0                 mov     cx, ds:BDA_60h_cursor_mode
+seg000:52A0                 mov     cx, ds:BDA_60h_cursor_ending_scanline
 seg000:52A4                 pop     bx
 seg000:52A5                 retn
 seg000:52A5 int10h_3_Read_cursor_position endp
@@ -12043,7 +12043,7 @@ seg000:52A6 int10h_1_Set_cursor_type proc near      ; CODE XREF: int_10h_video+6
 seg000:52A6                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:52A6                 push    ax
 seg000:52A7                 push    bx
-seg000:52A8                 mov     ds:BDA_60h_cursor_mode, cx
+seg000:52A8                 mov     ds:BDA_60h_cursor_ending_scanline, cx
 seg000:52AC                 mov     al, IO_Port_3D4h_CRTC_Idx_a_CURSOR_START
 seg000:52AE                 mov     bx, cx
 seg000:52B0                 call    CRTC_write_Word_BX_to_AL
@@ -17946,7 +17946,7 @@ seg000:7436                 push    bx
 seg000:7437                 mov     bx, ax
 seg000:7439                 cmp     bh, KBD_PREFIX_E0_EXTENDED
 seg000:743C                 jnz     short not_Enter_Slash
-seg000:743E                 mov     bh, scancode_Enter
+seg000:743E                 mov     bh, scancode_Enter_Keypad_Enter_E0_1C
 seg000:7440                 cmp     bl, ASCII_LF_Line_Feed
 seg000:7443                 jz      short ok
 seg000:7445                 cmp     bl, ASCII_CR_Enter
@@ -18106,7 +18106,7 @@ seg000:754B
 seg000:754B check_LAST_SCODE_E0:                    ; CODE XREF: int_09h_IRQ1_keyboard+B8↑j
 seg000:754B                 test    byte ptr es:BDA_96h_keyboard_flags_3, BDA_96h_flags_3_LAST_SCODE_E0
 seg000:7551                 jz      short check_LAST_SCODE_E1
-seg000:7553                 and     al, not scancode_Break_MASK ; MASK for key Make/Break
+seg000:7553                 and     al, scancode_key_MASK ; MASK
 seg000:7555                 cmp     al, scancode_Right_Shift
 seg000:7557                 jz      short discard_scancode
 seg000:7559                 cmp     al, scancode_Left_Shift
@@ -18118,8 +18118,8 @@ seg000:7561
 seg000:7561 check_LAST_SCODE_E1:                    ; CODE XREF: int_09h_IRQ1_keyboard+C9↑j
 seg000:7561                 test    byte ptr es:BDA_96h_keyboard_flags_3, BDA_96h_flags_3_LAST_SCODE_E1
 seg000:7567                 jz      short process_regular_key
-seg000:7569                 and     al, not scancode_Break_MASK ; MASK for key Make/Break
-seg000:756B                 cmp     al, scancode_Left_Control
+seg000:7569                 and     al, scancode_key_MASK ; MASK
+seg000:756B                 cmp     al, scancode_Left_Control_Right_Control_E0_1D
 seg000:756D                 jz      short loc_F7548
 seg000:756F                 cmp     al, scancode_Left_Alt
 seg000:7571                 jz      short loc_F7548
@@ -18127,9 +18127,9 @@ seg000:7573                 cmp     al, scancode_Right_Shift
 seg000:7575                 jz      short loc_F7548
 seg000:7577                 cmp     al, scancode_Left_Shift
 seg000:7579                 jz      short loc_F7548
-seg000:757B                 cmp     al, scancode_Pause_E1_1D_45
+seg000:757B                 cmp     al, scancode_NumLock_Pause_E1_1D_45
 seg000:757D                 jnz     short goto_clear_E0_E1_flags
-seg000:757F                 test    ah, scancode_Break_MASK ; MASK for key Make/Break
+seg000:757F                 test    ah, scancode_NULL or scancode_Break_MASK ; MASK
 seg000:7582                 jnz     short goto_clear_E0_E1_flags
 seg000:7584                 test    byte ptr ds:BDA_18h_Keyboard_flags_2, BDA_18h_flags_2_Pause_ACTIVE
 seg000:7589                 jnz     short goto_clear_E0_E1_flags
@@ -18145,13 +18145,13 @@ seg000:7595                 call    Keyboard_Process_Modifiers
 seg000:7598                 pop     dx
 seg000:7599                 mov     ch, al
 seg000:759B                 jb      short goto_clear_E0_E1_flags
-seg000:759D                 test    al, scancode_Break_MASK ; MASK for key Make/Break
+seg000:759D                 test    al, scancode_NULL or scancode_Break_MASK ; MASK
 seg000:759F                 jnz     short goto_clear_E0_E1_flags
 seg000:75A1                 test    byte ptr ds:BDA_18h_Keyboard_flags_2, BDA_18h_flags_2_Pause_ACTIVE
 seg000:75A6                 jz      short check_Alt_pressed
 seg000:75A8                 test    byte ptr ds:BDA_17h_Keyboard_flags_1, BDA_17h_flags_1_Ctrl_DOWN
 seg000:75AD                 jz      short clear_pause_flag
-seg000:75AF                 cmp     al, scancode_Pause_E1_1D_45
+seg000:75AF                 cmp     al, scancode_NumLock_Pause_E1_1D_45
 seg000:75B1                 jz      short goto_clear_E0_E1_flags
 seg000:75B3
 seg000:75B3 clear_pause_flag:                       ; CODE XREF: int_09h_IRQ1_keyboard+125↑j
@@ -18217,7 +18217,7 @@ seg000:761E                 jmp     short translate_scancode
 seg000:7620 ; ---------------------------------------------------------------------------
 seg000:7620
 seg000:7620 check_PrintScreen:                      ; CODE XREF: int_09h_IRQ1_keyboard+191↑j
-seg000:7620                 cmp     al, scancode_PrtSc_E0_37
+seg000:7620                 cmp     al, scancode_Keypad_Asterisk_PrtSc
 seg000:7622                 jnz     short translate_scancode
 seg000:7624                 test    byte ptr es:BDA_96h_keyboard_flags_3, BDA_96h_flags_3_101_102_Keyboard
 seg000:762A                 jnz     short translate_scancode
@@ -18234,7 +18234,7 @@ seg000:763D                 jmp     short end_almost
 seg000:763F ; ---------------------------------------------------------------------------
 seg000:763F
 seg000:763F check_PrintScreen2:                     ; CODE XREF: int_09h_IRQ1_keyboard+162↑j
-seg000:763F                 cmp     al, scancode_PrtSc_E0_37
+seg000:763F                 cmp     al, scancode_Keypad_Asterisk_PrtSc
 seg000:7641                 jz      short handle_PrintScreen
 seg000:7643                 mov     bx, offset scancode_2_ASCII_Kbd_Map
 seg000:7646
@@ -18355,7 +18355,7 @@ seg000:76DA                 push    bx
 seg000:76DB                 push    cx
 seg000:76DC                 push    dx
 seg000:76DD                 mov     ch, al
-seg000:76DF                 and     al, not scancode_Break_MASK ; MASK for key Make/Break
+seg000:76DF                 and     al, scancode_key_MASK ; MASK
 seg000:76E1                 cmp     al, scancode_F12
 seg000:76E3                 jbe     short check_Modifier_Attributes
 seg000:76E5                 cmp     ch, 0FFh
@@ -18420,7 +18420,7 @@ seg000:7756                 test    ah, Kbd_Key_Attr_b5_Insert
 seg000:7759                 jnz     short end_jump
 seg000:775B
 seg000:775B loc_F775B:                              ; CODE XREF: Keyboard_Process_Modifiers+72↑j Keyboard_Process_Modifiers+7A↑j
-seg000:775B                 cmp     al, scancode_Right_Alt_Break_E0_B8
+seg000:775B                 cmp     al, scancode_Left_Alt or scancode_Break_MASK
 seg000:775D                 jnz     short loc_F7775
 seg000:775F                 cmp     byte ptr ds:BDA_19h_Alt_Numpad_work_area, 0
 seg000:7764                 jz      short loc_F7775
@@ -18436,12 +18436,12 @@ seg000:7775                 test    byte ptr ds:BDA_17h_Keyboard_flags_1, BDA_17
 seg000:777A                 jz      short scancode_2_ASCII
 seg000:777C                 cmp     al, scancode_Keypad_0_Insert
 seg000:777E                 jz      short end_jump2
-seg000:7780                 cmp     al, scancode_ScrollLock
+seg000:7780                 cmp     al, scancode_ScrollLock_Ctrl_Break_E0_46
 seg000:7782                 jz      short end_jump2
 seg000:7784
 seg000:7784 scancode_2_ASCII:                       ; CODE XREF: Keyboard_Process_Modifiers+A0↑j
 seg000:7784                 mov     bx, offset scancode_2_ASCII_Kbd_Map
-seg000:7787                 and     al, not scancode_Break_MASK ; MASK for key Make/Break
+seg000:7787                 and     al, scancode_key_MASK ; MASK
 seg000:7789                 xlat    byte ptr cs:[bx]
 seg000:778B                 mov     bx, 18h
 seg000:778E                 test    ah, Kbd_Key_Attr_b3_Flag_Update
@@ -18465,7 +18465,7 @@ seg000:77B4                 jnz     short update_flags_3
 seg000:77B6                 mov     cl, 2
 seg000:77B8                 shr     al, cl
 seg000:77BA                 or      ds:BDA_18h_Keyboard_flags_2, al
-seg000:77BE                 test    ch, scancode_Break_MASK ; MASK for key Make/Break
+seg000:77BE                 test    ch, scancode_NULL or scancode_Break_MASK ; MASK
 seg000:77C1                 jz      short set_Make_scancode
 seg000:77C3                 not     al
 seg000:77C5                 and     ds:BDA_18h_Keyboard_flags_2, al
@@ -18474,7 +18474,7 @@ seg000:77CB ; ------------------------------------------------------------------
 seg000:77CB
 seg000:77CB update_flags_3:                         ; CODE XREF: Keyboard_Process_Modifiers+DA↑j
 seg000:77CB                 or      es:BDA_96h_keyboard_flags_3, al
-seg000:77D0                 test    ch, scancode_Break_MASK ; MASK for key Make/Break
+seg000:77D0                 test    ch, scancode_NULL or scancode_Break_MASK ; MASK
 seg000:77D3                 jz      short set_Make_scancode
 seg000:77D5                 not     al
 seg000:77D7                 and     es:BDA_96h_keyboard_flags_3, al
@@ -18520,7 +18520,7 @@ seg000:782C                 jmp     short error_exit
 seg000:782E ; ---------------------------------------------------------------------------
 seg000:782E
 seg000:782E update_flags_1_Make_Break_XOR:          ; CODE XREF: Keyboard_Process_Modifiers+134↑j
-seg000:782E                 test    ch, scancode_Break_MASK ; MASK for key Make/Break
+seg000:782E                 test    ch, scancode_NULL or scancode_Break_MASK ; MASK
 seg000:7831                 jnz     short error_exit
 seg000:7833                 xor     ds:BDA_17h_Keyboard_flags_1, al
 seg000:7837                 mov     al, True_bool_
@@ -18582,7 +18582,7 @@ seg000:7886                 jnz     short loc_F789D
 seg000:7888                 mov     byte ptr cs:26Ch, Zenith_cs26Ch_Monitor_on_reboot
 seg000:788E
 seg000:788E soft_reset_WARM_BOOT:                   ; CODE XREF: Keyboard_Alt_DOWN_handler+24↑j
-seg000:788E                 mov     ax, 40h
+seg000:788E                 mov     ax, BDA_Offset
 seg000:7891                 mov     ds, ax
 seg000:7893                 assume ds:nothing
 seg000:7893                 mov     word ptr ds:BDA_72h_soft_reset_flag, soft_reset_WARM_BOOT
@@ -18612,7 +18612,7 @@ seg000:78B7                 jmp     end
 seg000:78BA ; ---------------------------------------------------------------------------
 seg000:78BA
 seg000:78BA loc_F78BA:                              ; CODE XREF: Keyboard_Alt_DOWN_handler+4B↑j
-seg000:78BA                 cmp     al, scancode_Enter
+seg000:78BA                 cmp     al, scancode_Enter_Keypad_Enter_E0_1C
 seg000:78BC                 jnz     short loc_F78D5
 seg000:78BE                 mov     ah, 0
 seg000:78C0                 cmp     byte ptr cs:508h, 0FEh
@@ -18625,7 +18625,7 @@ seg000:78D3                 jmp     short end_almost
 seg000:78D5 ; ---------------------------------------------------------------------------
 seg000:78D5
 seg000:78D5 loc_F78D5:                              ; CODE XREF: Keyboard_Alt_DOWN_handler+7↑j Keyboard_Alt_DOWN_handler+5E↑j
-seg000:78D5                 cmp     al, scancode_ScrollLock
+seg000:78D5                 cmp     al, scancode_ScrollLock_Ctrl_Break_E0_46
 seg000:78D7                 jnz     short loc_F78DF
 seg000:78D9                 call    BDA_Keyboard_buffer_init
 seg000:78DC                 jmp     short end
@@ -18635,7 +18635,7 @@ seg000:78DF
 seg000:78DF loc_F78DF:                              ; CODE XREF: Keyboard_Alt_DOWN_handler+79↑j
 seg000:78DF                 cmp     al, scancode_Slash
 seg000:78E1                 jz      short loc_F78E7
-seg000:78E3                 cmp     al, scancode_Home
+seg000:78E3                 cmp     al, scancode_Keypad_7_Home
 seg000:78E5                 jb      short loc_F78F2
 seg000:78E7
 seg000:78E7 loc_F78E7:                              ; CODE XREF: Keyboard_Alt_DOWN_handler+83↑j
@@ -18652,7 +18652,7 @@ seg000:78F2
 seg000:78F2 loc_F78F2:                              ; CODE XREF: Keyboard_Alt_DOWN_handler+87↑j Keyboard_Alt_DOWN_handler:loc_F78E7↑j
 seg000:78F2                 test    byte ptr es:BDA_96h_keyboard_flags_3, BDA_96h_flags_3_LAST_SCODE_E0
 seg000:78F8                 jz      short loc_F7914
-seg000:78FA                 cmp     al, scancode_Enter
+seg000:78FA                 cmp     al, scancode_Enter_Keypad_Enter_E0_1C
 seg000:78FC                 jnz     short loc_F7907
 seg000:78FE                 mov     ah, 0A6h
 seg000:7900                 mov     al, ASCII_NULL
@@ -18670,7 +18670,7 @@ seg000:7912                 jmp     short end
 seg000:7914 ; ---------------------------------------------------------------------------
 seg000:7914
 seg000:7914 loc_F7914:                              ; CODE XREF: Keyboard_Alt_DOWN_handler+9A↑j
-seg000:7914                 cmp     al, scancode_Del
+seg000:7914                 cmp     al, scancode_Keypad_period_Del_Del_E0_53
 seg000:7916                 jz      short end
 seg000:7918                 test    ah, 1
 seg000:791B                 jz      short loc_F7934
@@ -18704,7 +18704,7 @@ seg000:793D Keyboard_Ctrl_DOWN_handler proc near    ; CODE XREF: int_09h_IRQ1_ke
 seg000:793D                 push    bx
 seg000:793E                 test    byte ptr es:BDA_96h_keyboard_flags_3, BDA_96h_flags_3_101_102_Keyboard
 seg000:7944                 jnz     short loc_F794F
-seg000:7946                 cmp     al, scancode_Pause_E1_1D_45
+seg000:7946                 cmp     al, scancode_NumLock_Pause_E1_1D_45
 seg000:7948                 jnz     short loc_F7964
 seg000:794A                 call    keyboard_Pause_activate
 seg000:794D                 jmp     short end
@@ -18722,7 +18722,7 @@ seg000:7962                 jmp     short end
 seg000:7964 ; ---------------------------------------------------------------------------
 seg000:7964
 seg000:7964 loc_F7964:                              ; CODE XREF: Keyboard_Ctrl_DOWN_handler+B↑j Keyboard_Ctrl_DOWN_handler+1C↑j
-seg000:7964                 cmp     al, scancode_ScrollLock
+seg000:7964                 cmp     al, scancode_ScrollLock_Ctrl_Break_E0_46
 seg000:7966                 jnz     short loc_F797F
 seg000:7968                 call    BDA_Keyboard_buffer_init
 seg000:796B                 mov     ah, IO_Port_64h_KBC_CMD_AE_ENABLE_KBD
@@ -18735,7 +18735,7 @@ seg000:797D                 jmp     short end
 seg000:797F ; ---------------------------------------------------------------------------
 seg000:797F
 seg000:797F loc_F797F:                              ; CODE XREF: Keyboard_Ctrl_DOWN_handler+29↑j
-seg000:797F                 cmp     al, scancode_PrtSc_E0_37
+seg000:797F                 cmp     al, scancode_Keypad_Asterisk_PrtSc
 seg000:7981                 jnz     short loc_F798C
 seg000:7983                 mov     ah, 72h
 seg000:7985                 mov     al, ASCII_NULL
@@ -20865,7 +20865,7 @@ seg000:8951                 jnz     short loc_F8969
 seg000:8953                 mov     byte ptr cs:26Ch, Zenith_cs26Ch_Monitor_on_reboot
 seg000:8959
 seg000:8959 loc_F8959:                              ; CODE XREF: test_4_ram_ext+37↑j
-seg000:8959                 mov     ax, 40h
+seg000:8959                 mov     ax, BDA_Offset
 seg000:895C                 mov     ds, ax
 seg000:895E                 assume ds:nothing
 seg000:895E                 mov     word ptr ds:BDA_72h_soft_reset_flag, soft_reset_WARM_BOOT
@@ -22969,7 +22969,7 @@ seg000:96AF loc_F96AF:                              ; DATA XREF: reg_333_PIC_slo
 seg000:96AF                 call    sub_F96E5
 seg000:96B2                 jb      short end
 seg000:96B4                 push    ds
-seg000:96B5                 mov     dx, 40h
+seg000:96B5                 mov     dx, BDA_Offset
 seg000:96B8                 mov     ds, dx
 seg000:96BA                 assume ds:nothing
 seg000:96BA                 cmp     word ptr ds:BDA_72h_soft_reset_flag, soft_reset_WARM_BOOT
@@ -23352,7 +23352,7 @@ seg000:9948                 jz      short end
 seg000:994A                 or      word ptr cs:50Eh, 8
 seg000:9950                 mov     al, IVT_DISK_IO
 seg000:9952                 call    IVT_lookup_al_dssi
-seg000:9955                 mov     al, IVT_HDD
+seg000:9955                 mov     al, IVT_VIDEO_off
 seg000:9957                 call    IVT_set_al_dssi
 seg000:995A                 push    cs
 seg000:995B                 pop     ds
@@ -23657,7 +23657,7 @@ seg000:9B7A                 cmp     ah, int13h_8_Get_current_drive_parameters
 seg000:9B7D                 jz      short loc_F9B93
 seg000:9B7F                 cmp     ah, int13h_10_Test_for_drive_ready
 seg000:9B82                 jz      short loc_F9B93
-seg000:9B84                 cmp     ah, int13h_15_Read_disk_type
+seg000:9B84                 cmp     ah, int13h_15_Read_DASD_type
 seg000:9B87                 jz      short loc_F9B93
 seg000:9B89                 cmp     ah, 1Eh
 seg000:9B8C                 jz      short loc_F9B93
@@ -27253,7 +27253,7 @@ seg000:B53B keys_pass_enter_LUT:                    ; DATA XREF: password_entry+
 seg000:B53B                 ASCII_ScanCode_pair <ASCII_BackSpace, scancode_NULL>; 0
 seg000:B53D                 ASCII_ScanCode_pair <ASCII_CR_Enter, scancode_NULL>; 1
 seg000:B53F                 ASCII_ScanCode_pair <ASCII_ESC, scancode_NULL>; 2
-seg000:B541                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Left_Arrow>; 3
+seg000:B541                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_4_Left_Arrow>; 3
 seg000:B543 jumptable_pass_enter_LUT:               ; DATA XREF: password_entry:jump_table_match↑r
 seg000:B543                 dw offset delete_char   ; 0
 seg000:B545                 dw offset cursor_hide_confirm
@@ -28184,10 +28184,10 @@ seg000:BAE5 key_set_pass:                           ; DATA XREF: password_Contro
 seg000:BAE5                 ASCII_ScanCode_pair <ASCII_Tab, scancode_NULL>; 0
 seg000:BAE7                 ASCII_ScanCode_pair <ASCII_CR_Enter, scancode_NULL>; 1
 seg000:BAE9                 ASCII_ScanCode_pair <ASCII_ESC, scancode_NULL>; 2
-seg000:BAEB                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Up_Arrow>; 3
-seg000:BAED                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Left_Arrow>; 4
-seg000:BAEF                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Right_Arrow>; 5
-seg000:BAF1                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Down_Arrow>; 6
+seg000:BAEB                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_8_Up_Arrow>; 3
+seg000:BAED                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_4_Left_Arrow>; 4
+seg000:BAEF                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_6_Right_Arrow>; 5
+seg000:BAF1                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_2_Down_Arrow>; 6
 seg000:BAF3 function_set_pass:                      ; DATA XREF: password_Control_select:jump_jumptable↑r
 seg000:BAF3                 dw offset pressed_Tab_Esc_or_Direction; 0
 seg000:BAF5                 dw offset pressed_Enter ; 1
@@ -29904,10 +29904,10 @@ seg000:C8D8                 ASCII_ScanCode_pair <ASCII_6, scancode_NULL>; 11
 seg000:C8DA                 ASCII_ScanCode_pair <ASCII_7, scancode_NULL>; 12
 seg000:C8DC                 ASCII_ScanCode_pair <ASCII_8, scancode_NULL>; 13
 seg000:C8DE                 ASCII_ScanCode_pair <ASCII_9, scancode_NULL>; 14
-seg000:C8E0                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Up_Arrow>; 15
-seg000:C8E2                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Left_Arrow>; 16
-seg000:C8E4                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Right_Arrow>; 17
-seg000:C8E6                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Down_Arrow>; 18
+seg000:C8E0                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_8_Up_Arrow>; 15
+seg000:C8E2                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_4_Left_Arrow>; 16
+seg000:C8E4                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_6_Right_Arrow>; 17
+seg000:C8E6                 ASCII_ScanCode_pair <ASCII_NULL, scancode_Keypad_2_Down_Arrow>; 18
 seg000:C8E8 key_handlers:                           ; DATA XREF: ZBIOS_main:invoke_key_handler↑r
 seg000:C8E8                 dw offset handle_BACKSPACE; 0
 seg000:C8EA                 dw offset handle_TAB_CR ; 1
@@ -30268,7 +30268,7 @@ seg000:CB54 video_init_text_mode proc near          ; CODE XREF: ZBIOS_main:init
 seg000:CB54                 push    si
 seg000:CB55                 mov     si, 0B800h
 seg000:CB58                 push    ds
-seg000:CB59                 mov     ax, 40h
+seg000:CB59                 mov     ax, BDA_Offset
 seg000:CB5C                 mov     ds, ax
 seg000:CB5E                 assume ds:nothing
 seg000:CB5E                 mov     ax, ds:BDA_10h_equipment_list
@@ -31357,7 +31357,7 @@ seg000:D242                 push    es
 seg000:D243                 mov     ax, ds:3Ah
 seg000:D246                 mov     es, ax
 seg000:D248                 assume es:nothing
-seg000:D248                 mov     ah, 7           ; Black (0) background and Light Gray (7) text
+seg000:D248                 mov     ah, No_Blink or Bg_Black or Fg_Light_Gray
 seg000:D24A                 cld
 seg000:D24B
 seg000:D24B print_loop:                             ; CODE XREF: print_string_to_vram+30↓j
@@ -31407,8 +31407,7 @@ seg000:D278                 mov     si, [bp+string_offset]
 seg000:D27B                 push    es
 seg000:D27C                 mov     ax, ds:3Ah
 seg000:D27F                 mov     es, ax
-seg000:D281                 mov     ah, 70h         ; Inverse text attriubute
-seg000:D281                                         ; Light Gray (7) background and Black (0) text
+seg000:D281                 mov     ah, No_Blink or Bg_Light_Gray or Fg_Black
 seg000:D283                 cld
 seg000:D284
 seg000:D284 print_loop:                             ; CODE XREF: print_string_to_vram_inverted+30↓j
@@ -31457,7 +31456,7 @@ seg000:D2AD                 mov     di, [bp+XY_offset]
 seg000:D2B0                 push    es
 seg000:D2B1                 mov     ax, ds:3Ah
 seg000:D2B4                 mov     es, ax
-seg000:D2B6                 mov     ah, 7           ; Light Gray on Black
+seg000:D2B6                 mov     ah, No_Blink or Bg_Black or Fg_Light_Gray
 seg000:D2B8                 mov     al, [bp+Char]
 seg000:D2BB                 mov     cx, [bp+Length]
 seg000:D2BE                 cld
@@ -32009,7 +32008,7 @@ seg000:DDBA                 mov     dx, IO_Port_3D8h_CRTC_Mode_Control
 seg000:DDBD                 mov     al, IO_Port_3D8h_Mode_TEXT_80x25 or IO_Port_3D8h_Mode_VIDEO_ENABLE or IO_Port_3D8h_Mode_BLINK_ENABLE ; bit0 0 = 40x25
 seg000:DDBF                 out     dx, al
 seg000:DDC0                 mov     dx, IO_Port_3D9h_CGA_Color_Control
-seg000:DDC3                 mov     al, IO_Port_3D9h_ALT_INTENSITY_CLR or IO_Port_3D9h_PALETTE_SELECT ; bit5 0 = Green/Red/Brown, 1 = Cyan/Magenta/White
+seg000:DDC3                 mov     al, IO_Port_3D9h_Graphic_Intensity_or_Text_BGcolor or IO_Port_3D9h_PALETTE_SELECT ; bit5 0 = Green/Red/Brown, 1 = Cyan/Magenta/White
 seg000:DDC5                 out     dx, al
 seg000:DDC6                 mov     si, offset CGA_80x25
 seg000:DDC9                 mov     cx, size Video_timing_table
@@ -32054,7 +32053,7 @@ seg000:DE10                 out     IO_Port_80h_POST_Code, al
 seg000:DE12                 out     0FBh, al        ; AT 80287 data.
 seg000:DE12                                         ; 286 sends opcodes & operands and receives results.
 seg000:DE14                 in      al, 0EEh
-seg000:DE16                 mov     ax, 40h
+seg000:DE16                 mov     ax, BDA_Offset
 seg000:DE19                 mov     ds, ax
 seg000:DE1B                 assume ds:nothing
 seg000:DE1B                 mov     word ptr ds:BDA_72h_soft_reset_flag, soft_reset_Zenith_0
@@ -32168,7 +32167,7 @@ seg000:DEEB
 seg000:DEEB KBC_setup:                              ; CODE XREF: Boot_start+175↑j
 seg000:DEEB                 mov     al, POSTCODE_0B_Zenith_KBC_setup
 seg000:DEED                 out     IO_Port_80h_POST_Code, al
-seg000:DEEF                 mov     al, 59h
+seg000:DEEF                 mov     al, KBC_CFG_KEYBOARD_INT_ENABLE or KBC_CFG_INHIBIT_OVERRIDE or KBC_CFG_KEYBOARD_DISABLE or KBC_CFG_TRANSLATE_Set2_to_Set1 ; Bit3 1=Ignore Keyboard Lock Switch
 seg000:DEF1                 call    KBC_test_CMD60_write_config
 seg000:DEF4                 jnb     short KBC_ok
 seg000:DEF6                 mov     si, offset aSystemControlP ; "System Control Processor failure! +++"
@@ -32253,7 +32252,7 @@ seg000:DF60 ; ------------------------------------------------------------------
 seg000:DF60
 seg000:DF60 siren_continous:                        ; CODE XREF: Fatal_Error_Slushware_Ram+3A↑j Fatal_Error_Slushware_Ram+85↓j
 seg000:DF60                                         ; DATA XREF: ...
-seg000:DF60                 mov     al, 40h ; '@'
+seg000:DF60                 mov     al, 40h
 seg000:DF62                 out     0F2h, al
 seg000:DF64                 mov     cx, 166
 seg000:DF67                 mov     bx, 680h

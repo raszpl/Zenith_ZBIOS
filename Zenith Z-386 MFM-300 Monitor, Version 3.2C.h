@@ -602,9 +602,13 @@ enum IVT_Vectors : unsigned __int16
   IVT_OVERFLOW = 0x4,
   IVT_PRINT_SCREEN = 0x5,
   IVT_TIMER = 0x8,
+  IVT_TIMER_off = 0x20,
+  IVT_TIMER_seg = 0x22,
   IVT_KEYBOARD = 0x9,
   IVT_FDC = 0xE,
   IVT_VIDEO = 0x10,
+  IVT_VIDEO_off = 0x40,
+  IVT_VIDEO_seg = 0x42,
   IVT_EQUIPMENT_CHECK = 0x11,
   IVT_MEMORY_SIZE = 0x12,
   IVT_DISK_IO = 0x13,
@@ -619,14 +623,23 @@ enum IVT_Vectors : unsigned __int16
   IVT_TIME = 0x1A,
   IVT_CTRL_BREAK = 0x1B,
   IVT_TIMER_TICK = 0x1C,
+  IVT_TIMER_TICK_off = 0x70,
+  IVT_TIMER_TICK_seg = 0x72,
   IVT_Video_Initialization_Table = 0x1D,
+  IVT_Video_Initialization_Table_off = 0x74,
   IVT_Diskette_Parameter_Table = 0x1E,
+  IVT_Diskette_Parameter_Table_off = 0x78,
   IVT_VIDEO_CHARS_TABLE = 0x1F,
+  IVT_VIDEO_CHARS_TABLE_off = 0x7C,
   IVT_HDD = 0x40,
   IVT_HDD_off = 0x100,
   IVT_HDD_seg = 0x102,
   IVT_Disk_Parameter_Table1 = 0x41,
+  IVT_Disk_Parameter_Table1_off = 0x104,
+  IVT_Disk_Parameter_Table1_seg = 0x106,
   IVT_Disk_Parameter_Table2 = 0x46,
+  IVT_Disk_Parameter_Table2_off = 0x118,
+  IVT_Disk_Parameter_Table2_seg = 0x11A,
   IVT_IRQ14 = 0x76,
   IVT_IRQ14_off = 0x1D8,
   IVT_IRQ14_seg = 0x1DA,
@@ -647,6 +660,7 @@ enum BDA_indexes : unsigned __int8
   BDA_12h_interrupt_flag = 0x12,
   BDA_13h_memory_size_kb = 0x13,
   BDA_15h_debug = 0x15,
+  BDA_16h_BIOS_control_flags = 0x16,
   BDA_17h_Keyboard_flags_1 = 0x17,
   BDA_18h_Keyboard_flags_2 = 0x18,
   BDA_19h_Alt_Numpad_work_area = 0x19,
@@ -684,7 +698,8 @@ enum BDA_indexes : unsigned __int8
   BDA_5Ah_cursor_pos_page5 = 0x5A,
   BDA_5Ch_cursor_pos_page6 = 0x5C,
   BDA_5Eh_cursor_pos_page7 = 0x5E,
-  BDA_60h_cursor_mode = 0x60,
+  BDA_60h_cursor_ending_scanline = 0x60,
+  BDA_61h_cursor_starting_scanline = 0x61,
   BDA_62h_video_active_page = 0x62,
   BDA_63h_CRTC_6845_base_address = 0x63,
   BDA_65h_CRTC_Mode_Control = 0x65,
@@ -739,14 +754,7 @@ enum BDA_indexes : unsigned __int8
   BDA_A8h_video_param_ctrl_block_Offset = 0xA8,
   BDA_AAh_video_param_ctrl_block_Segment = 0xAA,
   BDA_BFh_custom_semaphore = 0xBF,
-};
-
-/* 59 */
-enum __bitmask __bin __lzero BDA_90h_drive0_media_state_flags : unsigned __int8
-{
-  BDA_90h_drive_media_state_BIT3_RESERVED = 0b00001000,
-  BDA_90h_drive_media_state_ESTABLISHED = 0b00010000,
-  BDA_90h_drive_media_state_DOUBLE_STEP = 0b00100000,
+  BDA_Offset = 0x40,
 };
 
 /* 60 */
@@ -836,7 +844,7 @@ enum int13h_services : unsigned __int16
   int13h_13_Drive_diagnostic = 0x13,
   int13h_14_Controller_internal_diagnostic = 0x14,
   int13h_1400_Controller_internal_diagnostic = 0x1400,
-  int13h_15_Read_disk_type = 0x15,
+  int13h_15_Read_DASD_type = 0x15,
   int13h_16_Disk_change_line_status = 0x16,
   int13h_17_Set_dasd_type_for_format = 0x17,
   int13h_18_Set_media_type_for_format = 0x18,
@@ -855,20 +863,20 @@ enum int13h_services : unsigned __int16
 /* 120 */
 enum __bitmask __bin __lzero BDA_90h_drive0_media_state : unsigned __int8
 {
-  FLOPPY_STATE_MASK = 0x07,             ///< MASK 0 = TRY_360K_IN_360K
-  FLOPPY_STATE_TRY_360K_IN_1_2MB = 0b00000001,
-  FLOPPY_STATE_TRY_1_2MB_IN_1_2MB = 0b00000010,
-  FLOPPY_STATE_EST_360K_IN_360K = 0b00000011,
-  FLOPPY_STATE_EST_360K_IN_1_2MB = 0b00000100,
-  FLOPPY_STATE_EST_1_2MB_IN_1_2MB = 0b00000101,
-  FLOPPY_STATE_RESERVED = 0b00000110,
-  FLOPPY_STATE_OTHER_FORMATS = 0b00000111,
-  FLOPPY_STATE_BIT3_RESERVED = 0b00001000,
-  FLOPPY_STATE_known_media = 0b00010000,
-  FLOPPY_STATE_double_stepping = 0b00100000,
-  FLOPPY_STATE_RATE_MASK = 0xC0,        ///< MASK 0 = 500KBPS
-  FLOPPY_STATE_RATE_300KBPS = 0b01000000,
-  FLOPPY_STATE_RATE_250KBPS = 0b10000000,
+  BDA_90h_drive_STATE_MASK = 0x07,      ///< MASK 0 = TRY_360K_IN_360K
+  BDA_90h_drive_STATE_TRY_360K_IN_1_2MB = 0b00000001,
+  BDA_90h_drive_STATE_TRY_1_2MB_IN_1_2MB = 0b00000010,
+  BDA_90h_drive_STATE_EST_360K_IN_360K = 0b00000011,
+  BDA_90h_drive_STATE_EST_360K_IN_1_2MB = 0b00000100,
+  BDA_90h_drive_STATE_EST_1_2MB_IN_1_2MB = 0b00000101,
+  BDA_90h_drive_STATE_RESERVED = 0b00000110,
+  BDA_90h_drive_STATE_OTHER_FORMATS = 0b00000111,
+  BDA_90h_drive_STATE_BIT3_RESERVED = 0b00001000,
+  BDA_90h_drive_STATE_media_ESTABLISHED = 0b00010000,
+  BDA_90h_drive_STATE_double_stepping = 0b00100000,
+  BDA_90h_drive_STATE_RATE_MASK = 0xC0, ///< MASK 0 = 500KBPS
+  BDA_90h_drive_STATE_RATE_300KBPS = 0b01000000,
+  BDA_90h_drive_STATE_RATE_250KBPS = 0b10000000,
 };
 
 /* 65 */
@@ -1035,7 +1043,7 @@ enum BDA_74h_HDD_last_op_status : unsigned __int8
   BDA_74h_status_4_SECTOR_NOT_FND = 0x4,
   BDA_74h_status_5_RESET_FAILED = 0x5,
   BDA_74h_status_6_Disk_changed_removed = 0x6,
-  BDA_74h_status_7_Paameter_Table_ERR = 0x7,
+  BDA_74h_status_7_Parameter_Table_ERR = 0x7,
   BDA_74h_status_8_DMA_OVERRUN = 0x8,
   BDA_74h_status_9_DMA_64K_Boundary_ERR = 0x9,
   BDA_74h_status_A_BAD_SECTOR_FLAG = 0xA,
@@ -1114,12 +1122,16 @@ enum int10h_services : unsigned __int8
   int10h_7_Scroll_active_page_down = 0x7,
   int10h_8_Read_character_and_attribute_at_cursor = 0x8,
   int10h_9_Write_character_and_attribute_at_cursor = 0x9,
+  int10h_0920_Write_SPACE_and_attribute_at_cursor = 0x20,
   int10h_A_Write_character_at_current_cursor = 0xA,
   int10h_B_Set_color_palette = 0xB,
   int10h_C_Write_graphics_pixel_at_coordinate = 0xC,
   int10h_D_Read_graphics_pixel_at_coordinate = 0xD,
   int10h_E_Write_text_in_teletype_mode = 0xE,
+  int10h_0E07_Ring_BELL_teletype = 0x7,
   int10h_0E0A_Write_LineFeed_in_teletype_mode = 0xA,
+  int10h_0E0D_Write_Carriage_Return_in_teletype_mode = 0xD,
+  int10h_0E78_Write_x_in_teletype_mode = 0x78,
   int10h_F_Get_current_video_state = 0xF,
   int10h_10_Set_palette_registers = 0x10,
   int10h_11_Character_generator_routine = 0x11,
@@ -1200,10 +1212,19 @@ enum __bitmask IO_Port_70h_CMOS_Index : unsigned __int8
   CMOS_32h_Century_Byte = 0x32,
   CMOS_33h_Information_Flags = 0x33,
   CMOS_34h_Zenith_ram_total_256KB_Units = 0x34,
+  CMOS_34h = 0x34,
   CMOS_35h_Zenith_Password_enabled = 0x35,
+  CMOS_35h = 0x35,
+  CMOS_36h_ram_Relocate = 0x36,
+  CMOS_37h = 0x37,
+  CMOS_38h = 0x38,
+  CMOS_39h = 0x39,
+  CMOS_3Ah = 0x3A,
+  CMOS_3Bh = 0x3B,
   CMOS_3Ch = 0x3C,
   CMOS_3Dh = 0x3D,
   CMOS_3Eh = 0x3E,
+  CMOS_3Fh = 0x3F,
   CMOS_NMI_flag = 0x80,
 };
 
@@ -1230,11 +1251,12 @@ enum __bitmask __bin __lzero CMOS_14h_Equipment_Byte : unsigned __int8
   CMOS_14h_Equip_DISPLAY_TYPE_MASK = 0x30, ///< MASK 00 = VGA, 11 = MDA
   CMOS_14h_Equip_DISPLAY_40x25 = 0b00010000,
   CMOS_14h_Equip_DISPLAY_80x25 = 0b00100000,
-  CMOS_14h_Equip_FLOPPY_COUNT_MASK = 0b11000000, ///< MASK
+  CMOS_14h_Equip_FLOPPY_COUNT_MASK = 0xC0, ///< MASK
+  CMOS_14h_Equip_FLOPPY_COUNT_2 = 0b01000000,
 };
 
 /* 92 */
-enum IO_Port_72h_FE3001_Command_Index : unsigned __int8
+enum IO_Port_72h_FE3031_Command_Index : unsigned __int8
 {
   FE3031_0_BALE_delay = 0x0,
   FE3031_1_BALE_width = 0x4,
@@ -1251,7 +1273,7 @@ enum IO_Port_72h_FE3001_Command_Index : unsigned __int8
 };
 
 /* 93 */
-enum IO_Port_73h_FE3001_Command_Data : unsigned __int8
+enum IO_Port_73h_FE3031_Command_Data : unsigned __int8
 {
   FE3031_DATA_0h = 0x0,
   FE3031_DATA_1h = 0x4,
@@ -1273,19 +1295,19 @@ enum IO_Port_73h_FE3001_Command_Data : unsigned __int8
 
 /* 95 */
 #pragma pack(push, 1)
-struct FE3001_reg_pair
+struct FE3031_reg_pair
 {
-  IO_Port_72h_FE3001_Command_Index index;
-  IO_Port_73h_FE3001_Command_Data data;
+  IO_Port_72h_FE3031_Command_Index index;
+  IO_Port_73h_FE3031_Command_Data data;
 };
 #pragma pack(pop)
 
 /* 94 */
 #pragma pack(push, 1)
-struct FE3001_init
+struct FE3031_init
 {
   unsigned __int16 len;
-  FE3001_reg_pair byte[];
+  FE3031_reg_pair byte[];
 };
 #pragma pack(pop)
 
@@ -1545,20 +1567,20 @@ enum __bitmask __bin __lzero BDA_7Bh_parallel_port4_timeout_vds : unsigned __int
   BDA_7Bh_VDS_SUPPORTED = 0b00100000,
 };
 
-/* 119 */
-enum __bitmask __bin __lzero BDA_93h_drive1_starting_state : unsigned __int8
+/* 118 */
+enum __bitmask __bin __lzero BDA_92h_drive0_starting_state : unsigned __int8
 {
-  BDA_93h_DRIVE_CHANGE_line_detection = 0b00000001,
-  BDA_93h_DRIVE_MULTIRATE = 0b00000010,
-  BDA_93h_DRIVE_DETERMINED = 0b00000100,
-  BDA_93h_DRIVE_RATE_MASK = 0xC0,       ///< MASK 11 1MBPS
-  BDA_93h_DRIVE_RATE_500KBPS = 0b00000000,
-  BDA_93h_DRIVE_RATE_300KBPS = 0b01000000,
-  BDA_93h_DRIVE_RATE_250KBPS = 0b10000000,
+  BDA_92h_DRIVE_CHANGE_line_detection = 0b00000001,
+  BDA_92h_DRIVE_MULTIRATE = 0b00000010,
+  BDA_92h_DRIVE_DETERMINED = 0b00000100,
+  BDA_92h_DRIVE_RATE_MASK = 0xC0,       ///< MASK 11 1MBPS
+  BDA_92h_DRIVE_RATE_500KBPS = 0b00000000,
+  BDA_92h_DRIVE_RATE_300KBPS = 0b01000000,
+  BDA_92h_DRIVE_RATE_250KBPS = 0b10000000,
 };
 
-/* 118 */
-typedef BDA_93h_drive1_starting_state BDA_92h_drive0_starting_state;
+/* 119 */
+typedef BDA_92h_drive0_starting_state BDA_93h_drive1_starting_state;
 
 /* 121 */
 enum __bitmask __bin __lzero BDA_96h_keyboard_flags_3 : unsigned __int8
@@ -1835,6 +1857,7 @@ enum ASCII : unsigned __int8
   ASCII_9 = 0x39,
   ASCII_DEL_Delete = 0x7F,
   ASCII_7Bit_MASK = 0x7F,
+  ASCII_Uppercase_MASK = 0xDF,
 };
 
 /* 136 */
@@ -1956,6 +1979,7 @@ enum KEYBOARD_RESPONSES : unsigned __int8
   KBD_RES_FE_RESEND = 0xFE,             ///< Resend last command
   KBD_PREFIX_E0_EXTENDED = 0xE0,
   KBD_PREFIX_E1_PAUSE = 0xE1,
+  KBD_PREFIX_F0_BREAK_Set2 = 0xF0,
   KBD_ID_AB_FIRST_BYTE = 0xAB,
   KBD_ID_83_MF2_STD = 0x83,             ///< Standard MF2 Keyboard [AB 83]
   KBD_ID_85_terminal_kbd = 0x85,        ///< NCD N-97 or another weird specialized keyboard [AB 85]
@@ -1970,7 +1994,7 @@ enum __bitmask __bin __lzero IO_Port_3D9h_CGA_Color_Control : unsigned __int8
   IO_Port_3D9h_GREEN_BORDER_BG = 0b00000010,
   IO_Port_3D9h_RED_BORDER_BG = 0b00000100,
   IO_Port_3D9h_INTENSITY_ALT = 0b00001000,
-  IO_Port_3D9h_ALT_INTENSITY_CLR = 0b00010000,
+  IO_Port_3D9h_Graphic_Intensity_or_Text_BGcolor = 0b00010000,
   IO_Port_3D9h_PALETTE_SELECT = 0b00100000, ///< bit5 0 = Green/Red/Brown, 1 = Cyan/Magenta/White
 };
 
@@ -2407,8 +2431,9 @@ struct ZBIOS_DrawCommand
 #pragma pack(pop)
 
 /* 186 */
-enum ScanCode_Set_1 : unsigned __int8
+enum __bitmask ScanCode_Set_1 : unsigned __int8
 {
+  scancode_key_MASK = 0x7F,             ///< MASK
   scancode_NULL = 0x0,
   scancode_Esc = 0x1,
   scancode_1 = 0x2,
@@ -2453,7 +2478,7 @@ enum ScanCode_Set_1 : unsigned __int8
   scancode_M = 0x32,
   scancode_Opening_Bracket = 0x1A,
   scancode_Closing_Bracket = 0x1B,
-  scancode_Enter = 0x1C,
+  scancode_Enter_Keypad_Enter_E0_1C = 0x1C,
   scancode_Semicolon = 0x27,
   scancode_Apostrophe = 0x28,
   scancode_Grave_accent = 0x29,
@@ -2461,22 +2486,29 @@ enum ScanCode_Set_1 : unsigned __int8
   scancode_Comma = 0x33,
   scancode_Period = 0x34,
   scancode_Slash = 0x35,
-  scancode_Keypad_Asterisk = 0x37,
+  scancode_Keypad_Asterisk_PrtSc = 0x37,
   scancode_SpaceBar = 0x39,
   scancode_CapsLock = 0x3A,
-  scancode_Left_Control = 0x1D,
+  scancode_Left_Control_Right_Control_E0_1D = 0x1D,
   scancode_Left_Shift = 0x2A,
   scancode_Right_Shift = 0x36,
   scancode_Left_Alt = 0x38,
-  scancode_NumLock = 0x45,
-  scancode_ScrollLock = 0x46,
-  scancode_Home = 0x47,
-  scancode_Up_Arrow = 0x48,
-  scancode_Left_Arrow = 0x4B,
-  scancode_Right_Arrow = 0x4D,
-  scancode_Down_Arrow = 0x50,
+  scancode_NumLock_Pause_E1_1D_45 = 0x45,
+  scancode_ScrollLock_Ctrl_Break_E0_46 = 0x46,
+  scancode_Keypad_7_Home = 0x47,
+  scancode_Keypad_8_Up_Arrow = 0x48,
+  scancode_Keypad_9_PgUp = 0x49,
+  scancode_Keypad_Minus = 0x4A,
+  scancode_Keypad_4_Left_Arrow = 0x4B,
+  scancode_Keypad_5 = 0x4C,
+  scancode_Keypad_6_Right_Arrow = 0x4D,
+  scancode_Keypad_Plus = 0x4E,
+  scancode_Keypad_1_End = 0x4F,
+  scancode_Keypad_2_Down_Arrow = 0x50,
+  scancode_Keypad_3_PgDn = 0x51,
   scancode_Keypad_0_Insert = 0x52,
-  scancode_Del = 0x53,
+  scancode_Keypad_period_Del_Del_E0_53 = 0x53,
+  scancode_SysReq = 0x54,
   scancode_F1 = 0x3B,
   scancode_F2 = 0x3C,
   scancode_F3 = 0x3D,
@@ -2489,10 +2521,7 @@ enum ScanCode_Set_1 : unsigned __int8
   scancode_F10 = 0x44,
   scancode_F11 = 0x57,
   scancode_F12 = 0x58,
-  scancode_Break_MASK = 0x80,           ///< MASK for key Make/Break
-  scancode_Right_Alt_Break_E0_B8 = 0xB8,
-  scancode_PrtSc_E0_37 = 0x37,
-  scancode_Pause_E1_1D_45 = 0x45,
+  scancode_Break_MASK = 0x80,           ///< MASK
 };
 
 /* 185 */
@@ -2847,6 +2876,7 @@ enum int16_scancodes : unsigned __int16
   int16_scancode_Comma = 0x332C,
   int16_scancode_Period = 0x342E,
   int16_scancode_Slash = 0x352F,
+  int16_scancode_Slash_Ctrl = 0x9500,
   int16_scancode_Keypad_Asterisk = 0x372A,
   int16_scancode_SpaceBar = 0x3920,
   int16_scancode_F1 = 0x3B00,
@@ -2874,8 +2904,197 @@ enum int16_scancodes : unsigned __int16
   int16_scancode_Down_Arrow = 0x5000,
   int16_scancode_PgUp = 0x4900,
   int16_scancode_PgDn = 0x5100,
+  int16_scancode_PrtSc = 0x7200,
 };
 
 /* 214 */
 typedef IO_Port_1F6h_IDE_0_Drive_Head BDA_47h_Zenith_IDE_1F6h_Drive_Head;
+
+/* 216 */
+typedef IO_Port_70h_CMOS_Index CMOS_indexes;
+
+/* 218 */
+enum __bitmask __lzero Row_Column : unsigned __int16
+{
+  Row_MASK = 0xFF00,                    ///< MASK
+  Row__0 = 0x0000,
+  Row__1 = 0x0100,
+  Row__2 = 0x0200,
+  Row__3 = 0x0300,
+  Row__4 = 0x0400,
+  Row__5 = 0x0500,
+  Row__6 = 0x0600,
+  Row__7 = 0x0700,
+  Row__8 = 0x0800,
+  Row__9 = 0x0900,
+  Row_10 = 0x0A00,
+  Row_11 = 0x0B00,
+  Row_12 = 0x0C00,
+  Row_13 = 0x0D00,
+  Row_14 = 0x0E00,
+  Row_15 = 0x0F00,
+  Row_16 = 0x1000,
+  Row_17 = 0x1100,
+  Row_18 = 0x1200,
+  Row_19 = 0x1300,
+  Row_20 = 0x1400,
+  Row_21 = 0x1500,
+  Row_22 = 0x1600,
+  Row_23 = 0x1700,
+  Row_24 = 0x1800,
+  Column_MASK = 0x00FF,                 ///< MASK
+  Column__0 = 0x0000,
+  Column__1 = 0x0001,
+  Column__2 = 0x0002,
+  Column__3 = 0x0003,
+  Column__4 = 0x0004,
+  Column__5 = 0x0005,
+  Column__6 = 0x0006,
+  Column__7 = 0x0007,
+  Column__8 = 0x0008,
+  Column__9 = 0x0009,
+  Column_10 = 0x000A,
+  Column_11 = 0x000B,
+  Column_12 = 0x000C,
+  Column_13 = 0x000D,
+  Column_14 = 0x000E,
+  Column_15 = 0x000F,
+  Column_16 = 0x0010,
+  Column_17 = 0x0011,
+  Column_18 = 0x0012,
+  Column_19 = 0x0013,
+  Column_20 = 0x0014,
+  Column_21 = 0x0015,
+  Column_22 = 0x0016,
+  Column_23 = 0x0017,
+  Column_24 = 0x0018,
+  Column_25 = 0x0019,
+  Column_26 = 0x001A,
+  Column_27 = 0x001B,
+  Column_28 = 0x001C,
+  Column_29 = 0x001D,
+  Column_30 = 0x001E,
+  Column_31 = 0x001F,
+  Column_32 = 0x0020,
+  Column_33 = 0x0021,
+  Column_34 = 0x0022,
+  Column_35 = 0x0023,
+  Column_36 = 0x0024,
+  Column_37 = 0x0025,
+  Column_38 = 0x0026,
+  Column_39 = 0x0027,
+  Column_40 = 0x0028,
+  Column_41 = 0x0029,
+  Column_42 = 0x002A,
+  Column_43 = 0x002B,
+  Column_44 = 0x002C,
+  Column_45 = 0x002D,
+  Column_46 = 0x002E,
+  Column_47 = 0x002F,
+  Column_48 = 0x0030,
+  Column_49 = 0x0031,
+  Column_50 = 0x0032,
+  Column_51 = 0x0033,
+  Column_52 = 0x0034,
+  Column_53 = 0x0035,
+  Column_54 = 0x0036,
+  Column_55 = 0x0037,
+  Column_56 = 0x0038,
+  Column_57 = 0x0039,
+  Column_58 = 0x003A,
+  Column_59 = 0x003B,
+  Column_60 = 0x003C,
+  Column_61 = 0x003D,
+  Column_62 = 0x003E,
+  Column_63 = 0x003F,
+  Column_64 = 0x0040,
+  Column_65 = 0x0041,
+  Column_66 = 0x0042,
+  Column_67 = 0x0043,
+  Column_68 = 0x0044,
+  Column_69 = 0x0045,
+  Column_70 = 0x0046,
+  Column_71 = 0x0047,
+  Column_72 = 0x0048,
+  Column_73 = 0x0049,
+  Column_74 = 0x004A,
+  Column_75 = 0x004B,
+  Column_76 = 0x004C,
+  Column_77 = 0x004D,
+  Column_78 = 0x004E,
+  Column_79 = 0x004F,
+};
+
+/* 219 */
+enum __bitmask __bin __lzero Text_Colors : unsigned __int8
+{
+  Col_Bg_MASK = 0xF0,                   ///< MASK
+  Col_Bg_Black = 0b00000000,
+  Col_Bg_Blue = 0b00010000,
+  Col_Bg_Green = 0b00100000,
+  Col_Bg_Cyan = 0b00110000,
+  Col_Bg_Red = 0b01000000,
+  Col_Bg_Magenta = 0b01010000,
+  Col_Bg_Brown = 0b01100000,
+  Col_Bg_Light_Gray = 0b01110000,
+  Col_Bg_Dark_Gray = 0b10000000,
+  Col_Bg_Light_Blue = 0b10010000,
+  Col_Bg_Light_Green = 0b10100000,
+  Col_Bg_Light_Cyan = 0b10110000,
+  Col_Bg_Light_Red = 0b11000000,
+  Col_Bg_Light_Magenta = 0b11010000,
+  Col_Bg_Yellow = 0b11100000,
+  Col_Bg_White = 0b11110000,
+  Col_Fg_MASK = 0x0F,                   ///< MASK
+  Col_Fg_Black = 0b00000000,
+  Col_Fg_Blue = 0b00000001,
+  Col_Fg_Green = 0b00000010,
+  Col_Fg_Cyan = 0b00000011,
+  Col_Fg_Red = 0b00000100,
+  Col_Fg_Magenta = 0b00000101,
+  Col_Fg_Brown = 0b00000110,
+  Col_Fg_Light_Gray = 0b00000111,
+  Col_Fg_Dark_Gray = 0b00001000,
+  Col_Fg_Light_Blue = 0b00001001,
+  Col_Fg_Light_Green = 0b00001010,
+  Col_Fg_Light_Cyan = 0b00001011,
+  Col_Fg_Light_Red = 0b00001100,
+  Col_Fg_Light_Magenta = 0b00001101,
+  Col_Fg_Yellow = 0b00001110,
+  Col_Fg_White = 0b00001111,
+};
+
+/* 220 */
+enum __bitmask __bin __lzero Text_Attributes : unsigned __int8
+{
+  Blink_MASK = 0x80,                    ///< MASK
+  No_Blink = 0b00000000,
+  Blink = 0b10000000,
+  Bg_MASK = 0x70,                       ///< MASK
+  Bg_Black = 0b00000000,
+  Bg_Blue = 0b00010000,
+  Bg_Green = 0b00100000,
+  Bg_Cyan = 0b00110000,
+  Bg_Red = 0b01000000,
+  Bg_Magenta = 0b01010000,
+  Bg_Brown = 0b01100000,
+  Bg_Light_Gray = 0b01110000,
+  Fg_MASK = 0x0F,                       ///< MASK
+  Fg_Black = 0b00000000,
+  Fg_Blue = 0b00000001,
+  Fg_Green = 0b00000010,
+  Fg_Cyan = 0b00000011,
+  Fg_Red = 0b00000100,
+  Fg_Magenta = 0b00000101,
+  Fg_Brown = 0b00000110,
+  Fg_Light_Gray = 0b00000111,
+  Fg_Dark_Gray = 0b00001000,
+  Fg_Light_Blue = 0b00001001,
+  Fg_Light_Green = 0b00001010,
+  Fg_Light_Cyan = 0b00001011,
+  Fg_Light_Red = 0b00001100,
+  Fg_Light_Magenta = 0b00001101,
+  Fg_Yellow = 0b00001110,
+  Fg_White = 0b00001111,
+};
 
