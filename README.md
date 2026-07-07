@@ -103,5 +103,5 @@ Despite the number 300 in the name suggesting 32bit 386 compatibility MFM-300 su
 [POST code list](https://github.com/raszpl/Zenith_ZBIOS/blob/main/POST%20codes.txt)
 
 # Z-386 ZBIOS 3.2C source code
-Dissasemble progress 100%, annotation at about 80% still with lot of unknowns and surely some errors. [Listing](https://github.com/raszpl/Zenith_ZBIOS/blob/main/Zenith%20Z-386%20MFM-300%20Monitor%2C%20Version%203.2C.lst), 
+Dissasemble progress 100%, annotation at about 98% with lot of unknowns (DMA6 IDE controller?) and surely some errors. [Listing](https://github.com/raszpl/Zenith_ZBIOS/blob/main/Zenith%20Z-386%20MFM-300%20Monitor%2C%20Version%203.2C.lst), 
 [IDA C style Header file](https://github.com/raszpl/Zenith_ZBIOS/blob/main/Zenith%20Z-386%20MFM-300%20Monitor%2C%20Version%203.2C.h). [IDA 9.3 Free i64 database](https://github.com/raszpl/Zenith_ZBIOS/raw/main/Zenith%20Z-386%20MFM-300%20Monitor,%20Version%203.2C.i64).
