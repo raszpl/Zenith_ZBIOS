@@ -870,7 +870,6 @@ enum __bitmask __bin __lzero BDA_90h_drive0_media_state : unsigned __int8
   BDA_90h_drive_STATE_EST_360K_IN_1_2MB = 0b00000100,
   BDA_90h_drive_STATE_EST_1_2MB_IN_1_2MB = 0b00000101,
   BDA_90h_drive_STATE_RESERVED = 0b00000110,
-  BDA_90h_drive_STATE_OTHER_FORMATS = 0b00000111,
   BDA_90h_drive_STATE_BIT3_RESERVED = 0b00001000,
   BDA_90h_drive_STATE_media_ESTABLISHED = 0b00010000,
   BDA_90h_drive_STATE_double_stepping = 0b00100000,

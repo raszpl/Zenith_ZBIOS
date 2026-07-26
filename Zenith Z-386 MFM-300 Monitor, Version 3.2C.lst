@@ -2324,8 +2324,7 @@ seg000:18E2
 seg000:18E2 ; =============== S U B R O U T I N E =======================================
 seg000:18E2
 seg000:18E2
-seg000:18E2 INT15_BLOCK_MOVE_setup proc near        ; CODE XREF: debugger?+11↑p
-seg000:18E2                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:18E2 INT15_BLOCK_MOVE_setup proc near        ; DATA XREF: seg000:debugger_table?↑o
 seg000:18E2                 cmp     al, 0
 seg000:18E4                 jz      short loc_F18EC
 seg000:18E6                 cmp     al, 0FFh
@@ -2379,8 +2378,8 @@ seg000:1938
 seg000:1938 ; =============== S U B R O U T I N E =======================================
 seg000:1938
 seg000:1938
-seg000:1938 KBC_RESET_CPU   proc near               ; CODE XREF: debugger?+11↑p debugger_optional_reset+1F↓p
-seg000:1938                                         ; DATA XREF: ...
+seg000:1938 KBC_RESET_CPU   proc near               ; CODE XREF: debugger_optional_reset+1F↓p
+seg000:1938                                         ; DATA XREF: seg000:debugger_table?↑o
 seg000:1938                 cmp     al, 2
 seg000:193A                 jz      short loc_F194A
 seg000:193C                 cmp     al, 0
@@ -2408,7 +2407,7 @@ seg000:195C KBC_init:                               ; CODE XREF: KBC_RESET_CPU+A
 seg000:195C                 mov     ah, IO_Port_64h_KBC_CMD_60_WRITE_CONFIG
 seg000:195E                 call    Keyboard_KBC_command
 seg000:1961                 mov     ah, KBC_CFG_KEYBOARD_INT_ENABLE or KBC_CFG_INHIBIT_OVERRIDE or KBC_CFG_KEYBOARD_DISABLE or KBC_CFG_TRANSLATE_Set2_to_Set1 ; Bit3 1=Ignore Keyboard Lock Switch
-seg000:1963                 call    Keyboard_KBD_data_OutIn
+seg000:1963                 call    Keyboard_KBD_command
 seg000:1966                 call    keyb_commands1
 seg000:1969                 mov     dx, soft_reset_Zenith_unknown
 seg000:196C                 jmp     short loc_F1972
@@ -2492,8 +2491,7 @@ seg000:19C2
 seg000:19C2 ; =============== S U B R O U T I N E =======================================
 seg000:19C2
 seg000:19C2
-seg000:19C2 AX7_clc_ret     proc near               ; CODE XREF: debugger?+11↑p
-seg000:19C2                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:19C2 AX7_clc_ret     proc near               ; DATA XREF: seg000:debugger_table?↑o
 seg000:19C2                 mov     ax, 7
 seg000:19C5                 or      sp, sp
 seg000:19C7                 jmp     clc_ret
@@ -2503,8 +2501,7 @@ seg000:19CA
 seg000:19CA ; =============== S U B R O U T I N E =======================================
 seg000:19CA
 seg000:19CA
-seg000:19CA WDLLAMA_offset_return? proc near        ; CODE XREF: debugger?+11↑p
-seg000:19CA                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:19CA WDLLAMA_offset_return? proc near        ; DATA XREF: seg000:debugger_table?↑o
 seg000:19CA                 cmp     al, 0FFh
 seg000:19CC                 jz      short loc_F19D1
 seg000:19CE                 jmp     stc_ret
@@ -2522,8 +2519,7 @@ seg000:19DF
 seg000:19DF ; =============== S U B R O U T I N E =======================================
 seg000:19DF
 seg000:19DF
-seg000:19DF BIOS_version_offset_return proc near    ; CODE XREF: debugger?+11↑p
-seg000:19DF                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:19DF BIOS_version_offset_return proc near    ; DATA XREF: seg000:debugger_table?↑o
 seg000:19DF                 cmp     al, 0FFh
 seg000:19E1                 jz      short end
 seg000:19E3                 jmp     stc_ret
@@ -2571,8 +2567,7 @@ seg000:1A12
 seg000:1A12 ; =============== S U B R O U T I N E =======================================
 seg000:1A12
 seg000:1A12
-seg000:1A12 port_9F4F4F5_Out proc near              ; CODE XREF: debugger?+11↑p
-seg000:1A12                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1A12 port_9F4F4F5_Out proc near              ; DATA XREF: seg000:debugger_table?↑o
 seg000:1A12                 push    ds
 seg000:1A13                 push    bx
 seg000:1A14                 mov     ds, dx
@@ -2645,8 +2640,7 @@ seg000:1A87
 seg000:1A87 ; =============== S U B R O U T I N E =======================================
 seg000:1A87
 seg000:1A87
-seg000:1A87 debugger_optional_reset proc near       ; CODE XREF: debugger?+11↑p
-seg000:1A87                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1A87 debugger_optional_reset proc near       ; DATA XREF: seg000:debugger_table?↑o
 seg000:1A87                 cmp     al, 0
 seg000:1A89                 jz      short loc_F1A95
 seg000:1A8B                 cmp     al, 0FFh
@@ -2679,8 +2673,7 @@ seg000:1AAE
 seg000:1AAE ; =============== S U B R O U T I N E =======================================
 seg000:1AAE
 seg000:1AAE
-seg000:1AAE debugger_optional_memcpy proc near      ; CODE XREF: debugger?+11↑p
-seg000:1AAE                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1AAE debugger_optional_memcpy proc near      ; DATA XREF: seg000:debugger_table?↑o
 seg000:1AAE                 cmp     al, 0
 seg000:1AB0                 jz      short loc_F1ABE
 seg000:1AB2                 cmp     al, 0FFh
@@ -2712,8 +2705,7 @@ seg000:1AD6
 seg000:1AD6 ; =============== S U B R O U T I N E =======================================
 seg000:1AD6
 seg000:1AD6
-seg000:1AD6 port_9F4_Out    proc near               ; CODE XREF: debugger?+11↑p
-seg000:1AD6                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1AD6 port_9F4_Out    proc near               ; DATA XREF: seg000:debugger_table?↑o
 seg000:1AD6                 push    bx
 seg000:1AD7                 push    dx
 seg000:1AD8                 push    ds
@@ -2773,8 +2765,7 @@ seg000:1B32
 seg000:1B32 ; =============== S U B R O U T I N E =======================================
 seg000:1B32
 seg000:1B32
-seg000:1B32 debugger_optional_reg333 proc near      ; CODE XREF: debugger?+11↑p
-seg000:1B32                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1B32 debugger_optional_reg333 proc near      ; DATA XREF: seg000:debugger_table?↑o
 seg000:1B32                 cmp     al, 0FFh
 seg000:1B34                 jz      short loc_F1B39
 seg000:1B36                 jmp     stc_ret
@@ -2791,8 +2782,7 @@ seg000:1B43
 seg000:1B43 ; =============== S U B R O U T I N E =======================================
 seg000:1B43
 seg000:1B43
-seg000:1B43 debugger_optional_db3 proc near         ; CODE XREF: debugger?+11↑p
-seg000:1B43                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1B43 debugger_optional_db3 proc near         ; DATA XREF: seg000:debugger_table?↑o
 seg000:1B43                 cmp     al, 0FFh
 seg000:1B45                 jz      short loc_F1B4A
 seg000:1B47                 jmp     stc_ret
@@ -2813,8 +2803,7 @@ seg000:1B5A
 seg000:1B5A ; =============== S U B R O U T I N E =======================================
 seg000:1B5A
 seg000:1B5A
-seg000:1B5A chipset_FE3021_Memory_Controller proc near ; CODE XREF: debugger?+11↑p
-seg000:1B5A                                         ; DATA XREF: seg000:debugger_table?↑o
+seg000:1B5A chipset_FE3021_Memory_Controller proc near ; DATA XREF: seg000:debugger_table?↑o
 seg000:1B5A                 cmp     al, 0FEh
 seg000:1B5C                 ja      short end
 seg000:1B5E                 push    ax
@@ -3081,12 +3070,12 @@ seg000:1CB9
 seg000:1CB9 ; =============== S U B R O U T I N E =======================================
 seg000:1CB9
 seg000:1CB9
-seg000:1CB9 trigger_NMI_then_iret proc far          ; DATA XREF: seg000:IVT_table_70↓o
+seg000:1CB9 int_75h_coprocessor_NMI_error proc far  ; DATA XREF: seg000:IVT_table_70↓o
 seg000:1CB9                 jmp     short loc_F1CBC
 seg000:1CBB ; ---------------------------------------------------------------------------
 seg000:1CBB                 nop
 seg000:1CBC
-seg000:1CBC loc_F1CBC:                              ; CODE XREF: trigger_NMI_then_iret↑j
+seg000:1CBC loc_F1CBC:                              ; CODE XREF: int_75h_coprocessor_NMI_error↑j
 seg000:1CBC                 push    ax
 seg000:1CBD                 push    dx
 seg000:1CBE                 mov     al, 0
@@ -3102,7 +3091,7 @@ seg000:1CCC                                         ; Generated by NMI signal in
 seg000:1CCE                 pop     dx
 seg000:1CCF                 pop     ax
 seg000:1CD0                 iret
-seg000:1CD0 trigger_NMI_then_iret endp
+seg000:1CD0 int_75h_coprocessor_NMI_error endp
 seg000:1CD0
 seg000:1CD0 ; ---------------------------------------------------------------------------
 seg000:1CD1 text_help       db 9,9,'- MFM-300 Command Summary -',0Dh,0Ah ; DATA XREF: cmd_help+1↓o
@@ -4204,7 +4193,7 @@ seg000:24A6
 seg000:24A6 ; =============== S U B R O U T I N E =======================================
 seg000:24A6
 seg000:24A6
-seg000:24A6 int_08h_IRQ0_timer18Hz proc far         ; CODE XREF: int_08h_IRQ0_timer18Hz_↓j
+seg000:24A6 int_08h_IRQ0_timer18Hz proc far         ; CODE XREF: j_int_08h_IRQ0_timer18Hz↓j
 seg000:24A6                 push    ds
 seg000:24A7                 push    ax
 seg000:24A8                 push    dx
@@ -4325,7 +4314,7 @@ seg000:2587
 seg000:2587 ; =============== S U B R O U T I N E =======================================
 seg000:2587
 seg000:2587
-seg000:2587 int_12h_ram_size proc far               ; CODE XREF: int_12h_ram_size_↓j
+seg000:2587 int_12h_ram_size proc far               ; CODE XREF: j_int_12h_ram_size↓j
 seg000:2587                 push    ds
 seg000:2588                 mov     ds, word ptr cs:0C6h
 seg000:258D                 mov     ax, ds:BDA_13h_memory_size_kb
@@ -7051,7 +7040,7 @@ seg000:350D                 pushf
 seg000:350E                 push    cs
 seg000:350F                 mov     ax, offset return_?
 seg000:3512                 push    ax
-seg000:3513                 jmp     short int_19h_bootstrap_load_run_
+seg000:3513                 jmp     short int_19h_bootstrap_load_run
 seg000:3515 ; ---------------------------------------------------------------------------
 seg000:3515                 nop
 seg000:3516
@@ -7059,7 +7048,7 @@ seg000:3516 return_?:                               ; DATA XREF: int_19h_bootstr
 seg000:3516                 retn
 seg000:3517 ; ---------------------------------------------------------------------------
 seg000:3517
-seg000:3517 int_19h_bootstrap_load_run_:            ; CODE XREF: int_19h_bootstrap_load_run__+6↑j int_19h_bootstrap_load_run↓j
+seg000:3517 int_19h_bootstrap_load_run:             ; CODE XREF: int_19h_bootstrap_load_run__+6↑j j_int_19h_bootstrap_load_run↓j
 seg000:3517                 push    bp
 seg000:3518                 mov     bp, sp
 seg000:351A                 cmp     [bp+arg_0], 0F000h
@@ -7545,36 +7534,36 @@ seg000:3813                 db 00100000b            ; 5
 seg000:3814                 db 01000000b            ; 6
 seg000:3815                 db 10000000b            ; 7
 seg000:3816 zero_1          db 0                    ; DATA XREF: int_13h_0_FDD_reset+71↓r int_13h_1_FDD_get_floppy_status+4↓r ...
-seg000:3817 int_13h_jump_table dw offset int_13h_0_FDD_reset ; DATA XREF: int_13h_diskIO+39↓r
-seg000:3819                 dw offset int_13h_1_FDD_get_floppy_status
-seg000:381B                 dw offset int_13h_234_FDD_read_write_verify
-seg000:381D                 dw offset int_13h_234_FDD_read_write_verify
-seg000:381F                 dw offset int_13h_234_FDD_read_write_verify
-seg000:3821                 dw offset int_13h_5h_FDD_format_track
-seg000:3823                 dw offset FLOPPY_set_status_bad_command
-seg000:3825                 dw offset FLOPPY_set_status_bad_command
-seg000:3827                 dw offset int_13h_8_FDD_Get_drive_parameters
-seg000:3829                 dw offset FLOPPY_set_status_bad_command
-seg000:382B                 dw offset FLOPPY_set_status_bad_command
-seg000:382D                 dw offset FLOPPY_set_status_bad_command
-seg000:382F                 dw offset FLOPPY_set_status_bad_command
-seg000:3831                 dw offset FLOPPY_set_status_bad_command
-seg000:3833                 dw offset FLOPPY_set_status_bad_command
-seg000:3835                 dw offset FLOPPY_set_status_bad_command
-seg000:3837                 dw offset FLOPPY_set_status_bad_command
-seg000:3839                 dw offset FLOPPY_set_status_bad_command
-seg000:383B                 dw offset FLOPPY_set_status_bad_command
-seg000:383D                 dw offset FLOPPY_set_status_bad_command
-seg000:383F                 dw offset FLOPPY_set_status_bad_command
-seg000:3841                 dw offset int_13h_15h_FDD_Read_disk_type
-seg000:3843                 dw offset int_13h_16h_FDD__Disk_change_line_status?
-seg000:3845                 dw offset int_13h_17h_FDD_Set_dasd_type_for_format
-seg000:3847                 dw offset int_13h_18h_FDD_Set_media_type_for_format
+seg000:3817 int_13h_jump_table dw offset int_13h_0_FDD_reset; 0 ; DATA XREF: int_13h_diskIO+39↓r
+seg000:3819                 dw offset int_13h_1_FDD_get_floppy_status; 1
+seg000:381B                 dw offset int_13h_234_FDD_read_write_verify; 2
+seg000:381D                 dw offset int_13h_234_FDD_read_write_verify; 3
+seg000:381F                 dw offset int_13h_234_FDD_read_write_verify; 4
+seg000:3821                 dw offset int_13h_5h_FDD_format_track; 5
+seg000:3823                 dw offset int_13h_FDD_bad_command_error_code; 6
+seg000:3825                 dw offset int_13h_FDD_bad_command_error_code; 7
+seg000:3827                 dw offset int_13h_8_FDD_Get_drive_parameters; 8
+seg000:3829                 dw offset int_13h_FDD_bad_command_error_code; 9
+seg000:382B                 dw offset int_13h_FDD_bad_command_error_code; 0Ah
+seg000:382D                 dw offset int_13h_FDD_bad_command_error_code; 0Bh
+seg000:382F                 dw offset int_13h_FDD_bad_command_error_code; 0Ch
+seg000:3831                 dw offset int_13h_FDD_bad_command_error_code; 0Dh
+seg000:3833                 dw offset int_13h_FDD_bad_command_error_code; 0Eh
+seg000:3835                 dw offset int_13h_FDD_bad_command_error_code; 0Fh
+seg000:3837                 dw offset int_13h_FDD_bad_command_error_code; 10h
+seg000:3839                 dw offset int_13h_FDD_bad_command_error_code; 11h
+seg000:383B                 dw offset int_13h_FDD_bad_command_error_code; 12h
+seg000:383D                 dw offset int_13h_FDD_bad_command_error_code; 13h
+seg000:383F                 dw offset int_13h_FDD_bad_command_error_code; 14h
+seg000:3841                 dw offset int_13h_15h_FDD_Read_disk_type; 15h
+seg000:3843                 dw offset int_13h_16h_FDD_Disk_change_line_status; 16h
+seg000:3845                 dw offset int_13h_17h_FDD_Set_dasd_type_for_format; 17h
+seg000:3847                 dw offset int_13h_18h_FDD_Set_media_type_for_format; 18h
 seg000:3849
 seg000:3849 ; =============== S U B R O U T I N E =======================================
 seg000:3849
 seg000:3849
-seg000:3849 int_13h_diskIO  proc far                ; CODE XREF: int_13h_diskIO_↓j
+seg000:3849 int_13h_diskIO  proc far                ; CODE XREF: j_int_13h_diskIO↓j
 seg000:3849                 push    si
 seg000:384A                 push    bp
 seg000:384B                 push    ds
@@ -7630,13 +7619,13 @@ seg000:389B
 seg000:389B ; =============== S U B R O U T I N E =======================================
 seg000:389B
 seg000:389B
-seg000:389B FLOPPY_set_status_bad_command proc near ; CODE XREF: int_13h_diskIO+39↑p
+seg000:389B int_13h_FDD_bad_command_error_code proc near ; CODE XREF: int_13h_diskIO+39↑p
 seg000:389B                                         ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:389B                 mov     ah, FDC_status_bad_command
 seg000:389D                 mov     ds:BDA_41h_floppy_status, ah
 seg000:38A1                 stc
 seg000:38A2                 retn
-seg000:38A2 FLOPPY_set_status_bad_command endp
+seg000:38A2 int_13h_FDD_bad_command_error_code endp
 seg000:38A2
 seg000:38A3
 seg000:38A3 ; =============== S U B R O U T I N E =======================================
@@ -7718,8 +7707,7 @@ seg000:391D
 seg000:391D ; =============== S U B R O U T I N E =======================================
 seg000:391D
 seg000:391D
-seg000:391D int_13h_1_FDD_get_floppy_status proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:391D                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:391D int_13h_1_FDD_get_floppy_status proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:391D                 mov     ah, ds:BDA_41h_floppy_status
 seg000:3921                 cmp     cs:zero_1, ah   ; what a stupid way of comparing ah to 0
 seg000:3926                 retn
@@ -7736,8 +7724,7 @@ seg000:392D
 seg000:392D ; =============== S U B R O U T I N E =======================================
 seg000:392D
 seg000:392D
-seg000:392D int_13h_234_FDD_read_write_verify proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:392D                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:392D int_13h_234_FDD_read_write_verify proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:392D                 push    di
 seg000:392E                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:3933                 push    ax
@@ -7789,8 +7776,7 @@ seg000:397A
 seg000:397A ; =============== S U B R O U T I N E =======================================
 seg000:397A
 seg000:397A
-seg000:397A int_13h_5h_FDD_format_track proc near   ; CODE XREF: int_13h_diskIO+39↑p
-seg000:397A                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:397A int_13h_5h_FDD_format_track proc near   ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:397A                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:397F                 call    FDD_get_media_type
 seg000:3982                 or      byte ptr ds:BDA_3Fh_floppy_motor_status, BDA_3Fh_motor_stat_WRITE ; MASK bit7 0 READ
@@ -7870,8 +7856,7 @@ seg000:3A02
 seg000:3A02 ; =============== S U B R O U T I N E =======================================
 seg000:3A02
 seg000:3A02
-seg000:3A02 int_13h_8_FDD_Get_drive_parameters proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:3A02                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:3A02 int_13h_8_FDD_Get_drive_parameters proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:3A02                 push    bp
 seg000:3A03                 mov     bp, dx
 seg000:3A05                 sub     dh, dh
@@ -7970,8 +7955,7 @@ seg000:3A9D
 seg000:3A9D ; =============== S U B R O U T I N E =======================================
 seg000:3A9D
 seg000:3A9D
-seg000:3A9D int_13h_15h_FDD_Read_disk_type proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:3A9D                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:3A9D int_13h_15h_FDD_Read_disk_type proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:3A9D                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:3AA2                 call    FDD_get_media_type
 seg000:3AA5                 mov     ah, [si]
@@ -7993,8 +7977,7 @@ seg000:3ABE
 seg000:3ABE ; =============== S U B R O U T I N E =======================================
 seg000:3ABE
 seg000:3ABE
-seg000:3ABE int_13h_16h_FDD__Disk_change_line_status? proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:3ABE                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:3ABE int_13h_16h_FDD_Disk_change_line_status proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:3ABE                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:3AC3                 call    FDD_get_media_type
 seg000:3AC6                 mov     ah, FDC_status_no_errors or FDC_status_NOT_READY
@@ -8007,17 +7990,17 @@ seg000:3AD4                 call    FDD_change_line_to_Carry
 seg000:3AD7                 jb      short loc_F3ADB
 seg000:3AD9                 sub     ah, ah
 seg000:3ADB
-seg000:3ADB loc_F3ADB:                              ; CODE XREF: int_13h_16h_FDD__Disk_change_line_status?+D↑j int_13h_16h_FDD__Disk_change_line_status?+14↑j ...
+seg000:3ADB loc_F3ADB:                              ; CODE XREF: int_13h_16h_FDD_Disk_change_line_status+D↑j int_13h_16h_FDD_Disk_change_line_status+14↑j ...
 seg000:3ADB                 call    FDD_update_media_type
 seg000:3ADE                 cmp     byte ptr cs:4C5h, Zenith_cs4C5h_b1
 seg000:3AE4                 jz      short loc_F3AE9
 seg000:3AE6                 call    FDD_prepare_motor_timeout
 seg000:3AE9
-seg000:3AE9 loc_F3AE9:                              ; CODE XREF: int_13h_16h_FDD__Disk_change_line_status?+26↑j
+seg000:3AE9 loc_F3AE9:                              ; CODE XREF: int_13h_16h_FDD_Disk_change_line_status+26↑j
 seg000:3AE9                 mov     ds:BDA_41h_floppy_status, ah
 seg000:3AED                 cmp     cs:zero_1, ah
 seg000:3AF2                 retn
-seg000:3AF2 int_13h_16h_FDD__Disk_change_line_status? endp
+seg000:3AF2 int_13h_16h_FDD_Disk_change_line_status endp
 seg000:3AF2
 seg000:3AF2 ; ---------------------------------------------------------------------------
 seg000:3AF3 DASD_type_table db BDA_90h_drive_STATE_media_ESTABLISHED or BDA_90h_drive_STATE_RATE_250KBPS ; DATA XREF: int_13h_17h_FDD_Set_dasd_type_for_format+3F↓r
@@ -8028,8 +8011,7 @@ seg000:3AF7
 seg000:3AF7 ; =============== S U B R O U T I N E =======================================
 seg000:3AF7
 seg000:3AF7
-seg000:3AF7 int_13h_17h_FDD_Set_dasd_type_for_format proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:3AF7                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:3AF7 int_13h_17h_FDD_Set_dasd_type_for_format proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:3AF7                 push    cx
 seg000:3AF8                 mov     si, cs:BDA_media_state_pointer[si]
 seg000:3AFD                 call    FDD_get_media_type
@@ -8092,8 +8074,7 @@ seg000:3B53
 seg000:3B53 ; =============== S U B R O U T I N E =======================================
 seg000:3B53
 seg000:3B53
-seg000:3B53 int_13h_18h_FDD_Set_media_type_for_format proc near ; CODE XREF: int_13h_diskIO+39↑p
-seg000:3B53                                         ; DATA XREF: seg000:int_13h_jump_table↑o
+seg000:3B53 int_13h_18h_FDD_Set_media_type_for_format proc near ; DATA XREF: seg000:int_13h_jump_table↑o
 seg000:3B53                 push    bx
 seg000:3B54                 push    di
 seg000:3B55                 mov     si, cs:BDA_media_state_pointer[si]
@@ -8986,7 +8967,7 @@ seg000:405F
 seg000:405F ; =============== S U B R O U T I N E =======================================
 seg000:405F
 seg000:405F
-seg000:405F int_0Eh_IRQ6_FDC proc far               ; CODE XREF: int_0Eh_IRQ6_FDC_↓j
+seg000:405F int_0Eh_IRQ6_FDC proc far               ; CODE XREF: j_int_0Eh_IRQ6_FDC↓j
 seg000:405F                 push    ax
 seg000:4060                 push    ds
 seg000:4061                 mov     ds, word ptr cs:0C6h
@@ -9006,7 +8987,7 @@ seg000:4078
 seg000:4078 ; =============== S U B R O U T I N E =======================================
 seg000:4078
 seg000:4078
-seg000:4078 FDD_change_line_to_Carry proc near      ; CODE XREF: int_13h_16h_FDD__Disk_change_line_status?+16↑p FDD_change_check+5↑p ...
+seg000:4078 FDD_change_line_to_Carry proc near      ; CODE XREF: int_13h_16h_FDD_Disk_change_line_status+16↑p FDD_change_check+5↑p ...
 seg000:4078                 push    ax
 seg000:4079                 push    dx
 seg000:407A                 call    FDD_wait_for_motor
@@ -9253,7 +9234,7 @@ seg000:41D5                 shr     ah, 4           ; shift in drive_1
 seg000:41D8
 seg000:41D8 set_media_state:                        ; CODE XREF: FDD_get_media_type+D↑j
 seg000:41D8                 and     ah, BDA_8Fh_floppy_info_drive_0_supports_80_tracks_always_valid or BDA_8Fh_floppy_info_drive_0_multi_rate_valid_if_determined or BDA_8Fh_floppy_info_drive_0_determined
-seg000:41DB                 and     al, not (BDA_90h_drive_STATE_OTHER_FORMATS)
+seg000:41DB                 and     al, not (BDA_90h_drive_STATE_MASK) ; MASK 0 = TRY_360K_IN_360K
 seg000:41DD                 or      al, ah          ; something not right above, mixing media_state and floppy_info?
 seg000:41DF                 mov     [si], al
 seg000:41E1                 jmp     short end
@@ -9315,16 +9296,14 @@ seg000:422F                 mov     ah, 7
 seg000:4231                 jmp     cs:floppy_type_jump_table[bx]
 seg000:4236 ; ---------------------------------------------------------------------------
 seg000:4236
-seg000:4236 floppy_type_360KB_or_default:           ; CODE XREF: FDD_update_media_type+31↑j
-seg000:4236                                         ; DATA XREF: seg000:41FC↑o
+seg000:4236 floppy_type_360KB_or_default:           ; DATA XREF: seg000:41FC↑o
 seg000:4236                 test    ch, BDA_90h_drive_STATE_TRY_360K_IN_1_2MB
 seg000:4239                 jnz     short floppy_type_no_change_or_unknown
 seg000:423B                 mov     ah, 0
 seg000:423D                 jmp     short loc_F4253
 seg000:423F ; ---------------------------------------------------------------------------
 seg000:423F
-seg000:423F floppy_type_720KB_or_high_density:      ; CODE XREF: FDD_update_media_type+31↑j
-seg000:423F                                         ; DATA XREF: seg000:41FA↑o
+seg000:423F floppy_type_720KB_or_high_density:      ; DATA XREF: seg000:41FA↑o
 seg000:423F                 test    ch, BDA_90h_drive_STATE_double_stepping
 seg000:4242                 jz      short floppy_type_no_change_or_unknown
 seg000:4244                 mov     ah, CMOS_10h_FDD1_type_360KB_5_25
@@ -9344,8 +9323,8 @@ seg000:4253                 test    ch, BDA_90h_drive_STATE_media_ESTABLISHED
 seg000:4256                 jz      short floppy_type_no_change_or_unknown
 seg000:4258                 add     ah, 3
 seg000:425B
-seg000:425B floppy_type_no_change_or_unknown:       ; CODE XREF: FDD_update_media_type+31↑j FDD_update_media_type+39↑j ...
-seg000:425B                 and     ch, not (BDA_90h_drive_STATE_OTHER_FORMATS)
+seg000:425B floppy_type_no_change_or_unknown:       ; CODE XREF: FDD_update_media_type+39↑j FDD_update_media_type+42↑j ...
+seg000:425B                 and     ch, not (BDA_90h_drive_STATE_MASK) ; MASK 0 = TRY_360K_IN_360K
 seg000:425E                 or      ah, ch
 seg000:4260                 mov     [si], ah
 seg000:4262
@@ -9510,7 +9489,7 @@ seg000:4372
 seg000:4372 ; =============== S U B R O U T I N E =======================================
 seg000:4372
 seg000:4372
-seg000:4372 int_10h_video   proc far                ; CODE XREF: int_10h_video_↓j
+seg000:4372 int_10h_video   proc far                ; CODE XREF: j_int_10h_video↓j
 seg000:4372                                         ; DATA XREF: ColdWarm_Boot+CC↑o
 seg000:4372                 push    di
 seg000:4373                 push    ds
@@ -9622,37 +9601,37 @@ seg000:441C                 pop     bp
 seg000:441D                 pop     ax
 seg000:441E                 jmp     short end
 seg000:441E ; ---------------------------------------------------------------------------
-seg000:4420 int10h_table_0_13h dw offset int10h_0_Set_video_mode ; DATA XREF: int_10h_video+67↑r
-seg000:4422                 dw offset int10h_1_Set_cursor_type
-seg000:4424                 dw offset int10h_2_Set_cursor_position
-seg000:4426                 dw offset int10h_3_Read_cursor_position
-seg000:4428                 dw offset int10h_4_Read_light_pen
-seg000:442A                 dw offset int10h_5_Select_active_display_page
-seg000:442C                 dw offset int10h_6_Scroll_Window_up
-seg000:442E                 dw offset int10h_7_Scroll_Window_down
-seg000:4430                 dw offset int10h_8_Read_character_and_attribute_at_cursor
-seg000:4432                 dw offset int10h_9_Write_character_and_attribute_at_cursor
-seg000:4434                 dw offset int10h_A_Write_character_at_current_cursor
-seg000:4436                 dw offset int10h_B_Set_color_palette
-seg000:4438                 dw offset int10h_C_Write_graphics_pixel_at_coordinate
-seg000:443A                 dw offset int10h_D_Read_graphics_pixel_at_coordinate
-seg000:443C                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25
-seg000:443E                 dw offset int10h_F_Get_current_video_state
-seg000:4440                 dw offset nullsub_2
-seg000:4442                 dw offset nullsub_2
-seg000:4444                 dw offset nullsub_2
-seg000:4446                 dw offset int10h_13_Write_string
-seg000:4448 int10h_table_E  dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25 ; DATA XREF: int_10h_video+53↑r
-seg000:444A                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25
-seg000:444C                 dw offset int10h_E_Write_Teletype_mode_2_3_80x25
-seg000:444E                 dw offset int10h_E_Write_Teletype_mode_2_3_80x25
-seg000:4450                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25
-seg000:4452                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25
-seg000:4454                 dw offset int10h_E_Write_Teletype_mode_6_640x200
-seg000:4456                 dw offset int10h_E_Write_text_in_teletype_mode_7_80x25_MDA
+seg000:4420 int10h_table_0_13h dw offset int10h_0_Set_video_mode; 0 ; DATA XREF: int_10h_video+67↑r
+seg000:4422                 dw offset int10h_1_Set_cursor_type; 1
+seg000:4424                 dw offset int10h_2_Set_cursor_position; 2
+seg000:4426                 dw offset int10h_3_Read_cursor_position; 3
+seg000:4428                 dw offset int10h_4_Read_light_pen; 4
+seg000:442A                 dw offset int10h_5_Select_active_display_page; 5
+seg000:442C                 dw offset int10h_6_Scroll_Window_up; 6
+seg000:442E                 dw offset int10h_7_Scroll_Window_down; 7
+seg000:4430                 dw offset int10h_8_Read_character_and_attribute_at_cursor; 8
+seg000:4432                 dw offset int10h_9_Write_character_and_attribute_at_cursor; 9
+seg000:4434                 dw offset int10h_A_Write_character_at_current_cursor; 0Ah
+seg000:4436                 dw offset int10h_B_Set_color_palette; 0Bh
+seg000:4438                 dw offset int10h_C_Write_graphics_pixel_at_coordinate; 0Ch
+seg000:443A                 dw offset int10h_D_Read_graphics_pixel_at_coordinate; 0Dh
+seg000:443C                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25; 0Eh
+seg000:443E                 dw offset int10h_F_Get_current_video_state; 0Fh
+seg000:4440                 dw offset int10h_unsupported_return; 10h
+seg000:4442                 dw offset int10h_unsupported_return; 11h
+seg000:4444                 dw offset int10h_unsupported_return; 12h
+seg000:4446                 dw offset int10h_13_Write_string; 13h
+seg000:4448 int10h_table_E  dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25; 0 ; DATA XREF: int_10h_video+53↑r
+seg000:444A                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25; 1
+seg000:444C                 dw offset int10h_E_Write_Teletype_mode_2_3_80x25; 2
+seg000:444E                 dw offset int10h_E_Write_Teletype_mode_2_3_80x25; 3
+seg000:4450                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25; 4
+seg000:4452                 dw offset int10h_E_Write_Teletype_mode_0_1_4_5_40x25; 5
+seg000:4454                 dw offset int10h_E_Write_Teletype_mode_6_640x200; 6
+seg000:4456                 dw offset int10h_E_Write_text_in_teletype_mode_7_80x25_MDA; 7
 seg000:4458 ; ---------------------------------------------------------------------------
 seg000:4458
-seg000:4458 nullsub_2:                              ; CODE XREF: int_10h_video+67↑p
+seg000:4458 int10h_unsupported_return:              ; CODE XREF: int_10h_video+67↑p
 seg000:4458                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:4458                 retn
 seg000:4458 int_10h_video   endp
@@ -9822,8 +9801,7 @@ seg000:4569
 seg000:4569 ; =============== S U B R O U T I N E =======================================
 seg000:4569
 seg000:4569
-seg000:4569 int10h_E_Write_text_in_teletype_mode_7_80x25_MDA proc near ; CODE XREF: int_10h_video+53↑p
-seg000:4569                                         ; DATA XREF: int_10h_video:int10h_table_E↑o
+seg000:4569 int10h_E_Write_text_in_teletype_mode_7_80x25_MDA proc near ; DATA XREF: int_10h_video:int10h_table_E↑o
 seg000:4569                 push    si
 seg000:456A                 mov     si, cs:1Bh      ; cs:1Bh always 0 for MDA because only one page
 seg000:456F                 jmp     short Write_text_in_teletype_mode_80x25
@@ -9833,8 +9811,7 @@ seg000:4571
 seg000:4571 ; =============== S U B R O U T I N E =======================================
 seg000:4571
 seg000:4571
-seg000:4571 int10h_E_Write_Teletype_mode_2_3_80x25 proc near ; CODE XREF: int_10h_video+53↑p
-seg000:4571                                         ; DATA XREF: int_10h_video:int10h_table_E↑o
+seg000:4571 int10h_E_Write_Teletype_mode_2_3_80x25 proc near ; DATA XREF: int_10h_video:int10h_table_E↑o
 seg000:4571                 cmp     byte ptr ds:BDA_62h_video_active_page, 0
 seg000:4576                 jz      short page0_only
 seg000:4578                 jmp     int10h_E_Write_Teletype_mode_0_1_4_5_40x25
@@ -10045,8 +10022,7 @@ seg000:46C3
 seg000:46C3 ; =============== S U B R O U T I N E =======================================
 seg000:46C3
 seg000:46C3
-seg000:46C3 int10h_13_Write_string proc near        ; CODE XREF: int_10h_video+67↑p
-seg000:46C3                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:46C3 int10h_13_Write_string proc near        ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:46C3                 push    ax
 seg000:46C4                 push    bx
 seg000:46C5                 push    cx
@@ -10145,7 +10121,7 @@ seg000:4744
 seg000:4744 ; =============== S U B R O U T I N E =======================================
 seg000:4744
 seg000:4744
-seg000:4744 int10h_E_Write_Teletype_mode_0_1_4_5_40x25 proc near ; CODE XREF: int_10h_video+53↑p int_10h_video+67↑p ...
+seg000:4744 int10h_E_Write_Teletype_mode_0_1_4_5_40x25 proc near ; CODE XREF: int_10h_video+53↑p int10h_E_Write_Teletype_mode_6_640x200+5↑j ...
 seg000:4744                 push    ax
 seg000:4745                 push    bx
 seg000:4746                 push    cx
@@ -10367,8 +10343,7 @@ seg000:4870
 seg000:4870 ; =============== S U B R O U T I N E =======================================
 seg000:4870
 seg000:4870
-seg000:4870 int10h_A_Write_character_at_current_cursor proc near ; CODE XREF: int_10h_video+67↑p
-seg000:4870                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:4870 int10h_A_Write_character_at_current_cursor proc near ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:4870                 push    ax
 seg000:4871                 mov     ah, 0
 seg000:4873                 jmp     short Write_character_and_attribute
@@ -10378,8 +10353,7 @@ seg000:4875
 seg000:4875 ; =============== S U B R O U T I N E =======================================
 seg000:4875
 seg000:4875
-seg000:4875 int10h_9_Write_character_and_attribute_at_cursor proc near ; CODE XREF: int_10h_video+67↑p
-seg000:4875                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:4875 int10h_9_Write_character_and_attribute_at_cursor proc near ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:4875                 push    ax
 seg000:4876                 mov     ah, 0FFh
 seg000:4878
@@ -10516,8 +10490,7 @@ seg000:4935
 seg000:4935 ; =============== S U B R O U T I N E =======================================
 seg000:4935
 seg000:4935
-seg000:4935 int10h_C_Write_graphics_pixel_at_coordinate proc near ; CODE XREF: int_10h_video+67↑p
-seg000:4935                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:4935 int10h_C_Write_graphics_pixel_at_coordinate proc near ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:4935                 push    ax
 seg000:4936                 push    bx
 seg000:4937                 push    cx
@@ -10584,8 +10557,7 @@ seg000:498A
 seg000:498A ; =============== S U B R O U T I N E =======================================
 seg000:498A
 seg000:498A
-seg000:498A int10h_8_Read_character_and_attribute_at_cursor proc near ; CODE XREF: int_10h_video+67↑p
-seg000:498A                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:498A int10h_8_Read_character_and_attribute_at_cursor proc near ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:498A                 push    cx
 seg000:498B                 push    dx
 seg000:498C                 push    si
@@ -10703,8 +10675,7 @@ seg000:4A3E
 seg000:4A3E ; =============== S U B R O U T I N E =======================================
 seg000:4A3E
 seg000:4A3E
-seg000:4A3E int10h_D_Read_graphics_pixel_at_coordinate proc near ; CODE XREF: int_10h_video+67↑p
-seg000:4A3E                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:4A3E int10h_D_Read_graphics_pixel_at_coordinate proc near ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:4A3E                 push    bx
 seg000:4A3F                 push    cx
 seg000:4A40                 push    di
@@ -10746,14 +10717,13 @@ seg000:4A70
 seg000:4A70 ; =============== S U B R O U T I N E =======================================
 seg000:4A70
 seg000:4A70
-seg000:4A70 int10h_6_Scroll_Window_up proc near     ; CODE XREF: int_10h_video+67↑p int10h_E_Write_Teletype_mode_6_640x200+C9↑p ...
+seg000:4A70 int10h_6_Scroll_Window_up proc near     ; CODE XREF: int10h_E_Write_Teletype_mode_6_640x200+C9↑p scroll_up_one_line+1E↑p ...
 seg000:4A70                 push    ax
 seg000:4A71                 mov     ah, 0
 seg000:4A73                 jmp     short scroll_common_entry
 seg000:4A75 ; ---------------------------------------------------------------------------
 seg000:4A75
-seg000:4A75 int10h_7_Scroll_Window_down:            ; CODE XREF: int_10h_video+67↑p
-seg000:4A75                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:4A75 int10h_7_Scroll_Window_down:            ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:4A75                 push    ax
 seg000:4A76                 mov     ah, 0FFh        ; direction = down
 seg000:4A78
@@ -10819,7 +10789,7 @@ seg000:4AF1                 cmp     byte ptr cs:4, 1
 seg000:4AF7                 jnz     short fast_graphics_scroll
 seg000:4AF9
 seg000:4AF9 fast_text_mode_scroll:                  ; CODE XREF: int10h_6_Scroll_Window_up+78↑j int10h_6_Scroll_Window_up+7F↑j
-seg000:4AF9                 call    set_active_text_page
+seg000:4AF9                 call    set_active_display_page
 seg000:4AFC                 jmp     short restore_video_mode_and_exit
 seg000:4AFE ; ---------------------------------------------------------------------------
 seg000:4AFE
@@ -10891,7 +10861,7 @@ seg000:4B3E
 seg000:4B3E ; =============== S U B R O U T I N E =======================================
 seg000:4B3E
 seg000:4B3E
-seg000:4B3E set_active_text_page proc near          ; CODE XREF: int10h_6_Scroll_Window_up:fast_text_mode_scroll↑p
+seg000:4B3E set_active_display_page proc near       ; CODE XREF: int10h_6_Scroll_Window_up:fast_text_mode_scroll↑p
 seg000:4B3E                 push    ax
 seg000:4B3F                 push    bx
 seg000:4B40                 push    cx
@@ -10902,7 +10872,7 @@ seg000:4B47                 jz      short loc_F4B50
 seg000:4B49                 mov     ch, cs:3Dh
 seg000:4B4E                 mov     cl, 0
 seg000:4B50
-seg000:4B50 loc_F4B50:                              ; CODE XREF: set_active_text_page+9↑j
+seg000:4B50 loc_F4B50:                              ; CODE XREF: set_active_display_page+9↑j
 seg000:4B50                 call    calculate_row_start_offset ; In:
 seg000:4B50                                         ;  CH = row/Y
 seg000:4B50                                         ;
@@ -10918,7 +10888,7 @@ seg000:4B65                 cmp     byte ptr ds:BDA_49h_video_active_mode, VIDEO
 seg000:4B6A                 jnz     short not_mono
 seg000:4B6C                 mov     bx, 10h
 seg000:4B6F
-seg000:4B6F not_mono:                               ; CODE XREF: set_active_text_page+2C↑j
+seg000:4B6F not_mono:                               ; CODE XREF: set_active_display_page+2C↑j
 seg000:4B6F                 mov     dx, cs:[bx+0Bh]
 seg000:4B74                 test    ah, ah
 seg000:4B76                 jnz     short previous_page
@@ -10929,13 +10899,13 @@ seg000:4B84                 sub     dx, ds:BDA_4Ch_video_active_page_size
 seg000:4B88                 jmp     short save_new_offset
 seg000:4B8A ; ---------------------------------------------------------------------------
 seg000:4B8A
-seg000:4B8A previous_page:                          ; CODE XREF: set_active_text_page+38↑j
+seg000:4B8A previous_page:                          ; CODE XREF: set_active_display_page+38↑j
 seg000:4B8A                 sub     dx, cs:6
 seg000:4B8F                 cmp     dx, cs:2Fh
 seg000:4B94                 jge     short save_new_offset
 seg000:4B96                 add     dx, ds:BDA_4Ch_video_active_page_size
 seg000:4B9A
-seg000:4B9A save_new_offset:                        ; CODE XREF: set_active_text_page+44↑j set_active_text_page+4A↑j ...
+seg000:4B9A save_new_offset:                        ; CODE XREF: set_active_display_page+44↑j set_active_display_page+4A↑j ...
 seg000:4B9A                 mov     cs:[bx+0Bh], dx
 seg000:4B9F                 mov     ds:BDA_4Eh_Offset_address_of_active_video_page_in_video_RAM, dx
 seg000:4BA3                 mov     bx, dx
@@ -10948,22 +10918,22 @@ seg000:4BB4                 mov     al, cs:3Ch
 seg000:4BB8                 cmp     al, cs:5
 seg000:4BBD                 jnz     short end
 seg000:4BBF
-seg000:4BBF retrace_wait_loop:                      ; CODE XREF: set_active_text_page+84↓j
+seg000:4BBF retrace_wait_loop:                      ; CODE XREF: set_active_display_page+84↓j
 seg000:4BBF                 in      al, dx          ; IO_Port_3DAh_CRTC_Status
 seg000:4BC0                 and     al, IO_Port_3DAh_VERT_RETRACE
 seg000:4BC2                 jnz     short retrace_wait_loop
 seg000:4BC4
-seg000:4BC4 mode_mono:                              ; CODE XREF: set_active_text_page+71↑j
+seg000:4BC4 mode_mono:                              ; CODE XREF: set_active_display_page+71↑j
 seg000:4BC4                 mov     al, IO_Port_3D4h_CRTC_Idx_c_START_ADDR_H
-seg000:4BC6                 call    CRTC_write_Word_BX_to_AL
+seg000:4BC6                 call    CRTC_write_register_pair
 seg000:4BC9
-seg000:4BC9 end:                                    ; CODE XREF: set_active_text_page+7F↑j
+seg000:4BC9 end:                                    ; CODE XREF: set_active_display_page+7F↑j
 seg000:4BC9                 pop     dx
 seg000:4BCA                 pop     cx
 seg000:4BCB                 pop     bx
 seg000:4BCC                 pop     ax
 seg000:4BCD                 retn
-seg000:4BCD set_active_text_page endp
+seg000:4BCD set_active_display_page endp
 seg000:4BCD
 seg000:4BCE
 seg000:4BCE ; =============== S U B R O U T I N E =======================================
@@ -11037,7 +11007,7 @@ seg000:4C51                 mov     ds:BDA_4Eh_Offset_address_of_active_video_pa
 seg000:4C55                 call    Vsync_wait_Color
 seg000:4C58                 shr     bx, 1
 seg000:4C5A                 mov     al, IO_Port_3D4h_CRTC_Idx_c_START_ADDR_H
-seg000:4C5C                 call    CRTC_write_Word_BX_to_AL
+seg000:4C5C                 call    CRTC_write_register_pair
 seg000:4C5F                 push    ds
 seg000:4C60                 mov     dx, IO_Port_3D4h_CRTC_Index_CGA
 seg000:4C63                 mov     al, IO_Port_3D4h_CRTC_Idx_5_VERT_TOTAL_ADJUST
@@ -11632,7 +11602,7 @@ seg000:4F8B                 out     dx, al          ; IO_Port_3B9h_CRTC_Feature_
 seg000:4F8C                 and     byte ptr cs:46h, not (Zenith_cs46h_readable_Start_Address_regs)
 seg000:4F92                 mov     al, IO_Port_3D4h_CRTC_Idx_c_START_ADDR_H
 seg000:4F94                 mov     bx, 1234h
-seg000:4F97                 call    CRTC_write_Word_BX_to_AL
+seg000:4F97                 call    CRTC_write_register_pair
 seg000:4F9A                 mov     al, IO_Port_3D4h_CRTC_Idx_c_START_ADDR_H
 seg000:4F9C                 call    CRTC_read_Word_AL_to_AX
 seg000:4F9F                 cmp     ax, bx
@@ -11793,8 +11763,7 @@ seg000:50C7
 seg000:50C7 ; =============== S U B R O U T I N E =======================================
 seg000:50C7
 seg000:50C7
-seg000:50C7 int10h_F_Get_current_video_state proc near ; CODE XREF: int_10h_video+67↑p
-seg000:50C7                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:50C7 int10h_F_Get_current_video_state proc near ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:50C7                 mov     al, ds:BDA_49h_video_active_mode
 seg000:50CA                 mov     ah, ds:BDA_4Ah_video_columns_per_row
 seg000:50CE                 mov     bh, ds:BDA_62h_video_active_page
@@ -11879,7 +11848,7 @@ seg000:5184
 seg000:5184 ; =============== S U B R O U T I N E =======================================
 seg000:5184
 seg000:5184
-seg000:5184 int10h_5_Select_active_display_page proc near ; CODE XREF: int_10h_video+67↑p int10h_65_al_2_init_50_line_mode+1C↑p ...
+seg000:5184 int10h_5_Select_active_display_page proc near ; CODE XREF: int10h_65_al_2_init_50_line_mode+1C↑p int10h_65_al_2_init_50_line_mode+7A↑p ...
 seg000:5184                 push    ax
 seg000:5185                 push    bx
 seg000:5186                 push    dx
@@ -11888,7 +11857,7 @@ seg000:5188                 mov     bl, ds:BDA_49h_video_active_mode
 seg000:518C                 cmp     bl, 7
 seg000:518F                 ja      short loc_F5198
 seg000:5191                 xor     bh, bh
-seg000:5193                 and     al, cs:byte_F577A[bx]
+seg000:5193                 and     al, cs:vid_to_something_LUT[bx]
 seg000:5198
 seg000:5198 loc_F5198:                              ; CODE XREF: int10h_5_Select_active_display_page+B↑j
 seg000:5198                 mov     bh, al
@@ -11935,7 +11904,7 @@ seg000:51FE                 call    video_set_FC0_FC1
 seg000:5201                 mov     bx, si
 seg000:5203                 shr     bx, 1
 seg000:5205                 mov     al, IO_Port_3D4h_CRTC_Idx_c_START_ADDR_H
-seg000:5207                 call    CRTC_write_Word_BX_to_AL
+seg000:5207                 call    CRTC_write_register_pair
 seg000:520A                 pop     si
 seg000:520B                 pop     dx
 seg000:520C                 pop     bx
@@ -11975,7 +11944,7 @@ seg000:5245
 seg000:5245 ; =============== S U B R O U T I N E =======================================
 seg000:5245
 seg000:5245
-seg000:5245 int10h_2_Set_cursor_position proc near  ; CODE XREF: int_10h_video+67↑p int10h_65_al_0_video_Check_Scroll?+36↑p ...
+seg000:5245 int10h_2_Set_cursor_position proc near  ; CODE XREF: int10h_65_al_0_video_Check_Scroll?+36↑p int10h_5_Select_active_display_page+43↑p ...
 seg000:5245                 push    ax
 seg000:5246                 push    bx
 seg000:5247                 push    dx
@@ -12024,7 +11993,8 @@ seg000:5295
 seg000:5295 ; =============== S U B R O U T I N E =======================================
 seg000:5295
 seg000:5295
-seg000:5295 int10h_3_Read_cursor_position proc near ; CODE XREF: cursor_position_get+8↑p int_10h_video+67↑p ...
+seg000:5295 int10h_3_Read_cursor_position proc near ; CODE XREF: cursor_position_get+8↑p int_05h_Print_Screen_+35↓p
+seg000:5295                                         ; DATA XREF: ...
 seg000:5295                 push    bx
 seg000:5296                 mov     bl, bh
 seg000:5298                 mov     bh, 0
@@ -12039,14 +12009,13 @@ seg000:52A6
 seg000:52A6 ; =============== S U B R O U T I N E =======================================
 seg000:52A6
 seg000:52A6
-seg000:52A6 int10h_1_Set_cursor_type proc near      ; CODE XREF: int_10h_video+67↑p
-seg000:52A6                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:52A6 int10h_1_Set_cursor_type proc near      ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:52A6                 push    ax
 seg000:52A7                 push    bx
 seg000:52A8                 mov     ds:BDA_60h_cursor_ending_scanline, cx
 seg000:52AC                 mov     al, IO_Port_3D4h_CRTC_Idx_a_CURSOR_START
 seg000:52AE                 mov     bx, cx
-seg000:52B0                 call    CRTC_write_Word_BX_to_AL
+seg000:52B0                 call    CRTC_write_register_pair
 seg000:52B3                 pop     bx
 seg000:52B4                 pop     ax
 seg000:52B5                 retn
@@ -12056,8 +12025,7 @@ seg000:52B6
 seg000:52B6 ; =============== S U B R O U T I N E =======================================
 seg000:52B6
 seg000:52B6
-seg000:52B6 int10h_B_Set_color_palette proc near    ; CODE XREF: int_10h_video+67↑p
-seg000:52B6                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:52B6 int10h_B_Set_color_palette proc near    ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:52B6                 push    ax
 seg000:52B7                 push    bx
 seg000:52B8                 push    cx
@@ -12093,8 +12061,7 @@ seg000:52E3
 seg000:52E3 ; =============== S U B R O U T I N E =======================================
 seg000:52E3
 seg000:52E3
-seg000:52E3 int10h_4_Read_light_pen proc near       ; CODE XREF: int_10h_video+67↑p
-seg000:52E3                                         ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
+seg000:52E3 int10h_4_Read_light_pen proc near       ; DATA XREF: int_10h_video:int10h_table_0_13h↑o
 seg000:52E3                 push    si
 seg000:52E4                 push    es
 seg000:52E5                 mov     bh, ds:BDA_62h_video_active_page
@@ -12248,7 +12215,7 @@ seg000:53B6 ;
 seg000:53B6 ; Out:
 seg000:53B6 ;  DI = row base video RAM offset
 seg000:53B6
-seg000:53B6 calculate_row_start_offset proc near    ; CODE XREF: set_active_text_page:loc_F4B50↑p scroll_cga_graphics_via_crtc:loc_F4BE5↑p ...
+seg000:53B6 calculate_row_start_offset proc near    ; CODE XREF: set_active_display_page:loc_F4B50↑p scroll_cga_graphics_via_crtc:loc_F4BE5↑p ...
 seg000:53B6                 push    ax
 seg000:53B7                 push    cx
 seg000:53B8                 push    dx
@@ -12532,7 +12499,7 @@ seg000:5527
 seg000:5527 ; =============== S U B R O U T I N E =======================================
 seg000:5527
 seg000:5527
-seg000:5527 video_fill_range proc near              ; CODE XREF: int10h_6_Scroll_Window_up+A8↑p set_active_text_page+1B↑p ...
+seg000:5527 video_fill_range proc near              ; CODE XREF: int10h_6_Scroll_Window_up+A8↑p set_active_display_page+1B↑p ...
 seg000:5527                 push    ax
 seg000:5528                 push    bx
 seg000:5529                 push    cx
@@ -12672,27 +12639,32 @@ seg000:561D
 seg000:561E
 seg000:561E ; =============== S U B R O U T I N E =======================================
 seg000:561E
+seg000:561E ; Writes two consecutive CRTC registers in reverse byte order
+seg000:561E ; in
+seg000:561E ;  al first CRTC register index
+seg000:561E ;  bl to be written to al+1
+seg000:561E ;  bh to be written to al
 seg000:561E
-seg000:561E CRTC_write_Word_BX_to_AL proc near      ; CODE XREF: set_active_text_page+88↑p scroll_cga_graphics_via_crtc+8E↑p ...
+seg000:561E CRTC_write_register_pair proc near      ; CODE XREF: set_active_display_page+88↑p scroll_cga_graphics_via_crtc+8E↑p ...
 seg000:561E                 push    ax
 seg000:561F                 push    dx
 seg000:5620                 mov     dx, ds:BDA_63h_CRTC_6845_base_address
 seg000:5624                 mov     ah, al
 seg000:5626                 inc     al
-seg000:5628                 out     dx, al
+seg000:5628                 out     dx, al          ; IO_Port_3D4h_CRTC_Index_CGA
 seg000:5629                 mov     al, bl
 seg000:562B                 inc     dx
-seg000:562C                 out     dx, al
+seg000:562C                 out     dx, al          ; IO_Port_3D5h_CRTC_Data
 seg000:562D                 mov     al, ah
 seg000:562F                 dec     dx
-seg000:5630                 out     dx, al
+seg000:5630                 out     dx, al          ; IO_Port_3D4h_CRTC_Index_CGA
 seg000:5631                 inc     dx
 seg000:5632                 mov     al, bh
-seg000:5634                 out     dx, al
+seg000:5634                 out     dx, al          ; IO_Port_3D5h_CRTC_Data
 seg000:5635                 pop     dx
 seg000:5636                 pop     ax
 seg000:5637                 retn
-seg000:5637 CRTC_write_Word_BX_to_AL endp
+seg000:5637 CRTC_write_register_pair endp
 seg000:5637
 seg000:5638
 seg000:5638 ; =============== S U B R O U T I N E =======================================
@@ -12878,7 +12850,7 @@ seg000:5773                 db  4                   ; 5
 seg000:5774                 db  4                   ; 6
 seg000:5775                 db  4                   ; 7
 seg000:5776 bios_8x8_font_ptr dd bios_8x8_font      ; DATA XREF: int10h_E_Write_Teletype_mode_6_640x200+40↑r
-seg000:577A byte_F577A      db  7                   ; 0 ; DATA XREF: int10h_5_Select_active_display_page+F↑r
+seg000:577A vid_to_something_LUT db  7                   ; 0 ; DATA XREF: int10h_5_Select_active_display_page+F↑r
 seg000:577B                 db  7                   ; 1
 seg000:577C                 db  3                   ; 2
 seg000:577D                 db  3                   ; 3
@@ -13138,7 +13110,7 @@ seg000:58D4
 seg000:58D4 ; =============== S U B R O U T I N E =======================================
 seg000:58D4
 seg000:58D4
-seg000:58D4 int_14h_serial  proc far                ; CODE XREF: int_14h_serial_↓j
+seg000:58D4 int_14h_serial  proc far                ; CODE XREF: j_int_14h_serial↓j
 seg000:58D4                 sti
 seg000:58D5                 push    ds
 seg000:58D6                 push    si
@@ -13778,7 +13750,7 @@ seg000:5C02
 seg000:5C02 ; =============== S U B R O U T I N E =======================================
 seg000:5C02
 seg000:5C02
-seg000:5C02 int_17h_printing_ proc far              ; CODE XREF: int_17h_printing↓j
+seg000:5C02 int_17h_printing proc far               ; CODE XREF: j_int_17h_printing↓j
 seg000:5C02                 cmp     ah, 3
 seg000:5C05                 jnb     short exit_bad_input
 seg000:5C07                 sti
@@ -13815,7 +13787,7 @@ seg000:5C3B                 call    int_17h_redirected_to_COM_jump_table
 seg000:5C3E                 jmp     short end
 seg000:5C40 ; ---------------------------------------------------------------------------
 seg000:5C40
-seg000:5C40 int_17h_jump_table1:                    ; CODE XREF: int_17h_printing_+31↑j
+seg000:5C40 int_17h_jump_table1:                    ; CODE XREF: int_17h_printing+31↑j
 seg000:5C40                 push    ds
 seg000:5C41                 mov     ds, word ptr cs:0C6h
 seg000:5C46                 mov     di, dx
@@ -13835,7 +13807,7 @@ seg000:5C5F                 dw offset Int17h_1_Initialize_printer_port
 seg000:5C61                 dw offset int_17h_2_Read_printer_port_status
 seg000:5C63 ; ---------------------------------------------------------------------------
 seg000:5C63
-seg000:5C63 end:                                    ; CODE XREF: int_17h_printing_+3C↑j int_17h_printing_+53↑j ...
+seg000:5C63 end:                                    ; CODE XREF: int_17h_printing+3C↑j int_17h_printing+53↑j ...
 seg000:5C63                 xor     ah, IO_Port_379h_LPT_Status_IO_ERROR or IO_Port_379h_LPT_Status_ACK
 seg000:5C66                 pop     bx
 seg000:5C67                 mov     al, bl
@@ -13846,7 +13818,7 @@ seg000:5C73                 jnz     short loc_F5C77
 seg000:5C75                 out     0F9h, al        ; AT 80287 data.
 seg000:5C75                                         ; 286 sends opcodes & operands and receives results.
 seg000:5C77
-seg000:5C77 loc_F5C77:                              ; CODE XREF: int_17h_printing_+71↑j
+seg000:5C77 loc_F5C77:                              ; CODE XREF: int_17h_printing+71↑j
 seg000:5C77                 popf
 seg000:5C78                 pop     bp
 seg000:5C79                 pop     di
@@ -13858,16 +13830,16 @@ seg000:5C7E                 pop     ds
 seg000:5C7F                 iret
 seg000:5C80 ; ---------------------------------------------------------------------------
 seg000:5C80
-seg000:5C80 exit_bad_input:                         ; CODE XREF: int_17h_printing_+3↑j
+seg000:5C80 exit_bad_input:                         ; CODE XREF: int_17h_printing+3↑j
 seg000:5C80                 sub     ah, 3
 seg000:5C83                 iret
-seg000:5C83 int_17h_printing_ endp
+seg000:5C83 int_17h_printing endp
 seg000:5C83
 seg000:5C84
 seg000:5C84 ; =============== S U B R O U T I N E =======================================
 seg000:5C84
 seg000:5C84
-seg000:5C84 Int17h_0_Print_char proc near           ; DATA XREF: int_17h_printing_:int_17h_jumps1↑o
+seg000:5C84 Int17h_0_Print_char proc near           ; DATA XREF: int_17h_printing:int_17h_jumps1↑o
 seg000:5C84                 cmp     al, ASCII_CR_Enter
 seg000:5C86                 pushf
 seg000:5C87                 push    bx
@@ -13956,7 +13928,7 @@ seg000:5CF3                 sub     dx, 2
 seg000:5CF6                 jmp     short int_17h_2_Read_printer_port_status
 seg000:5CF8 ; ---------------------------------------------------------------------------
 seg000:5CF8
-seg000:5CF8 Int17h_1_Initialize_printer_port:       ; DATA XREF: int_17h_printing_+5D↑o
+seg000:5CF8 Int17h_1_Initialize_printer_port:       ; DATA XREF: int_17h_printing+5D↑o
 seg000:5CF8                 add     dx, 2
 seg000:5CFB                 in      al, dx          ; IO_Port_37Ah_LPT1_Control
 seg000:5CFC                 and     al, IO_Port_37Ah_LPT_Ctrl_DIR_Read
@@ -13971,7 +13943,7 @@ seg000:5D0D                 out     dx, al          ; IO_Port_37Ah_LPT1_Control
 seg000:5D0E                 sub     dx, 2
 seg000:5D11
 seg000:5D11 int_17h_2_Read_printer_port_status:     ; CODE XREF: Int17h_printing+4E↑j
-seg000:5D11                                         ; DATA XREF: int_17h_printing_+5F↑o
+seg000:5D11                                         ; DATA XREF: int_17h_printing+5F↑o
 seg000:5D11                 inc     dx
 seg000:5D12                 in      al, dx          ; IO_Port_379h_LPT1_Status
 seg000:5D13                 dec     dx
@@ -13984,7 +13956,7 @@ seg000:5D1A
 seg000:5D1A ; =============== S U B R O U T I N E =======================================
 seg000:5D1A
 seg000:5D1A
-seg000:5D1A int_17h_redirected_to_COM_jump_table proc near ; CODE XREF: int_17h_printing_+39↑p
+seg000:5D1A int_17h_redirected_to_COM_jump_table proc near ; CODE XREF: int_17h_printing+39↑p
 seg000:5D1A                 push    bx
 seg000:5D1B                 push    ax
 seg000:5D1C                 call    displatch_table_Jump_handler
@@ -14121,7 +14093,7 @@ seg000:5DAC
 seg000:5DAC ; =============== S U B R O U T I N E =======================================
 seg000:5DAC
 seg000:5DAC
-seg000:5DAC load_LPT_ctrl_table_SI proc near        ; CODE XREF: int_14h_serial+13↑p int_17h_printing_+1E↑p
+seg000:5DAC load_LPT_ctrl_table_SI proc near        ; CODE XREF: int_14h_serial+13↑p int_17h_printing+1E↑p
 seg000:5DAC                 call    IVT_lookup_al_dssi
 seg000:5DAF                 push    ax
 seg000:5DB0                 mov     ax, ds
@@ -14660,7 +14632,7 @@ seg000:6144
 seg000:6144 ; =============== S U B R O U T I N E =======================================
 seg000:6144
 seg000:6144
-seg000:6144 int_1Ah_RTC     proc far                ; CODE XREF: int_1Ah_RTC_↓j
+seg000:6144 int_1Ah_RTC     proc far                ; CODE XREF: j_int_1Ah_RTC↓j
 seg000:6144                 sti
 seg000:6145                 cld
 seg000:6146                 cmp     ah, 8
@@ -17492,11 +17464,11 @@ seg000:721E
 seg000:721E ; =============== S U B R O U T I N E =======================================
 seg000:721E
 seg000:721E
-seg000:721E Keyboard_KBD_data_OutIn proc near       ; CODE XREF: KBC_RESET_CPU+2B↑p Keyboard_init+2D↓p ...
+seg000:721E Keyboard_KBD_command proc near          ; CODE XREF: KBC_RESET_CPU+2B↑p Keyboard_init+2D↓p ...
 seg000:721E                 push    bp
 seg000:721F                 mov     bp, 3
 seg000:7222
-seg000:7222 retry_3_times:                          ; CODE XREF: Keyboard_KBD_data_OutIn+18↓j
+seg000:7222 retry_3_times:                          ; CODE XREF: Keyboard_KBD_command+18↓j
 seg000:7222                 call    Keyboard_KBC_wait_input_ready
 seg000:7225                 mov     al, ah
 seg000:7227                 out     IO_Port_60h_KBD_Data, al
@@ -17506,15 +17478,15 @@ seg000:722E                 jb      short error
 seg000:7230                 cmp     al, IO_Port_60h_KBD_Stat_FA_ACK
 seg000:7232                 jz      short end
 seg000:7234
-seg000:7234 error:                                  ; CODE XREF: Keyboard_KBD_data_OutIn+10↑j
+seg000:7234 error:                                  ; CODE XREF: Keyboard_KBD_command+10↑j
 seg000:7234                 dec     bp
 seg000:7235                 stc
 seg000:7236                 jnz     short retry_3_times
 seg000:7238
-seg000:7238 end:                                    ; CODE XREF: Keyboard_KBD_data_OutIn+14↑j
+seg000:7238 end:                                    ; CODE XREF: Keyboard_KBD_command+14↑j
 seg000:7238                 pop     bp
 seg000:7239                 retn
-seg000:7239 Keyboard_KBD_data_OutIn endp
+seg000:7239 Keyboard_KBD_command endp
 seg000:7239
 seg000:723A
 seg000:723A ; =============== S U B R O U T I N E =======================================
@@ -17619,7 +17591,7 @@ seg000:729C
 seg000:729C ; =============== S U B R O U T I N E =======================================
 seg000:729C
 seg000:729C
-seg000:729C int_16h_keyboard proc far               ; CODE XREF: int_16h_keyboard_↓j
+seg000:729C int_16h_keyboard proc far               ; CODE XREF: j_int_16h_keyboard↓j
 seg000:729C                 push    bx
 seg000:729D                 push    bp
 seg000:729E                 push    ds
@@ -17663,7 +17635,7 @@ seg000:72DF                 dw offset int16_return_error; 0Eh
 seg000:72E1                 dw offset int16_return_error; 0Fh
 seg000:72E3                 dw offset int16_10_wait_for_keystroke_read; 10h
 seg000:72E5                 dw offset int16_11_get_keystroke_status; 11h
-seg000:72E7                 dw offset int16_12_get_Shift_status; 12h
+seg000:72E7                 dw offset int16_12_get_extended_keyboard_status; 12h
 seg000:72E9 ; ---------------------------------------------------------------------------
 seg000:72E9
 seg000:72E9 loc_F72E9:                              ; CODE XREF: int_16h_keyboard+1F↑j int_16h_keyboard+24↑j
@@ -17915,7 +17887,7 @@ seg000:740A
 seg000:740A ; =============== S U B R O U T I N E =======================================
 seg000:740A
 seg000:740A
-seg000:740A int16_12_get_Shift_status proc near     ; DATA XREF: int_16h_keyboard:ret_vectors_5↑o
+seg000:740A int16_12_get_extended_keyboard_status proc near ; DATA XREF: int_16h_keyboard:ret_vectors_5↑o
 seg000:740A                 push    bx
 seg000:740B                 push    es
 seg000:740C                 mov     es, word ptr cs:49h
@@ -17925,7 +17897,7 @@ seg000:7418                 test    byte ptr ds:BDA_18h_Keyboard_flags_2, BDA_18
 seg000:741D                 jz      short loc_F7422
 seg000:741F                 or      bh, BDA_18h_flags_2_Insert_PRESSED
 seg000:7422
-seg000:7422 loc_F7422:                              ; CODE XREF: int16_12_get_Shift_status+13↑j
+seg000:7422 loc_F7422:                              ; CODE XREF: int16_12_get_extended_keyboard_status+13↑j
 seg000:7422                 mov     bl, es:BDA_96h_keyboard_flags_3
 seg000:7427                 and     bl, BDA_96h_flags_3_Right_Ctrl_ACTIVE or BDA_96h_flags_3_Right_Alt_ACTIVE
 seg000:742A                 or      bh, bl
@@ -17935,7 +17907,7 @@ seg000:7432                 stc
 seg000:7433                 pop     es
 seg000:7434                 pop     bx
 seg000:7435                 retn
-seg000:7435 int16_12_get_Shift_status endp
+seg000:7435 int16_12_get_extended_keyboard_status endp
 seg000:7435
 seg000:7436
 seg000:7436 ; =============== S U B R O U T I N E =======================================
@@ -18005,7 +17977,7 @@ seg000:7488
 seg000:7488 ; =============== S U B R O U T I N E =======================================
 seg000:7488
 seg000:7488
-seg000:7488 int_09h_IRQ1_keyboard proc far          ; CODE XREF: int_09h_IRQ1_keyboard_↓j seg000:E999↓j
+seg000:7488 int_09h_IRQ1_keyboard proc far          ; CODE XREF: j_int_09h_IRQ1_keyboard↓j seg000:E999↓j
 seg000:7488                 push    ds
 seg000:7489                 mov     ds, word ptr cs:0C6h
 seg000:748E                 out     0FBh, al        ; AT 80287 data.
@@ -18420,7 +18392,7 @@ seg000:7756                 test    ah, Kbd_Key_Attr_b5_Insert
 seg000:7759                 jnz     short end_jump
 seg000:775B
 seg000:775B loc_F775B:                              ; CODE XREF: Keyboard_Process_Modifiers+72↑j Keyboard_Process_Modifiers+7A↑j
-seg000:775B                 cmp     al, scancode_Left_Alt or scancode_Break_MASK
+seg000:775B                 cmp     al, scancode_Left_Alt or scancode_Break_MASK ; MASK
 seg000:775D                 jnz     short loc_F7775
 seg000:775F                 cmp     byte ptr ds:BDA_19h_Alt_Numpad_work_area, 0
 seg000:7764                 jz      short loc_F7775
@@ -19120,7 +19092,7 @@ seg000:7BA7                 loop    clear_Output_Buffer_loop
 seg000:7BA9
 seg000:7BA9 Output_Buffer_empty:                    ; CODE XREF: Keyboard_init+25↑j
 seg000:7BA9                 mov     ah, IO_Port_60h_KBD_CMD_FF_RESET_SELF_TEST
-seg000:7BAB                 call    Keyboard_KBD_data_OutIn
+seg000:7BAB                 call    Keyboard_KBD_command
 seg000:7BAE                 call    Keyboard_KBD_read_with_retry
 seg000:7BB1                 mov     bp, ax
 seg000:7BB3                 mov     ah, IO_Port_64h_KBC_CMD_60_WRITE_CONFIG
@@ -19175,7 +19147,7 @@ seg000:7C06                 call    Keyboard_KBD_command_with_retry
 seg000:7C09                 retn
 seg000:7C0A ; ---------------------------------------------------------------------------
 seg000:7C0A                 mov     ah, IO_Port_60h_KBD_CMD_F5_DISABLE
-seg000:7C0C                 call    Keyboard_KBD_data_OutIn
+seg000:7C0C                 call    Keyboard_KBD_command
 seg000:7C0F                 retn
 seg000:7C10
 seg000:7C10 ; =============== S U B R O U T I N E =======================================
@@ -20528,8 +20500,7 @@ seg000:872D
 seg000:872D ; =============== S U B R O U T I N E =======================================
 seg000:872D
 seg000:872D
-seg000:872D test_3_ram_base proc near               ; CODE XREF: tests_menu+75↑p
-seg000:872D                                         ; DATA XREF: seg000:tests_vectors↓o
+seg000:872D test_3_ram_base proc near               ; DATA XREF: seg000:tests_vectors↓o
 seg000:872D                 push    ax
 seg000:872E                 push    bx
 seg000:872F                 cli
@@ -20828,8 +20799,7 @@ seg000:8916
 seg000:8916 ; =============== S U B R O U T I N E =======================================
 seg000:8916
 seg000:8916
-seg000:8916 test_4_ram_ext  proc far                ; CODE XREF: tests_menu+75↑p
-seg000:8916                                         ; DATA XREF: seg000:tests_vectors↓o
+seg000:8916 test_4_ram_ext  proc far                ; DATA XREF: seg000:tests_vectors↓o
 seg000:8916                 pusha
 seg000:8917                 push    ds
 seg000:8918                 push    es
@@ -21295,8 +21265,7 @@ seg000:8BD5
 seg000:8BD5 ; =============== S U B R O U T I N E =======================================
 seg000:8BD5
 seg000:8BD5
-seg000:8BD5 test_5_powerUp  proc far                ; CODE XREF: tests_menu+75↑p
-seg000:8BD5                                         ; DATA XREF: seg000:tests_vectors↓o
+seg000:8BD5 test_5_powerUp  proc far                ; DATA XREF: seg000:tests_vectors↓o
 seg000:8BD5                 push    ax
 seg000:8BD6                 push    bx
 seg000:8BD7                 push    si
@@ -22233,8 +22202,7 @@ seg000:9219
 seg000:9219 loc_F9219:                              ; CODE XREF: reg_333_?+39↑j reg_333_?+49↑j
 seg000:9219                 push    cx
 seg000:921A                 push    di
-seg000:921B                 call    cs:funcs_F921B[bp] ; in:
-seg000:921B                                         ;  DS:SI callback
+seg000:921B                 call    cs:funcs_F921B[bp]
 seg000:9220                 pop     di
 seg000:9221                 pop     cx
 seg000:9222
@@ -22352,7 +22320,8 @@ seg000:92FB
 seg000:92FB ; =============== S U B R O U T I N E =======================================
 seg000:92FB
 seg000:92FB
-seg000:92FB setup_second_dispatch_table proc near   ; CODE XREF: reg_333_?+5F↑p DMA6_flags_or_40h+6↓j ...
+seg000:92FB setup_second_dispatch_table proc near   ; CODE XREF: DMA6_flags_or_40h+6↓j DMA6_flags_or_C0h+7↓j
+seg000:92FB                                         ; DATA XREF: ...
 seg000:92FB                 mov     bp, offset second_dispatch_table
 seg000:92FE                 jmp     setup_custom_dispatch_table
 seg000:92FE setup_second_dispatch_table endp
@@ -22361,8 +22330,7 @@ seg000:9301
 seg000:9301 ; =============== S U B R O U T I N E =======================================
 seg000:9301
 seg000:9301
-seg000:9301 DMA6_flags_or_40h proc near             ; CODE XREF: reg_333_?+5F↑p
-seg000:9301                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:9301 DMA6_flags_or_40h proc near             ; DATA XREF: seg000:funcs_F921B↑o
 seg000:9301                 or      word ptr cs:50Eh, 40h
 seg000:9307                 jmp     short setup_second_dispatch_table
 seg000:9307 DMA6_flags_or_40h endp
@@ -22371,8 +22339,7 @@ seg000:9309
 seg000:9309 ; =============== S U B R O U T I N E =======================================
 seg000:9309
 seg000:9309
-seg000:9309 DMA6_flags_or_C0h proc near             ; CODE XREF: reg_333_?+5F↑p
-seg000:9309                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:9309 DMA6_flags_or_C0h proc near             ; DATA XREF: seg000:funcs_F921B↑o
 seg000:9309                 or      word ptr cs:50Eh, 0C0h
 seg000:9310                 jmp     short setup_second_dispatch_table
 seg000:9310 DMA6_flags_or_C0h endp
@@ -22381,8 +22348,7 @@ seg000:9312
 seg000:9312 ; =============== S U B R O U T I N E =======================================
 seg000:9312
 seg000:9312
-seg000:9312 DMA6_flags_or_80h proc near             ; CODE XREF: reg_333_?+5F↑p
-seg000:9312                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:9312 DMA6_flags_or_80h proc near             ; DATA XREF: seg000:funcs_F921B↑o
 seg000:9312                 or      word ptr cs:50Eh, 80h
 seg000:9319                 mov     bp, offset second_dispatch_table
 seg000:931C                 jmp     setup_custom_dispatch_table
@@ -22393,8 +22359,7 @@ seg000:931F ; =============== S U B R O U T I N E ==============================
 seg000:931F
 seg000:931F ; Attributes: thunk
 seg000:931F
-seg000:931F j_setup_transfer_dispatch_table proc near ; CODE XREF: reg_333_?+5F↑p
-seg000:931F                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:931F j_setup_transfer_dispatch_table proc near ; DATA XREF: seg000:funcs_F921B↑o
 seg000:931F                 jmp     setup_transfer_dispatch_table
 seg000:931F j_setup_transfer_dispatch_table endp
 seg000:931F
@@ -22403,8 +22368,7 @@ seg000:9322 ; =============== S U B R O U T I N E ==============================
 seg000:9322
 seg000:9322 ; Attributes: thunk
 seg000:9322
-seg000:9322 j_setup_transfer_dispatch_table_0 proc near ; CODE XREF: reg_333_?+5F↑p
-seg000:9322                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:9322 j_setup_transfer_dispatch_table_0 proc near ; DATA XREF: seg000:funcs_F921B↑o
 seg000:9322                 jmp     setup_transfer_dispatch_table
 seg000:9322 j_setup_transfer_dispatch_table_0 endp
 seg000:9322
@@ -22421,8 +22385,7 @@ seg000:932D
 seg000:932D ; =============== S U B R O U T I N E =======================================
 seg000:932D
 seg000:932D
-seg000:932D sub_F932D       proc near               ; CODE XREF: reg_333_?+5F↑p
-seg000:932D                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:932D sub_F932D       proc near               ; DATA XREF: seg000:funcs_F921B↑o
 seg000:932D                 mov     ax, 8
 seg000:9330                 cmp     cx, ax
 seg000:9332                 jnb     short within_range
@@ -22453,7 +22416,8 @@ seg000:9358
 seg000:9358 ; =============== S U B R O U T I N E =======================================
 seg000:9358
 seg000:9358
-seg000:9358 sub_F9358       proc near               ; CODE XREF: reg_333_?+5F↑p sub_F9358+A↓j ...
+seg000:9358 sub_F9358       proc near               ; CODE XREF: sub_F9358+A↓j sub_F9358+13↓j
+seg000:9358                                         ; DATA XREF: ...
 seg000:9358                 call    sub_F9376
 seg000:935B                 jnb     short loc_F9371
 seg000:935D                 inc     ah
@@ -22577,8 +22541,7 @@ seg000:93ED
 seg000:93ED ; in:
 seg000:93ED ;  DS:SI callback
 seg000:93ED
-seg000:93ED register_callback_handler proc near     ; CODE XREF: reg_333_?+5F↑p
-seg000:93ED                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:93ED register_callback_handler proc near     ; DATA XREF: seg000:funcs_F921B↑o
 seg000:93ED                 push    ds
 seg000:93EE                 push    si
 seg000:93EF                 mov     ax, ds
@@ -22928,8 +22891,7 @@ seg000:9669
 seg000:9669 ; =============== S U B R O U T I N E =======================================
 seg000:9669
 seg000:9669
-seg000:9669 init_reg_333_33C_irq11 proc far         ; CODE XREF: reg_333_?+5F↑p
-seg000:9669                                         ; DATA XREF: seg000:funcs_F921B↑o
+seg000:9669 init_reg_333_33C_irq11 proc far         ; DATA XREF: seg000:funcs_F921B↑o
 seg000:9669                 mov     word ptr cs:53Fh, offset noop_handler
 seg000:9670                 and     word ptr cs:50Eh, not 2
 seg000:9676                 mov     si, offset reg_table_333
@@ -23244,10 +23206,10 @@ seg000:986D                 push    cx
 seg000:986E                 push    dx
 seg000:986F                 push    ds
 seg000:9870                 push    si
-seg000:9871                 mov     dx, 334h
+seg000:9871                 mov     dx, IO_Port_334h_Zenith_unknown
 seg000:9874                 in      al, dx
 seg000:9875                 mov     cs:50Ah, al
-seg000:9879                 mov     dx, 335h
+seg000:9879                 mov     dx, IO_Port_335h_Zenith_unknown
 seg000:987C                 in      al, dx
 seg000:987D                 mov     cs:509h, al
 seg000:9881                 call    word ptr cs:53Fh
@@ -24499,7 +24461,7 @@ seg000:A114
 seg000:A114 ; =============== S U B R O U T I N E =======================================
 seg000:A114
 seg000:A114
-seg000:A114 int_15h_system  proc far                ; CODE XREF: int_15h_system_↓j
+seg000:A114 int_15h_system  proc far                ; CODE XREF: j_int_15h_system↓j
 seg000:A114                 sti
 seg000:A115                 cld
 seg000:A116                 push    ds
@@ -27271,8 +27233,7 @@ seg000:B553                 mov     byte ptr [bx+si], 0
 seg000:B556                 jmp     short check_index_range
 seg000:B558 ; ---------------------------------------------------------------------------
 seg000:B558
-seg000:B558 cursor_hide_confirm:                    ; CODE XREF: password_entry:jump_table_match↑j
-seg000:B558                                         ; DATA XREF: password_entry+68↑o
+seg000:B558 cursor_hide_confirm:                    ; DATA XREF: password_entry+68↑o
 seg000:B558                 push    0
 seg000:B55A                 push    25
 seg000:B55C                 call    set_cursor
@@ -27282,8 +27243,7 @@ seg000:B561                 mov     ax, True_bool
 seg000:B564                 jmp     short end
 seg000:B566 ; ---------------------------------------------------------------------------
 seg000:B566
-seg000:B566 cursor_hide_cancel:                     ; CODE XREF: password_entry:jump_table_match↑j
-seg000:B566                                         ; DATA XREF: password_entry+6A↑o
+seg000:B566 cursor_hide_cancel:                     ; DATA XREF: password_entry+6A↑o
 seg000:B566                 push    0
 seg000:B568                 push    25
 seg000:B56A                 call    set_cursor
@@ -32446,9 +32406,9 @@ seg000:E6F2 ; =============== S U B R O U T I N E ==============================
 seg000:E6F2
 seg000:E6F2 ; Attributes: thunk
 seg000:E6F2
-seg000:E6F2 int_19h_bootstrap_load_run proc far     ; DATA XREF: seg000:IVT_table_0↓o
-seg000:E6F2                 jmp     int_19h_bootstrap_load_run_
-seg000:E6F2 int_19h_bootstrap_load_run endp
+seg000:E6F2 j_int_19h_bootstrap_load_run proc far   ; DATA XREF: seg000:IVT_table_0↓o
+seg000:E6F2                 jmp     int_19h_bootstrap_load_run
+seg000:E6F2 j_int_19h_bootstrap_load_run endp
 seg000:E6F2
 seg000:E6F2 ; ---------------------------------------------------------------------------
 seg000:E6F5 system_descriptor system_descriptor_table <8, 0FCh, 1, 0, \ ; DATA XREF: int15h_C0h_System_Conf_Parameters↑o
@@ -32469,9 +32429,9 @@ seg000:E739 ; =============== S U B R O U T I N E ==============================
 seg000:E739
 seg000:E739 ; Attributes: thunk
 seg000:E739
-seg000:E739 int_14h_serial_ proc far                ; DATA XREF: seg000:IVT_table_0↓o
+seg000:E739 j_int_14h_serial proc far               ; DATA XREF: seg000:IVT_table_0↓o
 seg000:E739                 jmp     near ptr int_14h_serial
-seg000:E739 int_14h_serial_ endp
+seg000:E739 j_int_14h_serial endp
 seg000:E739
 seg000:E739 ; ---------------------------------------------------------------------------
 seg000:E73C CRTC_25row_timing_table Video_timing_table <113, 80, 89, 10, 31, 6, 25, 28, 3, 7, 6, 7, <0, 0, 0, 0>>; 0 ; DATA XREF: int10h_65_al_2_init_50_line_mode+2F↑o
@@ -32526,9 +32486,9 @@ seg000:E82E ; =============== S U B R O U T I N E ==============================
 seg000:E82E
 seg000:E82E ; Attributes: thunk
 seg000:E82E
-seg000:E82E int_16h_keyboard_ proc far              ; DATA XREF: seg000:IVT_table_0↓o
+seg000:E82E j_int_16h_keyboard proc far             ; DATA XREF: seg000:IVT_table_0↓o
 seg000:E82E                 jmp     near ptr int_16h_keyboard
-seg000:E82E int_16h_keyboard_ endp
+seg000:E82E j_int_16h_keyboard endp
 seg000:E82E
 seg000:E831
 seg000:E831 ; =============== S U B R O U T I N E =======================================
@@ -32736,9 +32696,9 @@ seg000:E987 ; =============== S U B R O U T I N E ==============================
 seg000:E987
 seg000:E987 ; Attributes: thunk
 seg000:E987
-seg000:E987 int_09h_IRQ1_keyboard_ proc far         ; DATA XREF: seg000:IVT_table_0↓o
+seg000:E987 j_int_09h_IRQ1_keyboard proc far        ; DATA XREF: seg000:IVT_table_0↓o
 seg000:E987                 jmp     near ptr int_09h_IRQ1_keyboard
-seg000:E987 int_09h_IRQ1_keyboard_ endp
+seg000:E987 j_int_09h_IRQ1_keyboard endp
 seg000:E987
 seg000:E987 ; ---------------------------------------------------------------------------
 seg000:E98A                 db 0Ch dup(0), 83h, 0C4h, 10h
@@ -33292,9 +33252,9 @@ seg000:EC59 ; =============== S U B R O U T I N E ==============================
 seg000:EC59
 seg000:EC59 ; Attributes: thunk
 seg000:EC59
-seg000:EC59 int_13h_diskIO_ proc far                ; DATA XREF: seg000:IVT_table_0↓o
+seg000:EC59 j_int_13h_diskIO proc far               ; DATA XREF: seg000:IVT_table_0↓o
 seg000:EC59                 jmp     near ptr int_13h_diskIO
-seg000:EC59 int_13h_diskIO_ endp
+seg000:EC59 j_int_13h_diskIO endp
 seg000:EC59
 seg000:EC59 ; ---------------------------------------------------------------------------
 seg000:EC5C aPressAnyKeyToCon db 9,9,9,'    - Press any key to continue -',0Dh,0Ah,0 ; DATA XREF: cmd_colorBar+49↑o
@@ -33381,10 +33341,11 @@ seg000:ED3D                 db 21Ah dup(0)
 seg000:EF57
 seg000:EF57 ; =============== S U B R O U T I N E =======================================
 seg000:EF57
+seg000:EF57 ; Attributes: thunk
 seg000:EF57
-seg000:EF57 int_0Eh_IRQ6_FDC_ proc far              ; DATA XREF: seg000:IVT_table_0↓o
+seg000:EF57 j_int_0Eh_IRQ6_FDC proc far             ; DATA XREF: seg000:IVT_table_0↓o
 seg000:EF57                 jmp     near ptr int_0Eh_IRQ6_FDC
-seg000:EF57 int_0Eh_IRQ6_FDC_ endp
+seg000:EF57 j_int_0Eh_IRQ6_FDC endp
 seg000:EF57
 seg000:EF57 ; ---------------------------------------------------------------------------
 seg000:EF5A aCmosMemoryFail db 'CMOS Memory Failure! +++',0 ; DATA XREF: test_cmos:bit_error↑o
@@ -33397,10 +33358,11 @@ seg000:EFC7                      15, 8>
 seg000:EFD2
 seg000:EFD2 ; =============== S U B R O U T I N E =======================================
 seg000:EFD2
+seg000:EFD2 ; Attributes: thunk
 seg000:EFD2
-seg000:EFD2 int_17h_printing proc far               ; DATA XREF: seg000:IVT_table_0↓o
-seg000:EFD2                 jmp     near ptr int_17h_printing_
-seg000:EFD2 int_17h_printing endp
+seg000:EFD2 j_int_17h_printing proc far             ; DATA XREF: seg000:IVT_table_0↓o
+seg000:EFD2                 jmp     near ptr int_17h_printing
+seg000:EFD2 j_int_17h_printing endp
 seg000:EFD2
 seg000:EFD2 ; ---------------------------------------------------------------------------
 seg000:EFD5 aWillBeRunInZ300M db ' will be run in Z-300 mode - continue (Y/N)? ',7,0
@@ -33414,9 +33376,9 @@ seg000:F065 ; =============== S U B R O U T I N E ==============================
 seg000:F065
 seg000:F065 ; Attributes: thunk
 seg000:F065
-seg000:F065 int_10h_video_  proc far                ; DATA XREF: seg000:IVT_table_0↓o
+seg000:F065 j_int_10h_video proc far                ; DATA XREF: seg000:IVT_table_0↓o
 seg000:F065                 jmp     near ptr int_10h_video
-seg000:F065 int_10h_video_  endp
+seg000:F065 j_int_10h_video endp
 seg000:F065
 seg000:F065 ; ---------------------------------------------------------------------------
 seg000:F068 aError          db '+++ ERROR:  ',0     ; DATA XREF: cache_bad+11↑o print_mem_size_mismatch+22↑o ...
@@ -33912,9 +33874,9 @@ seg000:F841 ; =============== S U B R O U T I N E ==============================
 seg000:F841
 seg000:F841 ; Attributes: thunk
 seg000:F841
-seg000:F841 int_12h_ram_size_ proc far              ; DATA XREF: seg000:IVT_table_0↓o
+seg000:F841 j_int_12h_ram_size proc far             ; DATA XREF: seg000:IVT_table_0↓o
 seg000:F841                 jmp     near ptr int_12h_ram_size
-seg000:F841 int_12h_ram_size_ endp
+seg000:F841 j_int_12h_ram_size endp
 seg000:F841
 seg000:F841 ; ---------------------------------------------------------------------------
 seg000:F844                 db 9 dup(0)
@@ -33934,9 +33896,9 @@ seg000:F859 ; =============== S U B R O U T I N E ==============================
 seg000:F859
 seg000:F859 ; Attributes: thunk
 seg000:F859
-seg000:F859 int_15h_system_ proc far                ; DATA XREF: seg000:IVT_table_0↓o
+seg000:F859 j_int_15h_system proc far               ; DATA XREF: seg000:IVT_table_0↓o
 seg000:F859                 jmp     near ptr int_15h_system
-seg000:F859 int_15h_system_ endp
+seg000:F859 j_int_15h_system endp
 seg000:F859
 seg000:F859 ; ---------------------------------------------------------------------------
 seg000:F85C aRamFailureAddr db 'RAM failure!  Address: ',0 ; DATA XREF: print_bad_ram:loc_F8E37↑o
@@ -34105,9 +34067,9 @@ seg000:FE6E ; =============== S U B R O U T I N E ==============================
 seg000:FE6E
 seg000:FE6E ; Attributes: thunk
 seg000:FE6E
-seg000:FE6E int_1Ah_RTC_    proc far                ; DATA XREF: seg000:IVT_table_0↓o
+seg000:FE6E j_int_1Ah_RTC   proc far                ; DATA XREF: seg000:IVT_table_0↓o
 seg000:FE6E                 jmp     near ptr int_1Ah_RTC
-seg000:FE6E int_1Ah_RTC_    endp
+seg000:FE6E j_int_1Ah_RTC   endp
 seg000:FE6E
 seg000:FE6E ; ---------------------------------------------------------------------------
 seg000:FE71 a209U228        db '209/U228',0
@@ -34119,9 +34081,9 @@ seg000:FEA5 ; =============== S U B R O U T I N E ==============================
 seg000:FEA5
 seg000:FEA5 ; Attributes: thunk
 seg000:FEA5
-seg000:FEA5 int_08h_IRQ0_timer18Hz_ proc far        ; DATA XREF: seg000:IVT_table_0↓o
+seg000:FEA5 j_int_08h_IRQ0_timer18Hz proc far       ; DATA XREF: seg000:IVT_table_0↓o
 seg000:FEA5                 jmp     near ptr int_08h_IRQ0_timer18Hz
-seg000:FEA5 int_08h_IRQ0_timer18Hz_ endp
+seg000:FEA5 j_int_08h_IRQ0_timer18Hz endp
 seg000:FEA5
 seg000:FEA5 ; ---------------------------------------------------------------------------
 seg000:FEA8 aCpuFailure     db 'CPU failure! +++',0 ; DATA XREF: ColdWarm_Boot+1D2↑o
@@ -34134,25 +34096,25 @@ seg000:FEEB                 dw offset overflow      ; 4
 seg000:FEED                 dw offset int_05h_Print_Screen; 5
 seg000:FEEF                 dw offset int_ack       ; 6
 seg000:FEF1                 dw offset int_ack       ; 7
-seg000:FEF3                 dw offset int_08h_IRQ0_timer18Hz_; 8
-seg000:FEF5                 dw offset int_09h_IRQ1_keyboard_; 9
+seg000:FEF3                 dw offset j_int_08h_IRQ0_timer18Hz; 8
+seg000:FEF5                 dw offset j_int_09h_IRQ1_keyboard; 9
 seg000:FEF7                 dw offset int_low_ack   ; 0Ah
 seg000:FEF9                 dw offset int_ack       ; 0Bh
 seg000:FEFB                 dw offset int_ack       ; 0Ch
 seg000:FEFD                 dw offset int_ack       ; 0Dh
-seg000:FEFF                 dw offset int_0Eh_IRQ6_FDC_; 0Eh
+seg000:FEFF                 dw offset j_int_0Eh_IRQ6_FDC; 0Eh
 seg000:FF01                 dw offset int_ack       ; 0Fh
-seg000:FF03                 dw offset int_10h_video_; 10h
+seg000:FF03                 dw offset j_int_10h_video; 10h
 seg000:FF05                 dw offset int_11h_BIOS_Equipment_Flags; 11h
-seg000:FF07                 dw offset int_12h_ram_size_; 12h
-seg000:FF09                 dw offset int_13h_diskIO_; 13h
-seg000:FF0B                 dw offset int_14h_serial_; 14h
-seg000:FF0D                 dw offset int_15h_system_; 15h
-seg000:FF0F                 dw offset int_16h_keyboard_; 16h
-seg000:FF11                 dw offset int_17h_printing; 17h
+seg000:FF07                 dw offset j_int_12h_ram_size; 12h
+seg000:FF09                 dw offset j_int_13h_diskIO; 13h
+seg000:FF0B                 dw offset j_int_14h_serial; 14h
+seg000:FF0D                 dw offset j_int_15h_system; 15h
+seg000:FF0F                 dw offset j_int_16h_keyboard; 16h
+seg000:FF11                 dw offset j_int_17h_printing; 17h
 seg000:FF13                 dw offset LPT_ctrl_table; 18h
-seg000:FF15                 dw offset int_19h_bootstrap_load_run; 19h
-seg000:FF17                 dw offset int_1Ah_RTC_  ; 1Ah
+seg000:FF15                 dw offset j_int_19h_bootstrap_load_run; 19h
+seg000:FF17                 dw offset j_int_1Ah_RTC ; 1Ah
 seg000:FF19                 dw offset nulliret_2    ; 1Bh
 seg000:FF1B                 dw offset nulliret_2    ; 1Ch
 seg000:FF1D                 dw offset CGA_40x25_mode01; 1Dh
@@ -34163,7 +34125,7 @@ seg000:FF25                 dw offset int_0Ah_IRQ9  ; 1
 seg000:FF27                 dw offset int_ack       ; 2
 seg000:FF29                 dw offset int_73h_IRQ11 ; 3
 seg000:FF2B                 dw offset int_ack       ; 4
-seg000:FF2D                 dw offset trigger_NMI_then_iret; 5
+seg000:FF2D                 dw offset int_75h_coprocessor_NMI_error; 5
 seg000:FF2F                 dw offset int_76h_IRQ14_HDD_ISR; 6
 seg000:FF31                 dw offset int_ack       ; 7
 seg000:FF33                 align 10h
