@@ -48,29 +48,29 @@ Description in [Zenith Z386SX (3557V4) Owners Manual](https://archive.org/detail
 
 MFM Monitor menu:
 ```
-				- MFM-300 Command Summary -
+                - MFM-300 Command Summary -
 
-CMD:	Explanation				Syntax
-----	-----------				------
-?:		Help					?
-B:		Boot from disk			B [{F|W}][{0|1|2|3}][:<partition>]
-C:		Color bar				C
-D:		Display memory			D [<range>]
-E:		Examine memory			E <addr>
-F:		Fill memory				F <range>,{<byte>|"<string>"}...
-G:		Execute (Go)			G [=<addr>][,<breakpoint>]...
-H:		Hex math				H <number1>,<number2>
-I:		Input from port			I <port>
-M:		Move memory block		M <range>,<dest>
-O:		Output to port			O <port>,<value>
-R:		Examine Registers		R [<register>]
-S:		Search memory			S <range>,{<byte>|"<string>"}...
-T:		Trace program			T [<count>]
-U:		Unassemble program		U [<range>]
-V:		Set Video/Scroll		V [M<mode>][S<scroll>]
-		Where <range> is:		<addr>{,<addr>|L<length>}
-TEST:	Extended diagnostics	TEST
-SETUP:	Define hardware Setup	SETUP
+CMD:    Explanation             Syntax
+----    -----------             ------
+?:      Help                    ?
+B:      Boot from disk          B [{F|W}][{0|1|2|3}][:<partition>]
+C:      Color bar               C
+D:      Display memory          D [<range>]
+E:      Examine memory          E <addr>
+F:      Fill memory             F <range>,{<byte>|"<string>"}...
+G:      Execute (Go)            G [=<addr>][,<breakpoint>]...
+H:      Hex math                H <number1>,<number2>
+I:      Input from port         I <port>
+M:      Move memory block       M <range>,<dest>
+O:      Output to port          O <port>,<value>
+R:      Examine Registers       R [<register>]
+S:      Search memory           S <range>,{<byte>|"<string>"}...
+T:      Trace program           T [<count>]
+U:      Unassemble program      U [<range>]
+V:      Set Video/Scroll        V [M<mode>][S<scroll>]
+        Where <range> is:       <addr>{,<addr>|L<length>}
+TEST:   Extended diagnostics    TEST
+SETUP:  Define hardware Setup   SETUP
 ```
 TEST menu:
 ```
