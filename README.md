@@ -8,7 +8,7 @@ ZBIOS 3.2C setup screen:
 ╠═══════════════════════════════════════╦══════════════════════════════════════╣
 ║  Time:  22:30:08    Date: 06/23/1989  ║  Video Display:  Enhanced Graphics   ║
 ║                                       ║  Video Refresh Rate: 50 Hz   60 Hz   ║
-║                 BASE  EXTENDED  EMS   ║  								       ║
+║                 BASE  EXTENDED  EMS   ║                                      ║
 ║    Main RAM:    640K       0K  -OFF-  ║  Boot Drive:     Hard Disk Drive 0   ║
 ║  Add-On RAM: 	    0K       0K   ---   ║  Floppy Drive 0:       3 1/2" 1.1M   ║
 ║       Total: 	  640K       0K   ---   ║  Floppy Drive 1:       Not Present   ║
